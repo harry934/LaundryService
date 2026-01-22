@@ -1,59 +1,69 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
+const DATA_FILE = path.join(__dirname, 'orders.json');
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('.')); // Serve current directory
+app.use(express.static('.'));
 
-// MongoDB Connection
-// Connect to local MongoDB instance
-mongoose.connect('mongodb://localhost:27017/laundry_service', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB Connection Error:', err));
+// Helper: Read Data
+function readData() {
+    if (!fs.existsSync(DATA_FILE)) {
+        return [];
+    }
+    const data = fs.readFileSync(DATA_FILE);
+    return JSON.parse(data);
+}
 
-// Order Schema
-const OrderSchema = new mongoose.Schema({
-    orderId: { type: String, required: true, unique: true },
-    name: String,
-    phone: String,
-    service: String,
-    weight: String,
-    date: String,
-    address: String,
-    status: { type: String, default: 'Pending' }, // Pending, Washing, Ironing, Ready, Delivered
-    timestamp: { type: Date, default: Date.now }
-});
-
-const Order = mongoose.model('Order', OrderSchema);
+// Helper: Write Data
+function writeData(data) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
 
 // --- API Routes ---
 
 // 1. Create New Order
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', (req, res) => {
     try {
-        console.log('Received Order:', req.body);
-        const newOrder = new Order(req.body);
-        await newOrder.save();
+        const orders = readData();
+        const newOrder = req.body;
+        
+        // Ensure critical fields
+        if (!newOrder.orderId) {
+            newOrder.orderId = 'T-' + Math.floor(10000 + Math.random() * 90000);
+        }
+        if (!newOrder.timestamp) {
+            newOrder.timestamp = new Date().toISOString();
+        }
+        if (!newOrder.status) {
+            newOrder.status = 'Pending';
+        }
+
+        orders.push(newOrder);
+        writeData(orders);
+        
+        console.log('Order Saved:', newOrder.orderId);
         res.status(201).json({ message: 'Order created', order: newOrder });
     } catch (err) {
-        console.error('Error creating order:', err);
+        console.error('Error saving order:', err);
         res.status(500).json({ error: 'Failed to create order' });
     }
 });
 
 // 2. Get All Orders (Admin)
-app.get('/api/admin/orders', async (req, res) => {
+app.get('/api/admin/orders', (req, res) => {
     try {
-        const orders = await Order.find().sort({ timestamp: -1 });
+        const orders = readData();
+        // Sort by timestamp desc
+        orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         res.json(orders);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch orders' });
@@ -61,36 +71,43 @@ app.get('/api/admin/orders', async (req, res) => {
 });
 
 // 3. Update Order Status
-app.put('/api/admin/orders/:id', async (req, res) => {
+app.put('/api/admin/orders/:id', (req, res) => {
     try {
-        const { status } = req.body;
+        const orders = readData();
         const orderId = req.params.id;
-        const updatedOrder = await Order.findOneAndUpdate(
-            { orderId: orderId },
-            { status: status },
-            { new: true }
-        );
-        res.json(updatedOrder);
+        const { status } = req.body;
+        
+        const index = orders.findIndex(o => o.orderId === orderId);
+        if (index !== -1) {
+            orders[index].status = status;
+            writeData(orders);
+            res.json(orders[index]);
+        } else {
+            res.status(404).json({ error: 'Order not found' });
+        }
     } catch (err) {
         res.status(500).json({ error: 'Failed to update order' });
     }
 });
 
 // 4. Get Single Order (Tracking)
-app.get('/api/orders/:id', async (req, res) => {
+app.get('/api/orders/:id', (req, res) => {
     try {
+        const orders = readData();
         const orderId = req.params.id;
-        const order = await Order.findOne({ orderId: orderId });
-        if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
+        const order = orders.find(o => o.orderId === orderId);
+        
+        if (order) {
+            res.json(order);
+        } else {
+            res.status(404).json({ message: 'Order not found' });
         }
-        res.json(order);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch order' });
     }
 });
 
-// Serve index.html for root
+// Serve index.html
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
@@ -98,4 +115,5 @@ app.get('/', (req, res) => {
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Data storage: ${DATA_FILE}`);
 });
