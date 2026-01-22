@@ -39,9 +39,10 @@
                     <h3 class="text-white">Admin Panel</h3>
                 </div>
                 <a href="#" class="sidebar-link active" onclick="showTab('orders')"><i class="fas fa-list mr-2"></i> Orders</a>
-                <a href="#" class="sidebar-link" onclick="showTab('employees')"><i class="fas fa-users mr-2"></i> Employees</a>
-                <a href="#" class="sidebar-link" onclick="showTab('settings')"><i class="fas fa-cog mr-2"></i> Settings</a>
+                <a href="#" class="sidebar-link staff-only" onclick="showTab('employees')"><i class="fas fa-users mr-2"></i> Employees</a>
+                <a href="#" class="sidebar-link staff-only" onclick="showTab('settings')"><i class="fas fa-cog mr-2"></i> Settings</a>
                 <a href="index.html" class="sidebar-link"><i class="fas fa-external-link-alt mr-2"></i> View Site</a>
+                <a href="#" class="sidebar-link text-danger mt-auto" onclick="logout()"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
             </div>
 
             <!-- Main Content -->
@@ -75,14 +76,17 @@
 
                 <!-- Employees Tab -->
                 <div id="tab-employees" class="admin-tab" style="display:none;">
-                    <h2>Employee Applications</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Staff Management</h2>
+                        <button class="btn btn-primary" onclick="$('#registerEmployeeModal').modal('show')"><i class="fas fa-user-plus mr-2"></i> Add Employee</button>
+                    </div>
                     <div class="table-card mt-4">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Role Applied</th>
-                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -120,7 +124,34 @@
         </div>
     </div>
 
-    <!-- Edit Order Modal -->
+    <!-- Register Employee Modal -->
+    <div class="modal fade" id="registerEmployeeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register New Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="reg-emp-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="reg-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="reg-email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Initial Password</label>
+                            <input type="text" id="reg-pass" class="form-control" value="Laundry123" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="editOrderModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -216,23 +247,32 @@
             } catch (e) { alert('Error updating order'); }
         };
 
+        // RBAC CHECK
+        const currentUser = JSON.parse(localStorage.getItem('laundryStaffUser'));
+        if (!currentUser) window.location.href = 'staff.html';
+        
+        if (currentUser.role === 'employee') {
+            $('.staff-only').hide();
+        }
+
         // Employee Management
         async function fetchEmployees() {
             try {
                 const res = await fetch(`${API_BASE}/admin/employees`);
                 const employees = await res.json();
+                // Note: Modified endpoint for user management should be here, 
+                // but for this prototype we'll reuse the employee apply list
                 const tbody = $('#employees-tbody');
                 tbody.empty();
                 employees.forEach(e => {
                     tbody.append(`
                         <tr>
                             <td>${e.name}</td>
-                            <td>${e.position}</td>
-                            <td>${e.phone}</td>
-                            <td><span class="badge badge-warning">${e.status}</span></td>
+                            <td>${e.role || e.position}</td>
+                            <td>${e.email || e.phone}</td>
+                            <td><span class="badge badge-success">Active</span></td>
                             <td>
-                                <button class="btn btn-sm btn-success" onclick="updateEmpStatus(${e.id}, 'Approved')">Approve</button>
-                                <button class="btn btn-sm btn-danger" onclick="updateEmpStatus(${e.id}, 'Rejected')">Reject</button>
+                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
@@ -240,35 +280,37 @@
             } catch (e) { console.error(e); }
         }
 
-        // Settings Management
-        async function fetchSettings() {
-            try {
-                const res = await fetch(`${API_BASE}/settings`);
-                const s = await res.json();
-                $('#set-phone').val(s.phone);
-                $('#set-email').val(s.email);
-            } catch (e) { console.error(e); }
-        }
-
-        $('#settings-form').on('submit', async function(e) {
+        $('#reg-emp-form').on('submit', async function(e) {
             e.preventDefault();
-            const data = { phone: $('#set-phone').val(), email: $('#set-email').val() };
+            const data = {
+                name: $('#reg-name').val(),
+                email: $('#reg-email').val(),
+                password: $('#reg-pass').val()
+            };
             try {
-                await fetch(`${API_BASE}/settings`, {
+                await fetch(`${API_BASE}/admin/employees/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                alert('Settings saved! These will reflect on the live site.');
-            } catch (e) { alert('Error saving settings'); }
+                alert('Employee Registered!');
+                $('#registerEmployeeModal').modal('hide');
+                fetchEmployees();
+            } catch (e) { alert('Error registering'); }
         });
+
+        window.logout = () => {
+            localStorage.removeItem('laundryStaffUser');
+            window.location.href = 'staff.html';
+        };
 
         // Initial Load
         fetchOrders();
-        fetchEmployees();
-        fetchSettings();
+        if (currentUser.role === 'admin') {
+            fetchEmployees();
+            fetchSettings();
+        }
         setInterval(fetchOrders, 10000);
-        setInterval(fetchEmployees, 30000);
     </script>
 </body>
 </html>

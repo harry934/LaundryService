@@ -128,6 +128,46 @@ app.post('/api/employees/apply', (req, res) => {
     res.json({ message: 'Applied successfully' });
 });
 
+// --- User and Auth Handlers ---
+const USERS_FILE = path.join(__dirname, 'users.json');
+
+function getUsers() {
+    return readJsonFile(USERS_FILE, [
+        { email: 'admin@laundry.com', password: 'admin123', role: 'admin', name: 'Global Admin' }
+    ]);
+}
+
+app.post('/api/auth/login', (req, res) => {
+    const { email, password } = req.body;
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+        res.json({ success: true, user: { name: user.name, role: user.role } });
+    } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+});
+
+app.post('/api/auth/signup', (req, res) => {
+    const users = getUsers();
+    if (users.find(u => u.email === req.body.email)) {
+        return res.status(400).json({ message: 'User already exists' });
+    }
+    const newUser = { ...req.body, status: 'Pending Approval' }; // Employees start as pending
+    users.push(newUser);
+    writeJsonFile(USERS_FILE, users);
+    res.json({ message: 'Signup successful! Wait for admin approval.' });
+});
+
+// Admin Registering Employee
+app.post('/api/admin/employees/register', (req, res) => {
+    const users = getUsers();
+    const newUser = { ...req.body, role: 'employee', status: 'Active' };
+    users.push(newUser);
+    writeJsonFile(USERS_FILE, users);
+    res.json({ message: 'Employee registered successfully' });
+});
+
 // Serve index.html
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');

@@ -35,28 +35,31 @@
                 <input type="password" class="form-control" id="login-pass" required>
             </div>
             <button type="submit" class="btn btn-primary">Login to Dashboard</button>
-            <p class="text-center mt-3">Employee? <span class="toggle-link" onclick="toggleAuth('apply')">Apply here</span></p>
+            <p class="text-center mt-3">Need access? <span class="toggle-link" onclick="toggleAuth('apply')">Sign up here</span></p>
         </form>
 
-        <!-- Apply Form -->
+        <!-- Apply/Signup Form -->
         <form id="apply-form" style="display:none;">
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" class="form-control" id="apply-name" required>
             </div>
             <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" class="form-control" id="apply-phone" required>
+                <label>Email</label>
+                <input type="email" class="form-control" id="apply-email" required>
             </div>
             <div class="form-group">
-                <label>Position</label>
-                <select class="form-control" id="apply-pos">
-                    <option value="Rider">Rider / Delivery</option>
-                    <option value="Cleaner">Laundry Professional</option>
-                    <option value="Admin">Admin Assistant</option>
+                <label>Password</label>
+                <input type="password" class="form-control" id="apply-pass" required>
+            </div>
+            <div class="form-group">
+                <label>Desired Role</label>
+                <select class="form-control" id="apply-role">
+                    <option value="employee">Employee (Order Management)</option>
+                    <option value="admin">Admin (Full Access)</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Application</button>
+            <button type="submit" class="btn btn-primary">Request Access</button>
             <p class="text-center mt-3">Already staff? <span class="toggle-link" onclick="toggleAuth('login')">Login</span></p>
         </form>
     </div>
@@ -66,44 +69,54 @@
             if (mode === 'apply') {
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('apply-form').style.display = 'block';
-                document.getElementById('auth-subtitle').innerText = 'Employee Application';
+                document.getElementById('auth-subtitle').innerText = 'Staff Registration';
             } else {
                 document.getElementById('login-form').style.display = 'block';
                 document.getElementById('apply-form').style.display = 'none';
-                document.getElementById('auth-subtitle').innerText = 'Admin Login';
+                document.getElementById('auth-subtitle').innerText = 'Admin/Staff Login';
             }
         }
 
-        document.getElementById('login-form').onsubmit = (e) => {
+        document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
-            // Simple logic for prototype
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            if (email === 'admin@laundry.com' && pass === 'admin123') {
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid credentials. Use admin@laundry.com / admin123');
-            }
+            const data = {
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-pass').value
+            };
+            try {
+                const res = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.success) {
+                    localStorage.setItem('laundryStaffUser', JSON.stringify(result.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(result.message || 'Login failed');
+                }
+            } catch (e) { alert('Connection error'); }
         };
 
         document.getElementById('apply-form').onsubmit = async (e) => {
             e.preventDefault();
             const data = {
                 name: document.getElementById('apply-name').value,
-                phone: document.getElementById('apply-phone').value,
-                position: document.getElementById('apply-pos').value
+                email: document.getElementById('apply-email').value,
+                password: document.getElementById('apply-pass').value,
+                role: document.getElementById('apply-role').value
             };
             try {
-                const res = await fetch('http://localhost:3000/api/employees/apply', {
+                const res = await fetch('http://localhost:3000/api/auth/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if (res.ok) {
-                    alert('Application submitted! We will contact you soon.');
-                    toggleAuth('login');
-                }
-            } catch (e) { alert('Error submitting application'); }
+                const result = await res.json();
+                alert(result.message);
+                if (res.ok) toggleAuth('login');
+            } catch (e) { alert('Error submitting request'); }
         };
     </script>
 </body>
