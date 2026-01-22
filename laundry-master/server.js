@@ -16,11 +16,16 @@ app.use(express.static('.'));
 
 // Helper: Read Data
 function readData() {
-    if (!fs.existsSync(DATA_FILE)) {
+    try {
+        if (!fs.existsSync(DATA_FILE)) {
+            return [];
+        }
+        const data = fs.readFileSync(DATA_FILE, 'utf8');
+        return data ? JSON.parse(data) : [];
+    } catch (err) {
+        console.error('Error in readData:', err);
         return [];
     }
-    const data = fs.readFileSync(DATA_FILE);
-    return JSON.parse(data);
 }
 
 // Helper: Write Data
@@ -66,7 +71,8 @@ app.get('/api/admin/orders', (req, res) => {
         orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         res.json(orders);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch orders' });
+        console.error('Error fetching orders:', err);
+        res.status(500).json({ error: 'Failed to fetch orders', details: err.message });
     }
 });
 
@@ -75,36 +81,51 @@ app.put('/api/admin/orders/:id', (req, res) => {
     try {
         const orders = readData();
         const orderId = req.params.id;
-        const { status } = req.body;
+        const { status, rider } = req.body;
         
         const index = orders.findIndex(o => o.orderId === orderId);
         if (index !== -1) {
-            orders[index].status = status;
+            if (status) orders[index].status = status;
+            if (rider !== undefined) orders[index].rider = rider;
             writeData(orders);
             res.json(orders[index]);
         } else {
             res.status(404).json({ error: 'Order not found' });
         }
     } catch (err) {
+        console.error('Error updating order:', err);
         res.status(500).json({ error: 'Failed to update order' });
     }
 });
 
-// 4. Get Single Order (Tracking)
-app.get('/api/orders/:id', (req, res) => {
-    try {
-        const orders = readData();
-        const orderId = req.params.id;
-        const order = orders.find(o => o.orderId === orderId);
-        
-        if (order) {
-            res.json(order);
-        } else {
-            res.status(404).json({ message: 'Order not found' });
-        }
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch order' });
-    }
+// --- Settings and Employee Handlers ---
+const SETTINGS_FILE = path.join(__dirname, 'settings.json');
+const EMPLOYEES_FILE = path.join(__dirname, 'employees.json');
+
+function readJsonFile(file, defaultValue = []) {
+    if (!fs.existsSync(file)) return defaultValue;
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function writeJsonFile(file, data) {
+    fs.writeFileSync(file, JSON.stringify(data, null, 2));
+}
+
+// Settings API
+app.get('/api/settings', (req, res) => res.json(readJsonFile(SETTINGS_FILE, { phone: '(01) 126 013 34', email: 'support@laundryservice.com' })));
+app.post('/api/settings', (req, res) => {
+    writeJsonFile(SETTINGS_FILE, req.body);
+    res.json({ message: 'Saved' });
+});
+
+// Employee API
+app.get('/api/admin/employees', (req, res) => res.json(readJsonFile(EMPLOYEES_FILE)));
+app.post('/api/employees/apply', (req, res) => {
+    const list = readJsonFile(EMPLOYEES_FILE);
+    const application = { ...req.body, id: Date.now(), status: 'Pending', date: new Date().toISOString() };
+    list.push(application);
+    writeJsonFile(EMPLOYEES_FILE, list);
+    res.json({ message: 'Applied successfully' });
 });
 
 // Serve index.html

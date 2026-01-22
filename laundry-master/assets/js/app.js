@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let orders = JSON.parse(localStorage.getItem('laundryOrders')) || [];
             orders.push(data);
             localStorage.setItem('laundryOrders', JSON.stringify(orders));
+            localStorage.setItem('lastLaundryOrderId', orderId); // Store for persistence
 
             // Send to Backend
             fetch('http://localhost:3000/api/orders', {
@@ -44,7 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             }).then(res => res.json())
-              .then(response => console.log('Backend Success:', response))
+              .then(response => {
+                  console.log('Backend Success:', response);
+                  // Redirect to tracking page after 1.5s
+                  setTimeout(() => {
+                      window.location.href = 'track.html';
+                  }, 1500);
+              })
               .catch(err => console.error('Backend Error:', err));
 
             console.log('Order Saved:', data);
@@ -55,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 successAlert.style.display = 'block';
                 successAlert.scrollIntoView({ behavior: 'smooth' });
             }
+            // Reset form but keep OrderId in localStorage (already done above)
             orderForm.reset();
         });
     }
@@ -64,57 +72,120 @@ document.addEventListener('DOMContentLoaded', function() {
     const trackResult = document.getElementById('track-result');
     
     if (trackForm) {
+        // --- Persistence Check ---
+        const lastOrderId = localStorage.getItem('lastLaundryOrderId');
+        if (lastOrderId) {
+            document.getElementById('track-order-id').value = lastOrderId;
+            performTrack(lastOrderId);
+        }
+
         trackForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const trackInput = document.getElementById('track-order-id').value.trim();
-            const resultDiv = document.getElementById('track-status-display');
-            const resultId = document.getElementById('res-id');
-            const resultStatus = document.getElementById('res-status');
-            const resultName = document.getElementById('res-name');
-
             if (!trackInput) return;
-
-            // Search in LocalStorage
-            const orders = JSON.parse(localStorage.getItem('laundryOrders')) || [];
-            const order = orders.find(o => o.orderId === trackInput);
-
-            // Also try to fetch from backend for latest status
-            fetch(`http://localhost:3000/api/orders/${trackInput}`)
-                .then(res => {
-                    if(res.ok) return res.json();
-                    throw new Error('Not found');
-                })
-                .then(backendOrder => {
-                    // Update display with backend data (more accurate status)
-                    updateTrackDisplay(backendOrder);
-                })
-                .catch(() => {
-                    // Fallback to local storage if backend fails or offline
-                    if (order) updateTrackDisplay(order);
-                    else {
-                        alert('Order Not Found. Please check your Order ID.');
-                        trackResult.style.display = 'none';
-                    }
-                });
-
-            function updateTrackDisplay(data) {
-                resultId.textContent = data.orderId;
-                const status = data.status || 'Pending';
-                
-                // Color Code Status
-                let statusColor = '#ffc107'; // yellow/pending
-                if(status === 'Washing') statusColor = '#17a2b8';
-                if(status === 'Ironing') statusColor = '#6f42c1';
-                if(status === 'Ready') statusColor = '#28a745';
-                if(status === 'Delivered') statusColor = '#20c997';
-
-                resultStatus.textContent = status;
-                resultStatus.style.color = statusColor;
-                resultStatus.style.fontWeight = 'bold';
-                
-                resultName.textContent = data.name;
-                trackResult.style.display = 'block';
-            }
+            
+            localStorage.setItem('lastLaundryOrderId', trackInput);
+            performTrack(trackInput);
         });
+    }
+
+    function performTrack(orderId) {
+        const trackResult = document.getElementById('track-result');
+        const resultId = document.getElementById('res-id');
+        const resultStatus = document.getElementById('res-status');
+        const resultName = document.getElementById('res-name');
+
+        // Search in LocalStorage (fallback)
+        const orders = JSON.parse(localStorage.getItem('laundryOrders')) || [];
+        const localOrder = orders.find(o => o.orderId === orderId);
+
+        // Fetch from backend for latest status
+        fetch(`http://localhost:3000/api/orders/${orderId}`)
+            .then(res => {
+                if(res.ok) return res.json();
+                throw new Error('Not found');
+            })
+            .then(backendOrder => {
+                updateTrackDisplay(backendOrder);
+            })
+            .catch(() => {
+                if (localOrder) updateTrackDisplay(localOrder);
+                else {
+                    alert('Order Not Found. Please check your Order ID.');
+                    if(trackResult) trackResult.style.display = 'none';
+                }
+            });
+
+        function updateTrackDisplay(data) {
+            if(!trackResult) return;
+            
+            resultId.textContent = data.orderId;
+            const status = data.status || 'Pending';
+            
+            // Color Code Status
+            let statusColor = '#ffc107'; 
+            if(status === 'Washing') statusColor = '#17a2b8';
+            if(status === 'Ironing') statusColor = '#6f42c1';
+            if(status === 'Ready') statusColor = '#28a745';
+            if(status === 'Delivered') statusColor = '#20c997';
+
+            resultStatus.textContent = status;
+            resultStatus.style.color = statusColor;
+            resultStatus.style.fontWeight = 'bold';
+            
+            resultName.textContent = data.name;
+            trackResult.style.display = 'block';
+
+            // Update Progress Bar
+            const stages = ['Pending', 'Washing', 'Ironing', 'Ready', 'Delivered'];
+            stages.forEach(stage => {
+                const circle = document.getElementById('step-' + stage);
+                if (circle) {
+                    circle.style.background = '#eee';
+                    circle.style.color = '#333';
+                }
+            });
+
+            const currentIdx = stages.indexOf(status);
+            for(let i=0; i <= currentIdx; i++) {
+                const circle = document.getElementById('step-' + stages[i]);
+                if (circle) {
+                    circle.style.background = '#2A9D8F'; // Green for completion
+                    circle.style.color = '#fff';
+                }
+            }
+            if(currentIdx !== -1) {
+                const activeCircle = document.getElementById('step-' + stages[currentIdx]);
+                if(status === 'Pending') activeCircle.style.background = '#ffc107';
+                else if(status === 'Delivered') activeCircle.style.background = '#20c997';
+                else activeCircle.style.background = '#17a2b8';
+            }
+        }
+    }
+
+    // --- Logout / Clear Session ---
+    const logoutBtn = document.getElementById('logout-session');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('lastLaundryOrderId');
+            window.location.reload();
+        });
+    // --- Dynamic Settings ---
+    async function loadSettings() {
+        try {
+            const res = await fetch('http://localhost:3000/api/settings');
+            const s = await res.json();
+            // Header phone
+            const headerPhone = document.querySelector('.header-btn1');
+            if(headerPhone) headerPhone.innerHTML = `<img src="assets/img/icon/call.png" alt=""> ${s.phone}`;
+            // Footer phone & Email
+            const contactLinks = document.querySelectorAll('.single-footer-caption ul li a');
+            contactLinks.forEach(link => {
+                if(link.innerText.includes('(01)')) link.innerText = s.phone;
+                if(link.innerText.includes('support@')) link.innerText = s.email;
+            });
+        } catch (e) { console.error('Settings load failed', e); }
+    }
+    loadSettings();
     }
 });

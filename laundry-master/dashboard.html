@@ -6,150 +6,269 @@
     <title>Admin Dashboard | Laundry Service</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-
-    <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .dashboard-area { padding: 50px 0; }
-        .table thead th { border-bottom: 2px solid #E63946; color: #1D3557; }
-        .status-select { padding: 5px; border-radius: 5px; border: 1px solid #ddd; }
-        .whatsapp-btn { background-color: #25D366; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; }
-        .whatsapp-btn:hover { background-color: #128C7E; color: white; }
-        .update-btn { background-color: #E63946; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; border: none; cursor: pointer; }
-        .update-btn:hover { background-color: #c92a39; }
+        :root { --primary: #E63946; --secondary: #1D3557; --accent: #2A9D8F; }
+        body { background: #f8f9fa; }
+        .sidebar { background: var(--secondary); min-height: 100vh; color: white; padding: 20px 0; }
+        .sidebar-link { color: rgba(255,255,255,0.7); padding: 15px 25px; display: block; text-decoration: none; border-left: 4px solid transparent; }
+        .sidebar-link:hover, .sidebar-link.active { color: white; background: rgba(255,255,255,0.1); border-left-color: var(--primary); text-decoration: none; }
+        .main-content { padding: 30px; }
+        .stat-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .table-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-washing { background: #d1ecf1; color: #0c5460; }
+        .badge-ironing { background: #e2e3e5; color: #383d41; }
+        .badge-ready { background: #d4edda; color: #155724; }
+        .badge-delivered { background: #cce5ff; color: #004085; }
+        .nav-tabs .nav-link { color: var(--secondary); }
+        .nav-tabs .nav-link.active { color: var(--primary); font-weight: bold; }
+        .btn-primary { background: var(--primary); border: none; }
+        .btn-primary:hover { background: #c92a39; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-area">
-            <div class="main-header header-sticky">
-                <div class="header-left">
-                    <div class="logo">
-                        <a href="index.html"><h2>Laundry Admin</h2></a>
-                    </div>
-                </div> 
-                <div class="header-right">
-                    <a href="index.html" class="header-btn2">View Site</a>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="px-4 mb-4">
+                    <h3 class="text-white">Admin Panel</h3>
                 </div>
+                <a href="#" class="sidebar-link active" onclick="showTab('orders')"><i class="fas fa-list mr-2"></i> Orders</a>
+                <a href="#" class="sidebar-link" onclick="showTab('employees')"><i class="fas fa-users mr-2"></i> Employees</a>
+                <a href="#" class="sidebar-link" onclick="showTab('settings')"><i class="fas fa-cog mr-2"></i> Settings</a>
+                <a href="index.html" class="sidebar-link"><i class="fas fa-external-link-alt mr-2"></i> View Site</a>
             </div>
-        </div>
-    </header>
 
-    <main>
-        <section class="dashboard-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-tittle text-center mb-30">
-                            <h2>Order Management</h2>
-                        </div>
+            <!-- Main Content -->
+            <div class="col-md-10 main-content">
+                <!-- Orders Tab -->
+                <div id="tab-orders" class="admin-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Order Management</h2>
+                        <span id="order-count" class="badge badge-pill badge-danger">0 Orders</span>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
+                    <div class="table-card">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
                                         <th>Order ID</th>
                                         <th>Customer</th>
-                                        <th>Phone</th>
                                         <th>Service</th>
-                                        <th>Details</th>
+                                        <th>Rider</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="orders-table-body">
-                                    <!-- Orders will be loaded here -->
+                                <tbody id="orders-tbody">
+                                    <!-- Dynamic -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <!-- JS -->
+                <!-- Employees Tab -->
+                <div id="tab-employees" class="admin-tab" style="display:none;">
+                    <h2>Employee Applications</h2>
+                    <div class="table-card mt-4">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role Applied</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employees-tbody">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="tab-settings" class="admin-tab" style="display:none;">
+                    <h2>Website Settings</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="table-card">
+                                <h5>Contact Information</h5>
+                                <form id="settings-form" class="mt-3">
+                                    <div class="form-group">
+                                        <label>Header Phone</label>
+                                        <input type="text" class="form-control" id="set-phone" value="(01) 126 013 34">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Support Email</label>
+                                        <input type="email" class="form-control" id="set-email" value="support@laundryservice.com">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div class="modal fade" id="editOrderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Order <span id="modal-order-id"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="modal-status" class="form-control">
+                            <option value="Pending">Pending</option>
+                            <option value="Washing">Washing</option>
+                            <option value="Ironing">Ironing</option>
+                            <option value="Ready">Ready</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Assign Rider</label>
+                        <input type="text" id="modal-rider" class="form-control" placeholder="Rider Name/Phone">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveOrderEdits()">Update Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
     <script>
-        const API_URL = 'http://localhost:3000/api/admin/orders'; // Adjust if hosted differently
+        const API_BASE = 'http://localhost:3000/api';
+        let currentOrderId = null;
+
+        function showTab(tabName) {
+            $('.admin-tab').hide();
+            $('#tab-' + tabName).show();
+            $('.sidebar-link').removeClass('active');
+            $(`[onclick="showTab('${tabName}')"]`).addClass('active');
+        }
 
         async function fetchOrders() {
             try {
-                const response = await fetch(API_URL);
-                const orders = await response.json();
+                const res = await fetch(`${API_BASE}/admin/orders`);
+                const orders = await res.json();
                 renderOrders(orders);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-                alert('Failed to load orders. Ensure backend is running.');
-            }
+                $('#order-count').text(orders.length + ' Orders');
+            } catch (e) { console.error(e); }
         }
 
         function renderOrders(orders) {
-            const tbody = document.getElementById('orders-table-body');
-            tbody.innerHTML = '';
-
-            orders.forEach(order => {
-                const tr = document.createElement('tr');
-                const date = new Date(order.timestamp).toLocaleDateString();
-                
-                tr.innerHTML = `
-                    <td>${date}</td>
-                    <td><strong>${order.orderId}</strong></td>
-                    <td>${order.name}</td>
-                    <td>${order.phone}</td>
-                    <td>${order.service}</td>
-                    <td>${order.weight ? order.weight + ' units/kg' : '-'} <br> <small>${order.address}</small></td>
-                    <td>
-                        <select class="status-select" id="status-${order.orderId}">
-                            <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="Washing" ${order.status === 'Washing' ? 'selected' : ''}>Washing</option>
-                            <option value="Ironing" ${order.status === 'Ironing' ? 'selected' : ''}>Ironing</option>
-                            <option value="Ready" ${order.status === 'Ready' ? 'selected' : ''}>Ready</option>
-                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button class="update-btn" onclick="updateStatus('${order.orderId}')">Update</button>
-                        <a href="https://wa.me/${order.phone.replace(/[^0-9]/g, '')}" target="_blank" class="whatsapp-btn">
-                            <i class="fab fa-whatsapp"></i> Chat
-                        </a>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+            const tbody = $('#orders-tbody');
+            tbody.empty();
+            orders.forEach(o => {
+                const badgeClass = 'badge-' + o.status.toLowerCase();
+                tbody.append(`
+                    <tr>
+                        <td><strong>${o.orderId}</strong></td>
+                        <td>${o.name}<br><small>${o.phone}</small></td>
+                        <td>${o.service}</td>
+                        <td>${o.rider || '<span class="text-muted">Unassigned</span>'}</td>
+                        <td><span class="status-badge ${badgeClass}">${o.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="openEditModal('${o.orderId}', '${o.status}', '${o.rider || ''}')"><i class="fas fa-edit"></i></button>
+                            <a href="https://wa.me/${o.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-sm btn-success"><i class="fab fa-whatsapp"></i></a>
+                        </td>
+                    </tr>
+                `);
             });
         }
 
-        window.updateStatus = async function(orderId) {
-            const newStatus = document.getElementById(`status-${orderId}`).value;
-            try {
-                const response = await fetch(`http://localhost:3000/api/admin/orders/${orderId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                
-                if (response.ok) {
-                    alert('Status updated successfully!');
-                    fetchOrders(); // Refresh
-                } else {
-                    alert('Failed to update status');
-                }
-            } catch (error) {
-                console.error('Error updating status:', error);
-                alert('Error updating status');
-            }
+        window.openEditModal = (id, status, rider) => {
+            currentOrderId = id;
+            $('#modal-order-id').text(id);
+            $('#modal-status').val(status);
+            $('#modal-rider').val(rider);
+            $('#editOrderModal').modal('show');
         };
 
-        // Load on start
+        window.saveOrderEdits = async () => {
+            const status = $('#modal-status').val();
+            const rider = $('#modal-rider').val();
+            try {
+                await fetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status, rider })
+                });
+                $('#editOrderModal').modal('hide');
+                fetchOrders();
+            } catch (e) { alert('Error updating order'); }
+        };
+
+        // Employee Management
+        async function fetchEmployees() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/employees`);
+                const employees = await res.json();
+                const tbody = $('#employees-tbody');
+                tbody.empty();
+                employees.forEach(e => {
+                    tbody.append(`
+                        <tr>
+                            <td>${e.name}</td>
+                            <td>${e.position}</td>
+                            <td>${e.phone}</td>
+                            <td><span class="badge badge-warning">${e.status}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-success" onclick="updateEmpStatus(${e.id}, 'Approved')">Approve</button>
+                                <button class="btn btn-sm btn-danger" onclick="updateEmpStatus(${e.id}, 'Rejected')">Reject</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        // Settings Management
+        async function fetchSettings() {
+            try {
+                const res = await fetch(`${API_BASE}/settings`);
+                const s = await res.json();
+                $('#set-phone').val(s.phone);
+                $('#set-email').val(s.email);
+            } catch (e) { console.error(e); }
+        }
+
+        $('#settings-form').on('submit', async function(e) {
+            e.preventDefault();
+            const data = { phone: $('#set-phone').val(), email: $('#set-email').val() };
+            try {
+                await fetch(`${API_BASE}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                alert('Settings saved! These will reflect on the live site.');
+            } catch (e) { alert('Error saving settings'); }
+        });
+
+        // Initial Load
         fetchOrders();
-        // Auto refresh every 30 seconds
-        setInterval(fetchOrders, 30000);
+        fetchEmployees();
+        fetchSettings();
+        setInterval(fetchOrders, 10000);
+        setInterval(fetchEmployees, 30000);
     </script>
 </body>
 </html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Staff Portal | Laundry Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body { background: #f4f7f6; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .auth-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h2 { color: #E63946; font-weight: 800; }
+        .btn-primary { background: #E63946; border: none; width: 100%; padding: 12px; font-weight: bold; }
+        .btn-primary:hover { background: #c92a39; }
+        .toggle-link { color: #1D3557; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Laundry Staff</h2>
+            <p id="auth-subtitle">Admin Login</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="login-pass" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login to Dashboard</button>
+            <p class="text-center mt-3">Employee? <span class="toggle-link" onclick="toggleAuth('apply')">Apply here</span></p>
+        </form>
+
+        <!-- Apply Form -->
+        <form id="apply-form" style="display:none;">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="form-control" id="apply-name" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" id="apply-phone" required>
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                <select class="form-control" id="apply-pos">
+                    <option value="Rider">Rider / Delivery</option>
+                    <option value="Cleaner">Laundry Professional</option>
+                    <option value="Admin">Admin Assistant</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+            <p class="text-center mt-3">Already staff? <span class="toggle-link" onclick="toggleAuth('login')">Login</span></p>
+        </form>
+    </div>
+
+    <script>
+        function toggleAuth(mode) {
+            if (mode === 'apply') {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('apply-form').style.display = 'block';
+                document.getElementById('auth-subtitle').innerText = 'Employee Application';
+            } else {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('apply-form').style.display = 'none';
+                document.getElementById('auth-subtitle').innerText = 'Admin Login';
+            }
+        }
+
+        document.getElementById('login-form').onsubmit = (e) => {
+            e.preventDefault();
+            // Simple logic for prototype
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            if (email === 'admin@laundry.com' && pass === 'admin123') {
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid credentials. Use admin@laundry.com / admin123');
+            }
+        };
+
+        document.getElementById('apply-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('apply-name').value,
+                phone: document.getElementById('apply-phone').value,
+                position: document.getElementById('apply-pos').value
+            };
+            try {
+                const res = await fetch('http://localhost:3000/api/employees/apply', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    alert('Application submitted! We will contact you soon.');
+                    toggleAuth('login');
+                }
+            } catch (e) { alert('Error submitting application'); }
+        };
+    </script>
+</body>
+</html>
