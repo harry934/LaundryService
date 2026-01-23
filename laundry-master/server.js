@@ -144,19 +144,8 @@ app.post('/api/auth/login', (req, res) => {
     if (user) {
         res.json({ success: true, user: { name: user.name, role: user.role } });
     } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
+        res.status(401).json({ success: false, message: 'Invalid credentials. Use admin@laundry.com / admin123' });
     }
-});
-
-app.post('/api/auth/signup', (req, res) => {
-    const users = getUsers();
-    if (users.find(u => u.email === req.body.email)) {
-        return res.status(400).json({ message: 'User already exists' });
-    }
-    const newUser = { ...req.body, status: 'Pending Approval' }; // Employees start as pending
-    users.push(newUser);
-    writeJsonFile(USERS_FILE, users);
-    res.json({ message: 'Signup successful! Wait for admin approval.' });
 });
 
 // Admin Registering Employee

@@ -1,3 +1,5 @@
+const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api';
+
 document.addEventListener('DOMContentLoaded', function() {
     // --- Order Form Handling ---
     const orderForm = document.getElementById('laundryOrderForm');
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('lastLaundryOrderId', orderId); // Store for persistence
 
             // Send to Backend
-            fetch('http://localhost:3000/api/orders', {
+            fetch(`${API_BASE}/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -173,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Dynamic Settings ---
     async function loadSettings() {
         try {
-            const res = await fetch('http://localhost:3000/api/settings');
+            const res = await fetch(`${API_BASE}/settings`);
             const s = await res.json();
             // Header phone
             const headerPhone = document.querySelector('.header-btn1');

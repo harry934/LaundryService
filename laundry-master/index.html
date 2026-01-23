@@ -25,27 +25,28 @@
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        /* Glassmorphism Header */
+        /* White to Glassmorphism Header */
         .header-area { 
             position: fixed; 
             width: 100%; 
             top: 0; 
             z-index: 999; 
-            transition: all 0.4s ease;
-            background: rgba(255, 255, 255, 0.15) !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff !important;
+            border-bottom: 1px solid #eee;
+        }
+        .header-area .main-menu ul li a { color: #1D3557; }
+        .header-area .logo h2 { color: #E63946; }
+
+        .header-area.sticky-bar { 
+            background: rgba(255, 255, 255, 0.7) !important; 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .header-area.sticky-bar { 
-            background: rgba(255, 255, 255, 0.85) !important; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
         .header-area.sticky-bar .main-menu ul li a { color: #1D3557 !important; }
         .header-area.sticky-bar .logo h2 { color: #E63946 !important; }
-        .header-area .main-menu ul li a { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-        .header-area .logo h2 { color: #fff; }
 
         /* Floating Booking Form */
         .floating-booking-container {
