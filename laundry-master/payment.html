@@ -1,432 +1,444 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Payment | Laundry Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment | Laundry Service</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=2">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-        :root {
-            --primary: #10b981; /* Trust Green for Payment */
-            --primary-dark: #059669;
-            --surface: #ffffff;
-            --background: #f1f5f9;
-            --text-heading: #0f172a;
-            --text-body: #475569;
-            --border: #e2e8f0;
-            --focus-ring: rgba(16, 185, 129, 0.2);
-        }
-
+        
+        * { box-sizing: border-box; }
+        
         body {
-            background-color: var(--background);
             font-family: 'Inter', sans-serif;
-            color: var(--text-body);
-            -webkit-font-smoothing: antialiased;
+            background: #f1f5f9;
             margin: 0;
-            line-height: 1.5;
-        }
-
-        .payment-wrapper {
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
-
-        .payment-card {
-            background: var(--surface);
+        
+        .container {
+            max-width: 500px;
             width: 100%;
-            max-width: 440px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
-            border: 1px solid #fff;
         }
-
-        .header-section {
+        
+        .header {
             background: linear-gradient(to bottom, #f8fafc, #fff);
-            padding: 32px 32px 24px;
+            padding: 30px;
             text-align: center;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #e2e8f0;
         }
-
-        .brand-logo {
-            height: 48px;
-            width: auto;
-            margin-bottom: 16px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
-        }
-
-        .header-section h1 {
-            font-size: 20px;
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 22px;
             font-weight: 700;
-            color: var(--text-heading);
-            margin: 0 0 4px 0;
-            letter-spacing: -0.025em;
+            color: #0f172a;
         }
-
-        .order-pill {
-            display: inline-flex;
-            align-items: center;
+        
+        .order-badge {
+            display: inline-block;
             background: #f1f5f9;
-            padding: 4px 12px;
-            border-radius: 99px;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-body);
-            margin-top: 8px;
+            color: #475569;
         }
-
-        .content-section {
-            padding: 32px;
+        
+        .content {
+            padding: 30px;
         }
-
-        /* Payment Method Selection */
-        .payment-selector {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .payment-radio {
-            opacity: 0;
-            position: absolute;
-            z-index: -1;
-        }
-
-        .payment-option-card {
+        
+        .method-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            padding: 16px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            gap: 12px;
         }
-
-        .payment-option-card:hover { border-color: #cbd5e1; }
-
-        .payment-radio:checked + .payment-option-card {
-            border-color: var(--primary);
+        
+        .method-option:hover {
+            border-color: #cbd5e1;
+        }
+        
+        .method-option.selected {
+            border-color: #10b981;
             background: #ecfdf5;
         }
-
-        .radio-circle {
+        
+        .radio-dot {
             width: 20px;
             height: 20px;
             border: 2px solid #cbd5e1;
             border-radius: 50%;
-            margin-right: 12px;
-            position: relative;
+            flex-shrink: 0;
         }
-
-        .payment-radio:checked + .payment-option-card .radio-circle {
-            border-color: var(--primary);
-            background: var(--primary);
+        
+        .method-option.selected .radio-dot {
+            border-color: #10b981;
+            background: #10b981;
             box-shadow: inset 0 0 0 4px #ecfdf5;
         }
-
-        .option-info { flex: 1; }
-        .option-title { font-weight: 600; color: var(--text-heading); font-size: 14px; }
-        .option-desc { font-size: 12px; color: var(--text-body); }
-
-        /* Method Views */
-        .method-view { display: none; animation: fadeIn 0.3s ease; }
-        .method-view.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Till Card Design */
-        .till-display-card {
-            background: #064e3b;
+        
+        .method-info {
+            flex: 1;
+        }
+        
+        .method-title {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .method-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .payment-details.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .till-card {
+            background: linear-gradient(135deg, #064e3b, #10b981);
+            color: white;
+            padding: 24px;
             border-radius: 16px;
-            padding: 20px;
-            color: #fff;
             margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
         }
         
-        .till-display-card::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+        .till-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 8px;
         }
-
-        .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
-        .val { font-size: 24px; font-weight: 700; font-family: 'Monaco', monospace; letter-spacing: 1px; margin-top: 4px; }
-
-        /* Interactions */
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-heading); margin-bottom: 8px; }
         
-        .clean-input {
+        .till-number {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: monospace;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        
+        .till-footer {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 12px;
+            font-size: 13px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid var(--border);
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             font-size: 16px;
             font-family: inherit;
             transition: all 0.2s;
-            outline: none;
         }
         
-        .clean-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--focus-ring); }
-
-        .btn-action {
+        .form-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .btn {
             width: 100%;
             padding: 14px;
-            background: var(--text-heading);
-            color: #fff;
             border: none;
             border-radius: 10px;
-            font-weight: 600;
             font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #000;
+            transform: translateY(-1px);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .helper-text {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 12px;
+        }
+        
+        .stk-confirm {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .stk-confirm.active {
+            display: block;
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .alert-info {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .pending-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .pending-screen.active {
+            display: block;
+        }
+        
+        .pending-icon {
+            width: 72px;
+            height: 72px;
+            background: #f0fdf4;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            margin: 0 auto 20px;
         }
-
-        .btn-action:hover { background: #000; transform: translateY(-1px); }
-        .btn-action.btn-green { background: var(--primary); }
-        .btn-action.btn-green:hover { background: var(--primary-dark); }
         
-        /* Loader */
-        .loader-spinner {
-            width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
+        .pending-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .pending-text {
+            color: #475569;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .support-text {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="payment-wrapper">
-        <div class="payment-card">
-            <!-- HEADER -->
-            <div class="header-section">
-                <!-- Logo Removed Request -->
+    <div class="container">
+        <!-- Payment Selection -->
+        <div id="payment-section">
+            <div class="header">
                 <h1>Complete Payment</h1>
-                <div class="order-pill">
-                    <span style="opacity:0.6; margin-right:6px">ORDER</span>
-                    <span id="display-order-id-header">#...</span>
+                <div class="order-badge">
+                    ORDER <span id="order-id">#...</span>
                 </div>
             </div>
-
-            <!-- CONTENT -->
-            <div class="content-section" id="state-payment-details">
-                <!-- Method Selector -->
-                <div class="payment-selector">
-                    <label>
-                        <input type="radio" name="pay_method" value="till" class="payment-radio">
-                        <div class="payment-option-card">
-                            <div class="radio-circle"></div>
-                            <div class="option-info">
-                                <div class="option-title">Buy Goods Till</div>
-                                <div class="option-desc">Manual entry via M-Pesa menu</div>
-                            </div>
-                            <i class="fas fa-store" style="color:#94a3b8"></i>
-                        </div>
-                    </label>
-
-                    <label>
-                        <input type="radio" name="pay_method" value="stk" class="payment-radio">
-                        <div class="payment-option-card">
-                            <div class="radio-circle"></div>
-                            <div class="option-info">
-                                <div class="option-title">M-Pesa Express</div>
-                                <div class="option-desc">Automatic STK push to phone</div>
-                            </div>
-                            <i class="fas fa-mobile-alt" style="color:#94a3b8"></i>
-                        </div>
-                    </label>
-                </div>
-
-                <!-- View: Till -->
-                <div id="view-till" class="method-view">
-                    <div class="till-display-card">
-                        <div class="lbl">TILL NUMBER</div>
-                        <div class="val">5780924</div>
-                        <div style="border-top:1px solid rgba(255,255,255,0.2); margin-top:16px; padding-top:12px; font-size:12px; display:flex; justify-content:space-between;">
-                            <span>Laundry Service</span>
-                            <span>Valid</span>
-                        </div>
+            
+            <div class="content">
+                <div class="method-option" data-method="till">
+                    <div class="radio-dot"></div>
+                    <div class="method-info">
+                        <div class="method-title">Buy Goods Till</div>
+                        <div class="method-desc">Manual entry via M-Pesa menu</div>
                     </div>
-                    <button class="btn-action" id="btn-manual-paid">
-                        <span>I Have Paid</span>
-                    </button>
-                    <p style="text-align:center; font-size:12px; color:#64748b; margin-top:16px;">
-                        Go to M-Pesa &rarr; Buy Goods &rarr; Enter Till
-                    </p>
+                    <i class="fas fa-store" style="color:#94a3b8"></i>
                 </div>
-
-                <!-- View: STK -->
-                <div id="view-stk" class="method-view">
+                
+                <div class="method-option" data-method="stk">
+                    <div class="radio-dot"></div>
+                    <div class="method-info">
+                        <div class="method-title">M-Pesa Express</div>
+                        <div class="method-desc">Automatic STK push to phone</div>
+                    </div>
+                    <i class="fas fa-mobile-alt" style="color:#94a3b8"></i>
+                </div>
+                
+                <!-- Till Details -->
+                <div id="till-details" class="payment-details">
+                    <div class="till-card">
+                        <div class="till-label">TILL NUMBER</div>
+                        <div class="till-number">5780924</div>
+                        <div class="till-footer">Laundry Service</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="markPaid()">I Have Paid</button>
+                    <p class="helper-text">Go to M-Pesa → Buy Goods → Enter Till</p>
+                </div>
+                
+                <!-- STK Details -->
+                <div id="stk-details" class="payment-details">
                     <div class="form-group">
                         <label class="form-label">M-Pesa Phone Number</label>
-                        <input type="tel" id="stk-phone" class="clean-input" placeholder="07XX XXX XXX" maxlength="10">
+                        <input type="tel" id="phone-input" class="form-input" placeholder="0712345678" maxlength="10">
                     </div>
-
-                    <button class="btn-action btn-green" id="btn-send-stk">
-                        <i class="fas fa-paper-plane"></i>
-                        <span>Send Request</span>
+                    <button class="btn btn-success" onclick="sendSTK()">
+                        <i class="fas fa-paper-plane"></i> Send Request
                     </button>
-
-                    <!-- Hidden Confirm -->
-                    <div id="stk-confirm-area" style="display:none; margin-top:20px;">
-                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:12px; border-radius:8px; font-size:13px; color:#166534; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-                            <div class="loader-spinner" style="border-color:rgba(22,101,52,0.2); border-top-color:#166534; width:16px; height:16px;"></div>
-                            Check your phone for the PIN prompt.
+                    
+                    <div id="stk-confirm" class="stk-confirm">
+                        <div class="alert alert-info">
+                            <i class="fas fa-spinner fa-spin"></i> Check your phone for the PIN prompt.
                         </div>
-                        <button class="btn-action" id="btn-stk-paid">
-                            <span>I Have Paid</span>
-                        </button>
+                        <button class="btn btn-primary" onclick="markPaid()">I Have Paid</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- VIEW: VERIFYING -->
-            <div id="state-pending" style="display:none; text-align:center; padding:60px 40px;">
-                <div style="width:72px; height:72px; background:#f0fdf4; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 24px;">
-                    <i class="fas fa-check" style="font-size:32px; color:#166534;"></i>
-                </div>
-                <h2 style="font-size:20px; font-weight:700; color:var(--text-heading); margin-bottom:8px;">Payment Received</h2>
-                <p style="color:var(--text-body); font-size:14px; margin-bottom:32px;">Thank you for ordering with us. Please wait for payment confirmation.</p>
-                
-                <a href="track.html" class="btn-action">Track Order</a>
-                <p style="font-size:12px; color:#94a3b8; margin-top:24px;">Support: (01) 126 013 34</p>
             </div>
         </div>
+        
+        <!-- Pending Screen -->
+        <div id="pending-section" class="pending-screen">
+            <div class="pending-icon">
+                <i class="fas fa-check" style="font-size:32px; color:#166534;"></i>
+            </div>
+            <div class="pending-title">Payment Received</div>
+            <div class="pending-text">Thank you for ordering with us. Please wait for payment confirmation.</div>
+            <a href="track.html" class="btn btn-primary">Track Order</a>
+            <p class="support-text">Support: (01) 126 013 34</p>
+        </div>
     </div>
-
+    
     <script src="assets/js/jquery-1.12.4.min.js"></script>
-    <script src="assets/js/session.js?v=2"></script>
+    <script src="assets/js/session.js?v=3"></script>
     <script>
-        $(document).ready(function() {
-            const orderId = localStorage.getItem('lastLaundryOrderId');
-            if (orderId) {
-                $('#display-order-id-header').text(orderId);
-            }
-
-            // INITIAL STATE: Everything Hidden
-            // We rely on user click to reveal options
-
-            // RECOVER STATE
-            const isPending = localStorage.getItem('payment_pending_' + orderId);
-            if (isPending === 'true') {
-                showState('state-pending');
-                startPolling(orderId);
-            } else {
-                showState('state-payment-details');
-            }
-
-            function showState(stateId) {
-                $('#state-payment-details, #state-pending').hide();
-                $('#' + stateId).fadeIn();
-            }
-
-            // METHOD SWITCHING (Vanilla JS for Robustness)
-            const radios = document.querySelectorAll('input[name="pay_method"]');
-            radios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    console.log('Method changed to:', this.value);
-                    $('.method-view').hide().removeClass('active');
-                    $('#view-' + this.value).fadeIn().addClass('active');
-                });
-            });
-
-            // POLLING FOR CONFIRMATION
-            function startPolling(id) {
-                const interval = setInterval(() => {
-                    const API_BASE = "http://127.0.0.1:3000/api";
-                    // Using admin/orders to check status in list (simpler for this lightweight app)
-                    // Or specific endpoint if we updated server.js
-                    fetch(`${API_BASE}/admin/orders`)
-                        .then(r => r.json())
-                        .then(orders => {
-                            const order = orders.find(o => o.orderId === id);
-                            if (order && (order.status === 'Processing' || order.status === 'Confirmed')) {
-                                clearInterval(interval);
-                                alert('Payment Confirmed! Redirecting to tracker...');
-                                window.location.replace('track.html');
-                            }
-                        })
-                        .catch(e => console.log('Polling...', e));
-                }, 3000); // Check every 3 seconds
-            }
-
-            // SHARED UPDATE FUNCTION (Set to Pending)
-            function markOrderPaid() {
-                 if (!orderId) return;
-                 const API_BASE = "http://127.0.0.1:3000/api";
-                 
-                 // Get phone if available
-                 let rawPhone = $('#stk-phone').val().trim();
-                 // Clean it
-                 rawPhone = rawPhone.replace(/\D/g,''); 
-                 // Validations are done before calling this usually, but good to have
-                 
-                 const body = { status: 'Payment Pending' };
-                 if (rawPhone.length >= 9) body.phone = '+254' + (rawPhone.length > 9 ? rawPhone.slice(-9) : rawPhone);
-
-                 fetch(`${API_BASE}/orders/${orderId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                }).then(res => {
-                    localStorage.setItem('payment_pending_' + orderId, 'true');
-                    showState('state-pending');
-                    startPolling(orderId);
-                }).catch(e => {
-                    alert('Saved locally. Please wait for confirmation.');
-                    localStorage.setItem('payment_pending_' + orderId, 'true');
-                    showState('state-pending');
-                    startPolling(orderId);
-                });
-            }
-
-            // TILL: I Have Paid
-            $('#btn-manual-paid').click(function() {
-                markOrderPaid();
-            });
-
-            // STK: Send Push
-            $('#btn-send-stk').click(function() {
-                 let rawPhone = $('#stk-phone').val().trim();
-                 rawPhone = rawPhone.replace(/\D/g,'');
-                 
-                 // Exact 10 digit validation as requested "must accept exactly 10 digits"
-                 // e.g. 0712345678
-                 if (rawPhone.length !== 10) {
-                     alert('Please enter a valid 10-digit phone number (e.g., 0712345678).');
-                     return;
-                 }
-                 
-                 // Simulate Push
-                 $('#btn-send-stk').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Sending...');
-                 setTimeout(() => {
-                     $('#btn-send-stk').hide();
-                     $('#stk-confirm-area').fadeIn();
-                 }, 1500);
-            });
-
-            // STK: I Have Paid (After Push)
-            $('#btn-stk-paid').click(function() {
-                markOrderPaid();
+        // Get order ID
+        const orderId = localStorage.getItem('lastLaundryOrderId');
+        if (orderId) {
+            document.getElementById('order-id').textContent = orderId;
+        }
+        
+        // Check if already pending
+        const isPending = localStorage.getItem('payment_pending_' + orderId);
+        if (isPending === 'true') {
+            document.getElementById('payment-section').style.display = 'none';
+            document.getElementById('pending-section').classList.add('active');
+            startPolling();
+        }
+        
+        // Method selection
+        document.querySelectorAll('.method-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove all selections
+                document.querySelectorAll('.method-option').forEach(o => o.classList.remove('selected'));
+                document.querySelectorAll('.payment-details').forEach(d => d.classList.remove('active'));
+                
+                // Add selection
+                this.classList.add('selected');
+                const method = this.getAttribute('data-method');
+                document.getElementById(method + '-details').classList.add('active');
             });
         });
+        
+        // Send STK
+        function sendSTK() {
+            const phone = document.getElementById('phone-input').value.replace(/\D/g,'');
+            if (phone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number (e.g., 0712345678)');
+                return;
+            }
+            document.getElementById('stk-confirm').classList.add('active');
+        }
+        
+        // Mark as paid
+        function markPaid() {
+            if (!orderId) return;
+            
+            const phone = document.getElementById('phone-input').value.replace(/\D/g,'');
+            const body = { status: 'Payment Pending' };
+            if (phone.length >= 9) {
+                body.phone = '+254' + phone.slice(-9);
+            }
+            
+            fetch('http://127.0.0.1:3000/api/orders/' + orderId, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            }).then(() => {
+                localStorage.setItem('payment_pending_' + orderId, 'true');
+                document.getElementById('payment-section').style.display = 'none';
+                document.getElementById('pending-section').classList.add('active');
+                startPolling();
+            }).catch(() => {
+                localStorage.setItem('payment_pending_' + orderId, 'true');
+                document.getElementById('payment-section').style.display = 'none';
+                document.getElementById('pending-section').classList.add('active');
+                startPolling();
+            });
+        }
+        
+        // Poll for confirmation
+        function startPolling() {
+            setInterval(() => {
+                fetch('http://127.0.0.1:3000/api/admin/orders')
+                    .then(r => r.json())
+                    .then(orders => {
+                        const order = orders.find(o => o.orderId === orderId);
+                        if (order && (order.status === 'Processing' || order.status === 'Confirmed')) {
+                            window.location.replace('track.html');
+                        }
+                    })
+                    .catch(e => console.log('Polling...'));
+            }, 3000);
+        }
     </script>
 </body>
 </html>

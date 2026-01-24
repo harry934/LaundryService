@@ -40,5 +40,53 @@
     "action": "UPDATE_ORDER",
     "user": "Harry_",
     "details": "Order T-96514 updated to Payment Confirmed"
+  },
+  {
+    "timestamp": "2026-01-24T11:23:59.847Z",
+    "action": "DELETE_ORDER",
+    "user": "Admin",
+    "details": "Deleted Order T-96514"
+  },
+  {
+    "timestamp": "2026-01-24T11:24:01.811Z",
+    "action": "DELETE_ORDER",
+    "user": "Admin",
+    "details": "Deleted Order T-11965"
+  },
+  {
+    "timestamp": "2026-01-24T11:24:07.999Z",
+    "action": "UPDATE_ORDER",
+    "user": "Harry_",
+    "details": "Order T-52098 updated to Pending"
+  },
+  {
+    "timestamp": "2026-01-24T11:24:25.170Z",
+    "action": "UPDATE_ORDER",
+    "user": "Harry_",
+    "details": "Order T-52098 updated to In Progress"
+  },
+  {
+    "timestamp": "2026-01-24T11:24:38.895Z",
+    "action": "UPDATE_ORDER",
+    "user": "Harry_",
+    "details": "Order T-52098 updated to Payment Confirmed"
+  },
+  {
+    "timestamp": "2026-01-24T11:25:18.470Z",
+    "action": "UPDATE_ORDER",
+    "user": "Harry_",
+    "details": "Order T-52098 updated to In Progress"
+  },
+  {
+    "timestamp": "2026-01-24T11:28:09.459Z",
+    "action": "UPDATE_SETTINGS",
+    "user": "Harry_",
+    "details": "Global system settings modified"
+  },
+  {
+    "timestamp": "2026-01-24T11:33:06.871Z",
+    "action": "UPDATE_ORDER",
+    "user": "Harry_",
+    "details": "Order T-52098 updated to Payment Confirmed"
   }
 ]

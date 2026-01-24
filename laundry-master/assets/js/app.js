@@ -168,22 +168,45 @@ document.addEventListener("DOMContentLoaded", function () {
     const orders = JSON.parse(localStorage.getItem("laundryOrders")) || [];
     const localOrder = orders.find((o) => o.orderId === orderId);
 
-    // Fetch from backend for latest status
-    fetch(`${API_BASE}/orders/${orderId}`)
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Not found");
-      })
-      .then((backendOrder) => {
-        updateTrackDisplay(backendOrder);
-      })
-      .catch(() => {
-        if (localOrder) updateTrackDisplay(localOrder);
-        else {
-          alert("Order Not Found. Please check your Order ID.");
-          if (trackResult) trackResult.style.display = "none";
-        }
-      });
+    // Function to fetch and update
+    function fetchAndUpdate() {
+      fetch(`${API_BASE}/orders/${orderId}`)
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("Not found");
+        })
+        .then((backendOrder) => {
+          updateTrackDisplay(backendOrder);
+        })
+        .catch(() => {
+          if (localOrder) updateTrackDisplay(localOrder);
+          else {
+            alert("Order Not Found. Please check your Order ID.");
+            if (trackResult) trackResult.style.display = "none";
+          }
+        });
+    }
+
+    // Initial fetch
+    fetchAndUpdate();
+
+    // Poll every 3 seconds for live updates
+    const pollInterval = setInterval(() => {
+      fetch(`${API_BASE}/orders/${orderId}`)
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("Not found");
+        })
+        .then((backendOrder) => {
+          updateTrackDisplay(backendOrder);
+        })
+        .catch((e) => {
+          console.log("Polling error:", e);
+        });
+    }, 3000);
+
+    // Store interval ID so we can clear it if needed
+    window.trackingPollInterval = pollInterval;
 
     function updateTrackDisplay(data) {
       if (!trackResult) return;

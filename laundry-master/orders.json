@@ -1,42 +1,5 @@
 [
   {
-    "name": "Samwe Gopta",
-    "email": "otienoharry876@gmail.com",
-    "apartment": "mUKI",
-    "house": "B4",
-    "location": "Allsops",
-    "services": [
-      "Dry Cleaning",
-      "Wash & Fold"
-    ],
-    "date": "27 January 2026",
-    "orderId": "T-11965",
-    "timestamp": "2026-01-24T10:19:38.835Z",
-    "status": "Payment Confirmed",
-    "phone": "",
-    "rider": "",
-    "updatedAt": "2026-01-24T10:22:28.826Z",
-    "updatedBy": "Harry_"
-  },
-  {
-    "name": "Harry Otieno",
-    "email": "otienoharry876@gmail.com",
-    "apartment": "mUKI",
-    "house": "B4",
-    "location": "Allsops",
-    "services": [
-      "Wash & Fold"
-    ],
-    "date": "28 January 2026",
-    "orderId": "T-96514",
-    "timestamp": "2026-01-24T10:56:24.316Z",
-    "status": "Payment Confirmed",
-    "phone": "",
-    "rider": "Dennis mwangi",
-    "updatedAt": "2026-01-24T11:00:48.044Z",
-    "updatedBy": "Harry_"
-  },
-  {
     "name": "Harry Otieno",
     "email": "otienoharry876@gmail.com",
     "apartment": "mUKI",
@@ -50,7 +13,10 @@
     "date": "26 January 2026",
     "orderId": "T-52098",
     "timestamp": "2026-01-24T11:02:48.887Z",
-    "status": "Pending",
-    "phone": ""
+    "status": "Payment Confirmed",
+    "phone": "+254112601334",
+    "rider": "",
+    "updatedAt": "2026-01-24T11:33:06.870Z",
+    "updatedBy": "Harry_"
   }
 ]
