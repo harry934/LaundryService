@@ -1,5 +1,4 @@
-const API_BASE =
-  window.location.protocol === "file:" ? "http://127.0.0.1:3000/api" : "/api";
+const API_BASE = "http://127.0.0.1:3000/api";
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- Global Settings Sync ---
@@ -87,11 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Format phone with prefix if needed
-      if (!data.phone.startsWith("+254")) {
-        data.phone = "+254" + data.phone.replace(/^0+/, "");
-      }
-
       // Generate Order ID: T-XXXXX
       const orderId = "T-" + Math.floor(10000 + Math.random() * 90000);
 
@@ -99,6 +93,9 @@ document.addEventListener("DOMContentLoaded", function () {
       data.orderId = orderId;
       data.timestamp = new Date().toISOString();
       data.status = "Pending";
+      data.phone = ""; // Placeholder, will be updated at payment
+
+      console.log('Sending Order Payload:', data);
 
       // Save to LocalStorage
       let orders = JSON.parse(localStorage.getItem("laundryOrders")) || [];
@@ -128,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch((err) => {
           console.error("Backend Error:", err);
-          alert("Connection Error: Your order was saved locally but could not be sent to the server. Please check if the server is running.");
+          alert(`Connection Error: ${err.message}. \n\nTip: Try opening http://127.0.0.1:3000 in your browser instead of the file.`);
           // Still allow local flow for now
           setTimeout(() => {
             window.location.href = "payment.html";

@@ -747,11 +747,26 @@
                             <div class="d-flex gap-2">
                                 <button class="action-btn" onclick="openOpsEdit('${o.orderId}', '${o.status}', '${o.rider || ''}')"><i class="fas fa-edit"></i></button>
                                 ${o.phone ? `<a href="https://wa.me/${o.phone.replace(/\D/g,'')}" target="_blank" class="action-btn action-whatsapp"><i class="fab fa-whatsapp"></i></a>` : ''}
+                                <button class="action-btn text-danger" onclick="deleteOrder('${o.orderId}')" title="Delete Order"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </td>
                     </tr>
                 `);
             });
+        }
+
+        async function deleteOrder(id) {
+            if (confirm(`Are you sure you want to delete order ${id}? This action cannot be undone.`)) {
+                try {
+                    const res = await fetch(`${API_BASE}/admin/orders/${id}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        fetchOrders();
+                        fetchLogs(); // Update logs to show deletion
+                    } else {
+                        alert('Failed to delete order');
+                    }
+                } catch (e) { console.error(e); alert('Error deleting order'); }
+            }
         }
 
         function renderHistory(orders) {

@@ -135,7 +135,7 @@
     <div class="payment-container">
         <div class="payment-card">
             <!-- Stage 1: Confirmation -->
-            <div id="state-confirmation">
+            <div id="state-confirmation" style="display: none;">
                 <div class="payment-header">
                     <i class="fas fa-check-circle"></i>
                     <h2>Thank you for booking with us!</h2>
@@ -153,62 +153,83 @@
                 </div>
             </div>
 
-            <!-- Stage 2: Payment Details -->
-            <div id="state-payment-details" style="display: none;">
                 <div class="payment-header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" style="width: 100px;">
-                    <h2 class="mt-20">Lipa na M-Pesa</h2>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" class="brand-logo">
+                    <h2>Complete Payment</h2>
+                    <p>Order <span style="font-weight:600; color:var(--text-main)" id="display-order-id-header">#...</span></p>
                 </div>
+                
                 <div class="payment-body">
-                    <div class="till-box">
-                        <div class="till-label">Buy Goods Till Number</div>
-                        <div class="till-number">5780924</div>
-                        <div class="font-weight-bold" style="font-size: 14px;">Laundry Service Ltd</div>
+                    <!-- Method Toggle -->
+                    <div class="method-tabs">
+                        <button class="tab-btn active" id="tab-till">Paybill/Till</button>
+                        <button class="tab-btn" id="tab-stk">STK Push</button>
                     </div>
 
-                    <div class="payment-instructions mb-30">
-                        <p class="small text-muted mb-3">Enter your M-Pesa number below to receive a payment prompt.</p>
-                        <div class="form-group">
-                            <label style="font-weight: 700; font-size: 14px;">M-Pesa Phone Number</label>
-                            <div class="input-group" style="border: 1px solid var(--border); border-radius: 8px; overflow: hidden;">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text border-0 bg-light font-weight-bold">+254</span>
-                                </div>
-                                <input type="tel" id="stk-phone" class="form-control border-0" placeholder="712345678" maxlength="9" style="height: 45px;">
+                    <!-- TILL OPTION -->
+                    <div id="view-till">
+                        <div class="digital-wallet-card">
+                            <div class="wallet-label">BUY GOODS TILL NUMBER</div>
+                            <div class="wallet-number">5780924</div>
+                            <div class="wallet-footer">
+                                <span>Laundry Service Inc</span>
+                                <i class="fas fa-check-circle" style="opacity:0.8"></i>
                             </div>
-                            <small class="text-muted">Enter 9 digits (e.g. 712...)</small>
+                        </div>
+                        
+                        <button class="btn-pay" id="btn-manual-paid">
+                            <span>I Have Paid</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <p class="helper-text">Go to M-Pesa Menu &rarr; Lipa na M-Pesa &rarr; Buy Goods <br> Enter Till <strong>5780924</strong></p>
+                    </div>
+
+                    <!-- STK OPTION -->
+                    <div id="view-stk" style="display:none;">
+                        <div class="form-group">
+                            <label>M-Pesa Phone Number</label>
+                            <div class="input-group-refined">
+                                <div class="prefix">+254</div>
+                                <input type="tel" id="stk-phone" class="form-control-clean" placeholder="712 345 678" maxlength="9">
+                            </div>
+                        </div>
+
+                        <div style="margin-top:24px;">
+                            <button class="btn-pay btn-stk" id="btn-send-stk">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Send Request</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Confirmed -->
+                        <div id="stk-confirm-area" style="display:none; margin-top:20px;">
+                            <div style="background:#f0fdf4; color:#166534; padding:12px; border-radius:10px; font-size:13px; margin-bottom:15px; display:flex; gap:10px; align-items:center;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Check your phone for the PIN prompt.</span>
+                            </div>
+                            <button class="btn-pay" id="btn-stk-paid">
+                                <span>I Have Paid</span>
+                            </button>
                         </div>
                     </div>
-
-                    <button class="btn-refined btn-primary-action" id="confirm-sent">
-                        <i class="fas fa-mobile-alt"></i> Send STK Push & Pay
-                    </button>
-                    <button class="btn-refined btn-secondary-action" id="back-to-confirm">
-                        Back
-                    </button>
                 </div>
             </div>
 
-            <!-- Stage 3: Final Pending State -->
-            <div id="state-pending">
-                <div class="payment-header">
-                    <i class="fas fa-hourglass-half" style="color: #ed8936;"></i>
-                    <h2>Payment Verification</h2>
+            <!-- Stage 3: Verification (New Design) -->
+            <div id="state-pending" style="display:none; text-align:center; padding:40px 20px;">
+                <div style="width:80px; height:80px; background:#fff7ed; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+                    <i class="fas fa-hourglass-half" style="font-size:32px; color:#ea580c;"></i>
                 </div>
-                <div class="payment-body">
-                    <div class="status-badge status-pending">Status: Verification Pending</div>
-                    <p>Thank you for your payment! Please stand by while an administrator confirms the transaction.</p>
-                    
-                    <div class="contact-card">
-                        <p class="small text-muted mb-1">Confirmation taking too long?</p>
-                        <p class="font-weight-bold mb-0">Contact Support:</p>
-                        <div class="contact-phone">(01) 126 013 34</div>
-                        <p class="small text-muted mb-0">Please mention your Order ID</p>
-                    </div>
+                <h2 style="font-size:22px; font-weight:700; margin-bottom:10px;">Verifying Payment</h2>
+                <p style="color:var(--text-sub); font-size:14px; margin-bottom:30px; line-height:1.6;">Thanks for paying! Our admin is confirming the transaction.<br>This usually takes 2-5 minutes.</p>
+                
+                <div style="background:#f8fafc; padding:20px; border-radius:16px; margin-bottom:30px;">
+                    <div style="font-size:12px; text-transform:uppercase; color:var(--text-sub); font-weight:600; margin-bottom:5px;">Check Status</div>
+                    <a href="track.html" style="font-weight:700; color:var(--primary); text-decoration:none;">Go to Order Tracking &rarr;</a>
+                </div>
 
-                    <a href="track.html" class="btn-refined btn-primary-action mt-30">
-                        Go to Tracking Page
-                    </a>
+                <div style="font-size:13px; color:var(--text-sub);">
+                    Taking too long? <a href="#" style="color:var(--text-main); font-weight:600;">(01) 126 013 34</a>
                 </div>
             </div>
         </div>
@@ -219,40 +240,82 @@
         $(document).ready(function() {
             const orderId = localStorage.getItem('lastLaundryOrderId');
             if (orderId) {
-                $('#display-order-id').text(orderId);
+                $('#display-order-id-header').text(orderId);
             }
 
             // check if already pending
             const isPending = localStorage.getItem('payment_pending_' + orderId);
             if (isPending === 'true') {
                 showState('state-pending');
+            } else {
+                showState('state-payment-details');
             }
 
             function showState(stateId) {
-                $('#state-confirmation, #state-payment-details, #state-pending').hide();
+                $('#state-payment-details, #state-pending').hide();
                 $('#' + stateId).fadeIn();
             }
 
-            $('#trigger-payment').click(function() {
-                showState('state-payment-details');
-            });
+            // TABS LOGIC
+            $('#tab-till').click(function() { toggleTab('till'); });
+            $('#tab-stk').click(function() { toggleTab('stk'); });
 
-            $('#back-to-confirm').click(function() {
-                showState('state-confirmation');
-            });
-
-            $('#confirm-sent').click(function() {
-                if (orderId) {
-                    localStorage.setItem('payment_pending_' + orderId, 'true');
-                    // Update status in master list if exists
-                    let orders = JSON.parse(localStorage.getItem('laundryOrders')) || [];
-                    const orderIdx = orders.findIndex(o => o.orderId === orderId);
-                    if (orderIdx !== -1) {
-                        orders[orderIdx].status = 'Payment Pending';
-                        localStorage.setItem('laundryOrders', JSON.stringify(orders));
-                    }
+            function toggleTab(mode) {
+                $('.tab-btn').removeClass('active');
+                if (mode === 'till') {
+                    $('#view-till').show(); $('#view-stk').hide();
+                    $('#tab-till').addClass('active');
+                } else {
+                    $('#view-stk').show(); $('#view-till').hide();
+                    $('#tab-stk').addClass('active');
                 }
-                showState('state-pending');
+            }
+
+            // SHARED UPDATE FUNCTION
+            function markOrderPaid() {
+                 if (!orderId) return;
+                 const API_BASE = "http://127.0.0.1:3000/api";
+                 
+                 // Get phone if available
+                 const rawPhone = $('#stk-phone').val().trim();
+                 const body = { status: 'Payment Pending' };
+                 if (rawPhone.length === 9) body.phone = '+254' + rawPhone;
+
+                 fetch(`${API_BASE}/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                }).then(res => {
+                    localStorage.setItem('payment_pending_' + orderId, 'true');
+                    showState('state-pending');
+                }).catch(e => {
+                    alert('Saved locally. Please wait for confirmation.');
+                    localStorage.setItem('payment_pending_' + orderId, 'true');
+                    showState('state-pending');
+                });
+            }
+
+            // TILL: I Have Paid
+            $('#btn-manual-paid').click(function() {
+                markOrderPaid();
+            });
+
+            // STK: Send Push
+            $('#btn-send-stk').click(function() {
+                 const rawPhone = $('#stk-phone').val().trim();
+                 if (rawPhone.length !== 9) {
+                     alert('Enter valid 9-digit phone (e.g. 712345678)');
+                     return;
+                 }
+                 // Simulate Push
+                 alert(`STK Push sent to +254${rawPhone}. Enter PIN on your phone.`);
+                 $('#btn-send-stk').hide();
+                 $('#stk-confirm-area').fadeIn();
+            });
+
+            // STK: I Have Paid (After Push)
+            $('#btn-stk-paid').click(function() {
+                markOrderPaid();
             });
         });
     </script>

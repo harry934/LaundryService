@@ -9,16 +9,22 @@ const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'orders.json');
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('.'));
-
-// Simple Logger
+// Improved Logger - Place BEFORE cors to capture preflight
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
+
+// Permissive CORS
+app.use(cors({
+    origin: '*', // Allow all origins (including file://)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('.'));
 
 // Helper: Read Data
 function readData() {
@@ -82,7 +88,7 @@ app.get('/api/admin/orders', (req, res) => {
     }
 });
 
-// 3. Update Order Status
+// 3. Update Order Status (Admin)
 app.put('/api/admin/orders/:id', (req, res) => {
     try {
         const orders = readData();
@@ -105,6 +111,48 @@ app.put('/api/admin/orders/:id', (req, res) => {
     } catch (err) {
         console.error('Error updating order:', err);
         res.status(500).json({ error: 'Failed' });
+    }
+});
+
+// 4. Customer Update (Payment Page)
+app.put('/api/orders/:id', (req, res) => {
+    try {
+        const orders = readData();
+        const orderId = req.params.id;
+        const { phone, status } = req.body;
+        
+        const index = orders.findIndex(o => o.orderId === orderId);
+        if (index !== -1) {
+            if (phone) orders[index].phone = phone;
+            if (status) orders[index].status = status;
+            
+            writeData(orders);
+            console.log(`Order ${orderId} updated by customer (Phone: ${phone})`);
+            res.json(orders[index]);
+        } else {
+            res.status(404).json({ error: 'Order not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update' });
+    }
+});
+
+// 5. Delete Order (Admin)
+app.delete('/api/admin/orders/:id', (req, res) => {
+    try {
+        const orders = readData();
+        const orderId = req.params.id;
+        const newOrders = orders.filter(o => o.orderId !== orderId);
+        
+        if (orders.length !== newOrders.length) {
+            writeData(newOrders);
+            addLog('DELETE_ORDER', 'Admin', `Deleted Order ${orderId}`);
+            res.json({ message: 'Deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Order not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Delete failed' });
     }
 });
 
