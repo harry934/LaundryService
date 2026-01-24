@@ -63,6 +63,55 @@
         }
         .hero__caption h1, .hero__caption p { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .hero-overly::before { background: rgba(29, 53, 87, 0.5) !important; }
+        
+        /* Better Input Visibility */
+        .clean-box .form-control {
+            background: #ffffff !important;
+            border: 2px solid #e1e1e1 !important;
+            color: #1D3557 !important;
+            transition: all 0.3s ease;
+        }
+        .clean-box .form-control:focus {
+            border-color: #E63946 !important;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.1) !important;
+        }
+        .clean-box label {
+            color: #1D3557 !important;
+            font-size: 15px;
+            margin-bottom: 8px !important;
+        }
+        
+        /* Scrollable Nice Select */
+        .nice-select .list {
+            max-height: 300px;
+            overflow-y: auto !important;
+            width: 100%;
+        }
+        
+        /* Enhanced Button */
+        .btn-confirm {
+            background: linear-gradient(135deg, #E63946 0%, #d62828 100%) !important;
+            color: #fff !important;
+            border: none !important;
+            border-radius: 50px !important;
+            font-weight: 700 !important;
+            font-size: 18px !important;
+            padding: 18px 40px !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
+            transition: all 0.3s ease !important;
+            width: 100%;
+            max-width: 350px;
+        }
+        .btn-confirm:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.3);
+            background: linear-gradient(135deg, #d62828 0%, #b91d1d 100%) !important;
+        }
+        .btn-confirm:active {
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
@@ -136,65 +185,174 @@
         </section>
         <!-- slider Area End-->
         <!--? Order Form Area Start (Floating) -->
-        <div class="floating-booking-container">
+        <div class="floating-booking-container" id="order-form">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-10 clean-box">
-                        <div class="row align-items-center">
-                            <div class="col-xl-4 col-lg-5">
-                                <div class="section-tittle mb-30">
-                                    <span class="element">Book Now</span>
-                                    <h2>Place Your Order</h2>
-                                    <p>Fast, reliable, and professional laundry services at your doorstep.</p>
+                    <div class="col-lg-12">
+                        <div class="clean-box">
+                            <div class="row">
+                                <div class="col-xl-12 text-center mb-40">
+                                    <div class="section-tittle">
+                                        <span class="element" style="color: #E63946; font-weight: 600; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Premium Service</span>
+                                        <h2 style="font-size: 42px; margin-top: 10px;">Book Your Laundry Now</h2>
+                                        <p style="font-size: 18px; color: #666; max-width: 600px; margin: 10px auto;">Fast, reliable, and professional laundry services delivered right to your doorstep.</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xl-8 col-lg-7">
-                                <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" name="name" id="name" type="text" placeholder="Enter your name" required>
-                                            </div>
+                            <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Full Name</label>
+                                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter your name" required>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" name="phone" id="phone" type="text" placeholder="Phone Number" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <select class="form-control w-100" name="service" id="service" required style="height: 50px; background: #fdfdfd; border: 1px solid #eee; padding-left: 20px;">
-                                                    <option value="" selected disabled>Select Service Type</option>
-                                                    <option value="Dry Cleaning">Dry Cleaning</option>
-                                                    <option value="Wash & Fold">Wash & Fold</option>
-                                                    <option value="Ironing">Ironing Only</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" name="weight" id="weight" type="text" placeholder="Weight/Qty">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" name="date" id="date" type="date" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <input class="form-control" name="address" id="address" type="text" placeholder="Pickup Address" required>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Phone Number</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="background: #f1f1f1; border-radius: 10px 0 0 10px; border: 1px solid #eee; font-weight: 600;">+254</span>
+                                                </div>
+                                                <input class="form-control" name="phone" id="phone" type="tel" placeholder="712345678" required>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group mt-3 text-right">
-                                        <button type="submit" class="button button-contactForm boxed-btn" style="width: 200px;">Confirm Order</button>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Email Address</label>
+                                            <input class="form-control" name="email" id="email" type="email" placeholder="example@mail.com" required>
+                                        </div>
                                     </div>
-                                    <div id="order-success" class="alert alert-success mt-3" style="display:none;">
-                                        Order Placed! ID: <strong id="display-order-id"></strong>. Redirecting...
+                                    
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Apartment / Estate</label>
+                                            <input class="form-control" name="apartment" id="apartment" type="text" placeholder="e.g. Mukuhi Apartments" required>
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Block / House Number</label>
+                                            <input class="form-control" name="house" id="house" type="text" placeholder="e.g. B4" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Select Location</label>
+                                            <select class="form-control w-100" name="location" id="location" required>
+                                                <option value="" selected disabled>Select your area</option>
+                                                <option value="Adams Arcade">Adams Arcade</option>
+                                                <option value="Allsops">Allsops</option>
+                                                <option value="Athi River">Athi River</option>
+                                                <option value="Buruburu">Buruburu</option>
+                                                <option value="Chokaa">Chokaa</option>
+                                                <option value="Dagoretti">Dagoretti</option>
+                                                <option value="Donholm">Donholm</option>
+                                                <option value="Eastleigh">Eastleigh</option>
+                                                <option value="Embakasi">Embakasi</option>
+                                                <option value="Fedha">Fedha</option>
+                                                <option value="Gachie">Gachie</option>
+                                                <option value="Garden Estate">Garden Estate</option>
+                                                <option value="Gitaru">Gitaru</option>
+                                                <option value="Githurai">Githurai</option>
+                                                <option value="Huruma">Huruma</option>
+                                                <option value="Imara Daima">Imara Daima</option>
+                                                <option value="Joska">Joska</option>
+                                                <option value="Juja">Juja</option>
+                                                <option value="Kahawa Sukari">Kahawa Sukari</option>
+                                                <option value="Kahawa Wendani">Kahawa Wendani</option>
+                                                <option value="Kahawa West">Kahawa West</option>
+                                                <option value="Kamulu">Kamulu</option>
+                                                <option value="Karen">Karen</option>
+                                                <option value="Kariobangi">Kariobangi</option>
+                                                <option value="Kayole">Kayole</option>
+                                                <option value="Kiambu">Kiambu</option>
+                                                <option value="Kibera">Kibera</option>
+                                                <option value="Kikuyu">Kikuyu</option>
+                                                <option value="Kileleshwa">Kileleshwa</option>
+                                                <option value="Kilimani">Kilimani</option>
+                                                <option value="Kinoo">Kinoo</option>
+                                                <option value="Kirigiti">Kirigiti</option>
+                                                <option value="Kitengela">Kitengela</option>
+                                                <option value="Kitisuru">Kitisuru</option>
+                                                <option value="Komarock">Komarock</option>
+                                                <option value="Kyuna">Kyuna</option>
+                                                <option value="Langata">Langata</option>
+                                                <option value="Lavington">Lavington</option>
+                                                <option value="Loresho">Loresho</option>
+                                                <option value="Marurui">Marurui</option>
+                                                <option value="Mathare">Mathare</option>
+                                                <option value="Membly">Membly</option>
+                                                <option value="Mlolongo">Mlolongo</option>
+                                                <option value="Mountain View">Mountain View</option>
+                                                <option value="Muchatha">Muchatha</option>
+                                                <option value="Muthaiga">Muthaiga</option>
+                                                <option value="Nairobi West">Nairobi West</option>
+                                                <option value="Ngara">Ngara</option>
+                                                <option value="Ngong">Ngong</option>
+                                                <option value="Ngumba">Ngumba</option>
+                                                <option value="Ngumo">Ngumo</option>
+                                                <option value="Pangani">Pangani</option>
+                                                <option value="Pipeline">Pipeline</option>
+                                                <option value="Racecourse">Racecourse</option>
+                                                <option value="Redhill">Redhill</option>
+                                                <option value="Rongai">Rongai</option>
+                                                <option value="Roysambu">Roysambu</option>
+                                                <option value="Ruai">Ruai</option>
+                                                <option value="Ruaka">Ruaka</option>
+                                                <option value="Ruiru">Ruiru</option>
+                                                <option value="Runda">Runda</option>
+                                                <option value="Sabaki">Sabaki</option>
+                                                <option value="Saika">Saika</option>
+                                                <option value="South B">South B</option>
+                                                <option value="South C">South C</option>
+                                                <option value="Syokimau">Syokimau</option>
+                                                <option value="Thika">Thika</option>
+                                                <option value="Thindigua">Thindigua</option>
+                                                <option value="Thome">Thome</option>
+                                                <option value="Umoja">Umoja</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Select Service(s)</label>
+                                            <div class="d-flex flex-wrap" style="gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="service1" name="services[]" value="Dry Cleaning">
+                                                    <label class="custom-control-label" for="service1">Dry Cleaning</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="service2" name="services[]" value="Wash & Fold">
+                                                    <label class="custom-control-label" for="service2">Wash & Fold</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="service3" name="services[]" value="Ironing">
+                                                    <label class="custom-control-label" for="service3">Ironing Only</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="service4" name="services[]" value="Curtains & Duvets">
+                                                    <label class="custom-control-label" for="service4">Curtains & Duvets</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-30">
+                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Pickup Date</label>
+                                            <input class="form-control" name="date" id="date" type="date" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-3 text-center">
+                                    <button type="submit" class="button btn-confirm">Confirm Booking & Pay</button>
+                                </div>
+                                <div id="order-success" class="alert alert-success mt-3" style="display:none; border-radius: 10px; background: #d4edda; color: #155724; border: none; padding: 15px;">
+                                    Booking successful! ID: <strong id="display-order-id"></strong>. Redirecting to payment...
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
