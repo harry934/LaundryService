@@ -28,5 +28,11 @@
     "action": "UPDATE_ORDER",
     "user": "Harry_",
     "details": "Order T-11965 updated to Payment Confirmed"
+  },
+  {
+    "timestamp": "2026-01-24T10:39:37.758Z",
+    "action": "UPDATE_SETTINGS",
+    "user": "Harry_",
+    "details": "Global system settings modified"
   }
 ]

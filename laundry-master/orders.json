@@ -17,5 +17,20 @@
     "rider": "",
     "updatedAt": "2026-01-24T10:22:28.826Z",
     "updatedBy": "Harry_"
+  },
+  {
+    "name": "Harry Otieno",
+    "email": "otienoharry876@gmail.com",
+    "apartment": "mUKI",
+    "house": "B4",
+    "location": "Allsops",
+    "services": [
+      "Wash & Fold"
+    ],
+    "date": "28 January 2026",
+    "orderId": "T-96514",
+    "timestamp": "2026-01-24T10:56:24.316Z",
+    "status": "Pending",
+    "phone": ""
   }
 ]
