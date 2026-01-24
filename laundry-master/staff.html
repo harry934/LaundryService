@@ -27,8 +27,8 @@
         <!-- Login Form -->
         <form id="login-form">
             <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" class="form-control" id="login-email" placeholder="admin@laundry.com" required>
+                <label>Username</label>
+                <input type="text" class="form-control" id="login-username" placeholder="Harry_" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -40,12 +40,12 @@
     </div>
 
     <script>
-        const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api';
+        const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:3000/api' : '/api';
 
         document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
             const data = {
-                email: document.getElementById('login-email').value,
+                username: document.getElementById('login-username').value,
                 password: document.getElementById('login-pass').value
             };
             try {

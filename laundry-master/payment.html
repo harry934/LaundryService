@@ -11,200 +11,245 @@
     <style>
         :root {
             --primary: #E63946;
-            --secondary: #1D3557;
+            --secondary: #1a202c;
             --mpesa-green: #49c561;
-            --glass: rgba(255, 255, 255, 0.9);
+            --neutral-bg: #f7fafc;
+            --border: #e2e8f0;
         }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
+            background-color: var(--neutral-bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #2d3748;
         }
         .payment-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 40px 15px;
         }
         .payment-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            overflow: hidden;
-            max-width: 500px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 520px;
             width: 100%;
-            border: 1px solid #eee;
+            border: 1px solid var(--border);
+            overflow: hidden;
         }
         .payment-header {
-            background: var(--secondary);
-            color: #fff;
             padding: 30px;
             text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .payment-header i {
+            font-size: 48px;
+            color: var(--mpesa-green);
+            margin-bottom: 20px;
         }
         .payment-header h2 {
-            margin: 0;
             font-size: 24px;
-            font-weight: 700;
-        }
-        .payment-body {
-            padding: 40px;
-        }
-        .order-summary {
-            background: #f1f4f9;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--primary);
-        }
-        .mpesa-logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-        .payment-option {
-            border: 2px solid #eee;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .payment-option:hover, .payment-option.active {
-            border-color: var(--mpesa-green);
-            background: rgba(73, 197, 97, 0.05);
-        }
-        .payment-option.active::after {
-            content: '\f058';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            color: var(--mpesa-green);
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 20px;
-        }
-        .till-info {
-            text-align: center;
-            margin-top: 15px;
-        }
-        .till-number {
-            font-size: 32px;
             font-weight: 800;
             color: var(--secondary);
-            letter-spacing: 2px;
-            margin: 10px 0;
+            margin: 0;
         }
-        .btn-done {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            padding: 15px 40px;
+        .payment-body {
+            padding: 40px 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 13px;
             font-weight: 700;
-            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 25px;
+        }
+        .status-pending { background: #fffaf0; color: #b7791f; border: 1px solid #fbd38d; }
+        .status-booked { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
+
+        .btn-refined {
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-weight: 700;
+            font-size: 15px;
             width: 100%;
-            margin-top: 20px;
-            transition: transform 0.2s;
-        }
-        .btn-done:hover {
-            transform: translateY(-2px);
-            background: #d62828;
-            color: #fff;
-        }
-        .step-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-        .step-number {
-            background: var(--mpesa-green);
-            color: #fff;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 12px;
-            flex-shrink: 0;
+            gap: 10px;
+            border: none;
         }
+        .btn-primary-action {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-primary-action:hover {
+            background: #d62828;
+            transform: translateY(-1px);
+        }
+        .btn-secondary-action {
+            background: #fff;
+            color: #4a5568;
+            border: 1px solid var(--border);
+            margin-top: 12px;
+        }
+        .btn-secondary-action:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+
+        /* Payment Reveal Styling */
+        .payment-detail-reveal {
+            display: none;
+            background: #fdfdfd;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+        .till-box {
+            background: var(--neutral-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .till-label { font-size: 12px; font-weight: 700; color: #718096; text-transform: uppercase; }
+        .till-number { font-size: 36px; font-weight: 900; color: var(--secondary); letter-spacing: 2px; }
+
+        /* Pending State Styles */
+        #state-pending { display: none; text-align: center; }
+        .contact-card {
+            background: var(--neutral-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .contact-phone { font-size: 20px; font-weight: 800; color: var(--primary); margin: 10px 0; }
     </style>
 </head>
 <body>
     <div class="payment-container">
         <div class="payment-card">
-            <div class="payment-header">
-                <h2>Complete Your Booking</h2>
+            <!-- Stage 1: Confirmation -->
+            <div id="state-confirmation">
+                <div class="payment-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Thank you for booking with us!</h2>
+                </div>
+                <div class="payment-body text-center">
+                    <div class="status-badge status-booked">Booking Confirmed</div>
+                    <p class="mb-30">Your order <strong><span id="display-order-id">T-XXXXX</span></strong> has been received. Please complete the payment to proceed.</p>
+                    
+                    <button class="btn-refined btn-primary-action" id="trigger-payment">
+                        <i class="fas fa-wallet"></i> I Have Paid
+                    </button>
+                    <a href="index.html" class="btn-refined btn-secondary-action">
+                        <i class="fas fa-redo"></i> Book Another Service
+                    </a>
+                </div>
             </div>
-            <div class="payment-body">
-                <div class="order-summary">
-                    <div class="d-flex justify-content-between">
-                        <span>Order ID:</span>
-                        <strong id="display-order-id">T-XXXXX</strong>
-                    </div>
-                </div>
 
-                <div class="text-center">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" class="mpesa-logo">
-                    <p class="mb-4">Select your preferred payment method</p>
+            <!-- Stage 2: Payment Details -->
+            <div id="state-payment-details" style="display: none;">
+                <div class="payment-header">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" style="width: 100px;">
+                    <h2 class="mt-20">Lipa na M-Pesa</h2>
                 </div>
-
-                <div class="payment-option active" id="buy-goods-option">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-shopping-basket fa-2x mr-3" style="color: #49c561;"></i>
-                        <div>
-                            <h5 class="mb-0">Buy Goods & Services</h5>
-                            <small>Pay using our Till Number</small>
-                        </div>
-                    </div>
-                    <div class="till-info">
+                <div class="payment-body">
+                    <div class="till-box">
+                        <div class="till-label">Buy Goods Till Number</div>
                         <div class="till-number">5780924</div>
-                        <p class="mb-0" style="color: #666;">Name: <strong>LAUNDRY SERVICE LTD</strong></p>
+                        <div class="font-weight-bold" style="font-size: 14px;">Laundry Service Ltd</div>
                     </div>
-                </div>
 
-                <div class="payment-instructions mt-4">
-                    <h6 class="font-weight-bold mb-3">How to pay:</h6>
-                    <div class="step-item">
-                        <div class="step-number">1</div>
-                        <div>Go to M-Pesa menu on your phone</div>
+                    <div class="payment-instructions mb-30">
+                        <p class="small text-muted mb-3">Would you like a payment prompt on your phone? (Coming Soon)</p>
+                        <ul class="list-unstyled mb-0" style="font-size: 14px;">
+                            <li class="mb-2"><i class="fas fa-info-circle text-primary mr-2"></i> Open M-Pesa -> Lipa na M-Pesa</li>
+                            <li class="mb-2"><i class="fas fa-info-circle text-primary mr-2"></i> Select Buy Goods & Services</li>
+                            <li><i class="fas fa-info-circle text-primary mr-2"></i> Enter Till & Pay</li>
+                        </ul>
                     </div>
-                    <div class="step-item">
-                        <div class="step-number">2</div>
-                        <div>Select <strong>Lipa na M-Pesa</strong></div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-number">3</div>
-                        <div>Select <strong>Buy Goods and Services</strong></div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-number">4</div>
-                        <div>Enter Till Number: <strong>5780924</strong></div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-number">5</div>
-                        <div>Enter the amount and your M-Pesa PIN</div>
-                    </div>
-                </div>
 
-                <a href="track.html" class="btn btn-done">I Have Paid</a>
-                <div class="text-center mt-3">
-                    <a href="index.html" style="color: #888; text-decoration: none; font-size: 14px;"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                    <button class="btn-refined btn-primary-action" id="confirm-sent">
+                        Confirm Payment Sent
+                    </button>
+                    <button class="btn-refined btn-secondary-action" id="back-to-confirm">
+                        Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stage 3: Final Pending State -->
+            <div id="state-pending">
+                <div class="payment-header">
+                    <i class="fas fa-hourglass-half" style="color: #ed8936;"></i>
+                    <h2>Payment Verification</h2>
+                </div>
+                <div class="payment-body">
+                    <div class="status-badge status-pending">Status: Verification Pending</div>
+                    <p>Thank you for your payment! Please stand by while an administrator confirms the transaction.</p>
+                    
+                    <div class="contact-card">
+                        <p class="small text-muted mb-1">Confirmation taking too long?</p>
+                        <p class="font-weight-bold mb-0">Contact Support:</p>
+                        <div class="contact-phone">(01) 126 013 34</div>
+                        <p class="small text-muted mb-0">Please mention your Order ID</p>
+                    </div>
+
+                    <a href="track.html" class="btn-refined btn-primary-action mt-30">
+                        Go to Tracking Page
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="assets/js/jquery-1.12.4.min.js"></script>
     <script>
-        // Retrieve Order ID from localStorage
-        const orderId = localStorage.getItem('lastLaundryOrderId');
-        if (orderId) {
-            document.getElementById('display-order-id').innerText = orderId;
-        }
+        $(document).ready(function() {
+            const orderId = localStorage.getItem('lastLaundryOrderId');
+            if (orderId) {
+                $('#display-order-id').text(orderId);
+            }
+
+            // check if already pending
+            const isPending = localStorage.getItem('payment_pending_' + orderId);
+            if (isPending === 'true') {
+                showState('state-pending');
+            }
+
+            function showState(stateId) {
+                $('#state-confirmation, #state-payment-details, #state-pending').hide();
+                $('#' + stateId).fadeIn();
+            }
+
+            $('#trigger-payment').click(function() {
+                showState('state-payment-details');
+            });
+
+            $('#back-to-confirm').click(function() {
+                showState('state-confirmation');
+            });
+
+            $('#confirm-sent').click(function() {
+                if (orderId) {
+                    localStorage.setItem('payment_pending_' + orderId, 'true');
+                    // Update status in master list if exists
+                    let orders = JSON.parse(localStorage.getItem('laundryOrders')) || [];
+                    const orderIdx = orders.findIndex(o => o.orderId === orderId);
+                    if (orderIdx !== -1) {
+                        orders[orderIdx].status = 'Payment Pending';
+                        localStorage.setItem('laundryOrders', JSON.stringify(orders));
+                    }
+                }
+                showState('state-pending');
+            });
+        });
     </script>
 </body>
 </html>

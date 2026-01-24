@@ -1,5 +1,5 @@
 const API_BASE =
-  window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
+  window.location.protocol === "file:" ? "http://127.0.0.1:3000/api" : "/api";
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- Order Form Handling ---
@@ -155,9 +155,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
       resultId.textContent = data.orderId;
       const status = data.status || "Pending";
+      const progressSection = document.getElementById("order-progress-section");
+      const standbyMessage = document.getElementById("standby-message");
+
+      // Handle Pending States
+      if (status === "Pending" || status === "Payment Pending") {
+        if (progressSection) progressSection.style.display = "none";
+        if (standbyMessage) standbyMessage.style.display = "block";
+      } else {
+        if (progressSection) progressSection.style.display = "block";
+        if (standbyMessage) standbyMessage.style.display = "none";
+      }
 
       // Color Code Status
       let statusColor = "#ffc107";
+      if (status === "Payment Pending") statusColor = "#ed8936";
       if (status === "Washing") statusColor = "#17a2b8";
       if (status === "Ironing") statusColor = "#6f42c1";
       if (status === "Ready") statusColor = "#28a745";
@@ -170,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
       resultName.textContent = data.name;
       trackResult.style.display = "block";
 
-      // Update Progress Bar
+      // Update Progress Bar (only if showing)
       const stages = ["Pending", "Washing", "Ironing", "Ready", "Delivered"];
       stages.forEach((stage) => {
         const circle = document.getElementById("step-" + stage);
@@ -181,20 +193,17 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const currentIdx = stages.indexOf(status);
-      for (let i = 0; i <= currentIdx; i++) {
-        const circle = document.getElementById("step-" + stages[i]);
-        if (circle) {
-          circle.style.background = "#2A9D8F"; // Green for completion
-          circle.style.color = "#fff";
-        }
-      }
       if (currentIdx !== -1) {
-        const activeCircle = document.getElementById(
-          "step-" + stages[currentIdx],
-        );
+        for (let i = 0; i <= currentIdx; i++) {
+          const circle = document.getElementById("step-" + stages[i]);
+          if (circle) {
+            circle.style.background = "#2A9D8F"; 
+            circle.style.color = "#fff";
+          }
+        }
+        const activeCircle = document.getElementById("step-" + stages[currentIdx]);
         if (status === "Pending") activeCircle.style.background = "#ffc107";
-        else if (status === "Delivered")
-          activeCircle.style.background = "#20c997";
+        else if (status === "Delivered") activeCircle.style.background = "#20c997";
         else activeCircle.style.background = "#17a2b8";
       }
     }

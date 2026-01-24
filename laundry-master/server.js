@@ -14,6 +14,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('.'));
 
+// Simple Logger
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
 // Helper: Read Data
 function readData() {
     try {
@@ -133,18 +139,18 @@ const USERS_FILE = path.join(__dirname, 'users.json');
 
 function getUsers() {
     return readJsonFile(USERS_FILE, [
-        { email: 'admin@laundry.com', password: 'admin123', role: 'admin', name: 'Global Admin' }
+        { username: 'Harry_', password: 'admin123', role: 'admin', name: 'Global Admin' }
     ]);
 }
 
 app.post('/api/auth/login', (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     const users = getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
+    const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
     if (user) {
         res.json({ success: true, user: { name: user.name, role: user.role } });
     } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials. Use admin@laundry.com / admin123' });
+        res.status(401).json({ success: false, message: 'Invalid credentials. Use Harry_ / admin123' });
     }
 });
 
@@ -163,7 +169,7 @@ app.get('/', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on http://127.0.0.1:${PORT}`);
     console.log(`Data storage: ${DATA_FILE}`);
 });

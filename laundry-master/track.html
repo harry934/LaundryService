@@ -115,31 +115,43 @@
                         </form>
 
                         <div id="track-result" class="alert alert-info mt-5 text-center" style="display:none; background: #fff; border: 2px solid #E63946; padding: 30px;">
-                            <h3>Order Progress</h3>
-                            
-                            <!-- Progress Bar UI -->
-                            <div class="status-progress-container mt-4 mb-4" style="display: flex; justify-content: space-between; position: relative;">
-                                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
-                                    <div class="status-circle" id="step-Pending" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-receipt"></i></div>
-                                    <small>Pending</small>
+                            <!-- Order Progress Timeline (Hidden if payment pending) -->
+                            <div id="order-progress-section">
+                                <div class="status-progress-container mt-4 mb-4" style="display: flex; justify-content: space-between; position: relative;">
+                                    <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                                        <div class="status-circle" id="step-Pending" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-receipt"></i></div>
+                                        <small>Pending</small>
+                                    </div>
+                                    <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                                        <div class="status-circle" id="step-Washing" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-soap"></i></div>
+                                        <small>Washing</small>
+                                    </div>
+                                    <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                                        <div class="status-circle" id="step-Ironing" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-tshirt"></i></div>
+                                        <small>Ironing</small>
+                                    </div>
+                                    <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                                        <div class="status-circle" id="step-Ready" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-check-circle"></i></div>
+                                        <small>Ready</small>
+                                    </div>
+                                    <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                                        <div class="status-circle" id="step-Delivered" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-truck"></i></div>
+                                        <small>Delivered</small>
+                                    </div>
+                                    <div style="position: absolute; top: 20px; left: 10%; right: 10%; height: 2px; background: #eee; z-index: 1;"></div>
                                 </div>
-                                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
-                                    <div class="status-circle" id="step-Washing" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-soap"></i></div>
-                                    <small>Washing</small>
+                            </div>
+
+                            <!-- Standby Message (Shown if payment pending) -->
+                            <div id="standby-message" style="display: none; padding: 30px; border: 1px dashed #cbd5e0; border-radius: 15px; background: #fdfdfd;">
+                                <i class="fas fa-hourglass-half fa-2x mb-3" style="color: #ed8936;"></i>
+                                <h4 class="mb-3" style="font-weight: 800; color: #2d3748;">Payment Verification in Progress</h4>
+                                <p class="mb-4" style="color: #4a5568;">Please stand by while our team confirms your transaction. You will be able to track your laundry progress here once confirmed.</p>
+                                
+                                <div style="padding-top: 20px; border-top: 1px solid #edf2f7;">
+                                    <p class="small text-muted mb-2">If payment confirmation takes longer than expected, please contact us:</p>
+                                    <h5 style="font-weight: 800; color: #E63946; font-size: 22px;">(01) 126 013 34</h5>
                                 </div>
-                                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
-                                    <div class="status-circle" id="step-Ironing" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-tshirt"></i></div>
-                                    <small>Ironing</small>
-                                </div>
-                                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
-                                    <div class="status-circle" id="step-Ready" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-check-circle"></i></div>
-                                    <small>Ready</small>
-                                </div>
-                                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
-                                    <div class="status-circle" id="step-Delivered" style="width: 40px; height: 40px; border-radius: 50%; background: #eee; margin: 0 auto 10px; line-height: 40px;"><i class="fas fa-truck"></i></div>
-                                    <small>Delivered</small>
-                                </div>
-                                <div style="position: absolute; top: 20px; left: 10%; right: 10%; height: 2px; background: #eee; z-index: 1;"></div>
                             </div>
 
                             <div class="mt-4" style="font-size: 18px; border-top: 1px solid #eee; padding-top: 20px;">
