@@ -87,26 +87,32 @@ app.put('/api/admin/orders/:id', (req, res) => {
     try {
         const orders = readData();
         const orderId = req.params.id;
-        const { status, rider } = req.body;
+        const { status, rider, updatedBy } = req.body;
         
         const index = orders.findIndex(o => o.orderId === orderId);
         if (index !== -1) {
             if (status) orders[index].status = status;
             if (rider !== undefined) orders[index].rider = rider;
+            orders[index].updatedAt = new Date().toISOString();
+            orders[index].updatedBy = updatedBy || 'Staff';
+            
             writeData(orders);
+            addLog('UPDATE_ORDER', orders[index].updatedBy, `Order ${orderId} updated to ${status}`);
             res.json(orders[index]);
         } else {
             res.status(404).json({ error: 'Order not found' });
         }
     } catch (err) {
         console.error('Error updating order:', err);
-        res.status(500).json({ error: 'Failed to update order' });
+        res.status(500).json({ error: 'Failed' });
     }
 });
 
-// --- Settings and Employee Handlers ---
+// --- Settings, Employee and Rider Handlers ---
 const SETTINGS_FILE = path.join(__dirname, 'settings.json');
 const EMPLOYEES_FILE = path.join(__dirname, 'employees.json');
+const RIDERS_FILE = path.join(__dirname, 'riders.json');
+const LOGS_FILE = path.join(__dirname, 'logs.json');
 
 function readJsonFile(file, defaultValue = []) {
     if (!fs.existsSync(file)) return defaultValue;
@@ -117,21 +123,53 @@ function writeJsonFile(file, data) {
     fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
+// Activity Logging Helper
+function addLog(action, user, details) {
+    const logs = readJsonFile(LOGS_FILE);
+    logs.push({ timestamp: new Date().toISOString(), action, user, details });
+    writeJsonFile(LOGS_FILE, logs.slice(-100)); // Keep last 100 logs
+}
+
 // Settings API
-app.get('/api/settings', (req, res) => res.json(readJsonFile(SETTINGS_FILE, { phone: '(01) 126 013 34', email: 'support@laundryservice.com' })));
+app.get('/api/settings', (req, res) => res.json(readJsonFile(SETTINGS_FILE, { 
+    phone: '(01) 126 013 34', 
+    email: 'support@laundryservice.com',
+    whatsapp: '254700000000',
+    hours: '8:00 AM - 8:00 PM',
+    isOpen: true
+})));
+
 app.post('/api/settings', (req, res) => {
     writeJsonFile(SETTINGS_FILE, req.body);
+    addLog('UPDATE_SETTINGS', req.body.updatedBy || 'admin', 'Global system settings modified');
     res.json({ message: 'Saved' });
 });
 
-// Employee API
-app.get('/api/admin/employees', (req, res) => res.json(readJsonFile(EMPLOYEES_FILE)));
+// Employee/Staff API
+app.get('/api/admin/employees', (req, res) => res.json(getUsers()));
+app.get('/api/admin/logs', (req, res) => res.json(readJsonFile(LOGS_FILE)));
 app.post('/api/employees/apply', (req, res) => {
     const list = readJsonFile(EMPLOYEES_FILE);
     const application = { ...req.body, id: Date.now(), status: 'Pending', date: new Date().toISOString() };
     list.push(application);
     writeJsonFile(EMPLOYEES_FILE, list);
     res.json({ message: 'Applied successfully' });
+});
+
+// Rider API
+app.get('/api/admin/riders', (req, res) => res.json(readJsonFile(RIDERS_FILE)));
+app.post('/api/admin/riders', (req, res) => {
+    const list = readJsonFile(RIDERS_FILE);
+    const rider = { ...req.body, id: Date.now() };
+    list.push(rider);
+    writeJsonFile(RIDERS_FILE, list);
+    res.json(rider);
+});
+app.delete('/api/admin/riders/:id', (req, res) => {
+    const list = readJsonFile(RIDERS_FILE);
+    const filtered = list.filter(r => r.id != req.params.id);
+    writeJsonFile(RIDERS_FILE, filtered);
+    res.json({ message: 'Deleted' });
 });
 
 // --- User and Auth Handlers ---
@@ -148,7 +186,7 @@ app.post('/api/auth/login', (req, res) => {
     const users = getUsers();
     const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
     if (user) {
-        res.json({ success: true, user: { name: user.name, role: user.role } });
+        res.json({ success: true, user: { name: user.name, role: user.role, username: user.username } });
     } else {
         res.status(401).json({ success: false, message: 'Invalid credentials. Use Harry_ / admin123' });
     }
@@ -161,6 +199,13 @@ app.post('/api/admin/employees/register', (req, res) => {
     users.push(newUser);
     writeJsonFile(USERS_FILE, users);
     res.json({ message: 'Employee registered successfully' });
+});
+
+app.delete('/api/admin/employees/:username', (req, res) => {
+    const users = getUsers();
+    const filtered = users.filter(u => u.username !== req.params.username);
+    writeJsonFile(USERS_FILE, filtered);
+    res.json({ message: 'Staff deleted' });
 });
 
 // Serve index.html

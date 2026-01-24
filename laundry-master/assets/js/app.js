@@ -2,6 +2,44 @@ const API_BASE =
   window.location.protocol === "file:" ? "http://127.0.0.1:3000/api" : "/api";
 
 document.addEventListener("DOMContentLoaded", function () {
+  // --- Global Settings Sync ---
+  async function syncSettings() {
+    try {
+      const res = await fetch(`${API_BASE}/settings`);
+      const s = await res.json();
+      
+      // Update Phone
+      const phoneElements = document.querySelectorAll(".header-btn1, .footer-number, .contact-phone, .support-call");
+      phoneElements.forEach(el => {
+        const icon = el.querySelector("img, i");
+        el.innerText = s.phone;
+        if (icon) el.prepend(icon);
+      });
+
+      // Update WhatsApp Link
+      const waLinks = document.querySelectorAll("a[href*='wa.me']");
+      waLinks.forEach(link => {
+        link.href = `https://wa.me/${s.whatsapp.replace(/\D/g,'')}`;
+      });
+
+      // Emergency Stop Logic
+      const orderForm = document.getElementById("laundryOrderForm");
+      if (s.isOpen === false) {
+        if (orderForm) {
+            orderForm.style.opacity = "0.5";
+            orderForm.style.pointerEvents = "none";
+            const closedMsg = document.createElement("div");
+            closedMsg.className = "alert alert-warning text-center mt-4";
+            closedMsg.innerHTML = `<h4 style="font-weight:800">Shop Temporarily Closed</h4><p>We are currently not accepting new orders. Business Hours: ${s.hours}</p>`;
+            orderForm.parentNode.prepend(closedMsg);
+        }
+      }
+    } catch (e) {
+      console.warn("Settings sync failed", e);
+    }
+  }
+  syncSettings();
+
   // --- Order Form Handling ---
   const orderForm = document.getElementById("laundryOrderForm");
   const successAlert = document.getElementById("order-success");

@@ -3,180 +3,549 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin Dashboard | Laundry Service</title>
-    <meta name="description" content="">
+    <title>Command Center | Laundry Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #E63946; --secondary: #1D3557; --accent: #2A9D8F; }
-        body { background: #f8f9fa; }
-        .sidebar { background: var(--secondary); min-height: 100vh; color: white; padding: 20px 0; }
-        .sidebar-link { color: rgba(255,255,255,0.7); padding: 15px 25px; display: block; text-decoration: none; border-left: 4px solid transparent; }
-        .sidebar-link:hover, .sidebar-link.active { color: white; background: rgba(255,255,255,0.1); border-left-color: var(--primary); text-decoration: none; }
-        .main-content { padding: 30px; }
-        .stat-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .table-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .badge-pending { background: #fff3cd; color: #856404; }
-        .badge-washing { background: #d1ecf1; color: #0c5460; }
-        .badge-ironing { background: #e2e3e5; color: #383d41; }
-        .badge-ready { background: #d4edda; color: #155724; }
-        .badge-delivered { background: #cce5ff; color: #004085; }
-        .nav-tabs .nav-link { color: var(--secondary); }
-        .nav-tabs .nav-link.active { color: var(--primary); font-weight: bold; }
-        .btn-primary { background: var(--primary); border: none; }
-        .btn-primary:hover { background: #c92a39; }
+        :root {
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f8fafc;
+            --primary: #E63946;
+            --primary-light: #fee2e2;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.95);
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Layout Structure */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .user-profile-sm {
+            padding: 20px 25px;
+            background: rgba(255,255,255,0.03);
+            margin: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-menu {
+            padding: 20px 10px;
+            flex-grow: 1;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #94a3b8;
+            text-decoration: none !important;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .menu-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            color: #fff;
+            background: rgba(230, 57, 70, 0.1);
+        }
+
+        .menu-item.active {
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+        }
+
+        /* Main Content */
+        .content {
+            flex-grow: 1;
+            margin-left: 260px;
+            padding: 40px;
+            max-width: calc(100% - 260px);
+        }
+
+        /* Header / Stats Section */
+        .live-ops-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .clock-card {
+            background: var(--primary);
+            padding: 20px 30px;
+            border-radius: 16px;
+            color: #fff;
+            text-align: right;
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.2);
+        }
+
+        .clock-time { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 5px; }
+        .clock-date { font-size: 14px; opacity: 0.9; }
+
+        /* Stat Cards Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .stat-label { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        .stat-value { font-size: 28px; font-weight: 800; color: var(--text-main); }
+
+        /* Command Table Styling */
+        .command-table-container {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            border: none;
+            padding: 15px 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .table tbody td {
+            padding: 20px 30px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Status Badges */
+        .badge-refined {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-paid { background: #dcfce7; color: #166534; }
+        .badge-unpaid { background: #fee2e2; color: #991b1b; }
+
+        .op-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* Actions Styling */
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .action-whatsapp { color: #25d366; }
+        .action-whatsapp:hover { background: #25d366; color: #fff; border-color: #25d366; }
+
+        /* Section Visibility */
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 sidebar d-none d-md-block">
-                <div class="px-4 mb-4">
-                    <h3 class="text-white">Admin Panel</h3>
-                </div>
-                <a href="#" class="sidebar-link active" onclick="showTab('orders')"><i class="fas fa-list mr-2"></i> Orders</a>
-                <a href="#" class="sidebar-link staff-only" onclick="showTab('employees')"><i class="fas fa-users mr-2"></i> Employees</a>
-                <a href="#" class="sidebar-link staff-only" onclick="showTab('settings')"><i class="fas fa-cog mr-2"></i> Settings</a>
-                <a href="index.html" class="sidebar-link"><i class="fas fa-external-link-alt mr-2"></i> View Site</a>
-                <a href="#" class="sidebar-link text-danger mt-auto" onclick="logout()"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h4 class="mb-0" style="font-weight: 800; letter-spacing: -0.5px;">LAUNDRY <span style="color:var(--primary)">OPS</span></h4>
             </div>
 
-            <!-- Main Content -->
-            <div class="col-md-10 main-content">
-                <!-- Orders Tab -->
-                <div id="tab-orders" class="admin-tab">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Order Management</h2>
-                        <span id="order-count" class="badge badge-pill badge-danger">0 Orders</span>
+            <div class="user-profile-sm">
+                <div class="d-flex align-items-center">
+                    <div style="width:40px; height:40px; border-radius:10px; background:var(--primary); display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                        <i class="fas fa-shield-alt text-white"></i>
                     </div>
-                    <div class="table-card">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Service</th>
-                                        <th>Rider</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="orders-tbody">
-                                    <!-- Dynamic -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div>
+                        <div id="u-name" style="font-weight:700; font-size:14px;">Loading...</div>
+                        <div id="u-role" style="font-size:11px; opacity:0.6; text-transform:uppercase; letter-spacing:1px;">Unauthorized</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="navigate('ops')"><i class="fas fa-terminal"></i> Command Center</a>
+                <a href="#" class="menu-item" onclick="navigate('orders')"><i class="fas fa-shopping-bag"></i> Active Orders</a>
+                <a href="#" class="menu-item" onclick="navigate('analytics')"><i class="fas fa-chart-line"></i> Sales Analytics</a>
+                <a href="#" class="sidebar-only menu-item" onclick="navigate('staff')"><i class="fas fa-users"></i> Staff Management</a>
+                <a href="#" class="sidebar-only menu-item" onclick="navigate('riders')"><i class="fas fa-biking"></i> Riders</a>
+                <a href="#" class="sidebar-only menu-item" onclick="navigate('logs')"><i class="fas fa-history"></i> Activity Logs</a>
+                <a href="#" class="sidebar-only menu-item" onclick="navigate('settings')"><i class="fas fa-sliders-h"></i> System Settings</a>
+            </nav>
+
+            <div class="mt-auto p-4">
+                <a href="#" class="menu-item text-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div id="section-ops" class="admin-section active">
+                <div class="live-ops-header">
+                    <div>
+                        <h1 style="font-weight: 800; font-size: 36px; margin-bottom: 5px;">Live Operations</h1>
+                        <p class="text-muted">Real-time order tracking & workflow management</p>
+                    </div>
+                    <div class="clock-card">
+                        <div class="clock-time" id="real-time-clock">--:--:--</div>
+                        <div class="clock-date" id="real-time-date">---, --- --, ----</div>
                     </div>
                 </div>
 
-                <!-- Employees Tab -->
-                <div id="tab-employees" class="admin-tab" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Staff Management</h2>
-                        <button class="btn btn-primary" onclick="$('#registerEmployeeModal').modal('show')"><i class="fas fa-user-plus mr-2"></i> Add Employee</button>
+                <!-- Stats -->
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Orders</div>
+                        <div class="stat-value" id="stat-total-orders">0</div>
                     </div>
-                    <div class="table-card mt-4">
+                    <div class="stat-card">
+                        <div class="stat-label">Today's Sales</div>
+                        <div class="stat-value" id="stat-today-sales">KES 0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Unpaid Orders</div>
+                        <div class="stat-value text-danger" id="stat-unpaid">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">In Processing</div>
+                        <div class="stat-value text-primary" id="stat-processing">0</div>
+                    </div>
+                </div>
+
+                <!-- Command Table -->
+                <div class="command-table-container">
+                    <div class="table-header">
+                        <div class="d-flex align-items-center gap-3">
+                            <h5 class="mb-0" style="font-weight:800">Operational Grid</h5>
+                            <div class="input-group input-group-sm" style="width: 250px;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white border-right-0"><i class="fas fa-search text-muted"></i></span>
+                                </div>
+                                <input type="text" id="grid-search" class="form-control border-left-0" placeholder="Search ID or Name...">
+                            </div>
+                            <select id="grid-filter-status" class="form-control form-control-sm" style="width: 150px; border-radius: 6px;">
+                                <option value="all">All Statuses</option>
+                                <option value="unpaid">Unpaid Only</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <span id="sync-indicator" class="badge badge-light" style="font-size: 10px; font-weight: 600; padding: 6px 10px;"><i class="fas fa-sync-alt fa-spin mr-1"></i> LIVE SYNC</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="fetchOrders()"><i class="fas fa-sync-alt mr-2"></i> Refresh</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Role</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Ref Code</th>
+                                    <th>Customer & Location</th>
+                                    <th>Services</th>
+                                    <th>Age & Warning</th>
+                                    <th>Payment</th>
+                                    <th>Processing</th>
+                                    <th>Rider</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="employees-tbody">
-                                <!-- Dynamic -->
+                            <tbody id="ops-grid-tbody">
+                                <!-- Dynamic Load -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <!-- Settings Tab -->
-                <div id="tab-settings" class="admin-tab" style="display:none;">
-                    <h2>Website Settings</h2>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <div class="table-card">
-                                <h5>Contact Information</h5>
-                                <form id="settings-form" class="mt-3">
-                                    <div class="form-group">
-                                        <label>Header Phone</label>
-                                        <input type="text" class="form-control" id="set-phone" value="(01) 126 013 34">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Support Email</label>
-                                        <input type="email" class="form-control" id="set-email" value="support@laundryservice.com">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Save Settings</button>
-                                </form>
+            <!-- Analytics Section -->
+            <div id="section-analytics" class="admin-section">
+                <h2 style="font-weight:800" class="mb-4">Operational Analytics</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="stat-card">
+                            <h5 style="font-weight:700">Service Breakdown</h5>
+                            <div id="service-analytics-bars" class="mt-4">
+                                <!-- Dynamic Bars -->
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="stat-card text-center" style="background:var(--primary); color:#fff;">
+                            <div class="stat-label text-white opacity-75">Estimated Total Revenue</div>
+                            <div class="stat-value text-white" id="ana-total-rev">KES 0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders section -->
+            <div id="section-orders" class="admin-section">
+                <h2 style="font-weight:800" class="mb-4">Order History</h2>
+                <div class="command-table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr><th>Ref</th><th>Customer</th><th>Status</th><th>Date</th></tr>
+                            </thead>
+                            <tbody id="history-grid-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Management Section -->
+            <div id="section-staff" class="admin-section">
+                <div class="d-flex justify-content-between align-items-center mb-50">
+                    <div>
+                        <h2 style="font-weight:800">Internal Team</h2>
+                        <p class="text-muted">Manage system users and access levels</p>
+                    </div>
+                    <button class="btn btn-danger" onclick="$('#regStaffModal').modal('show')" style="border-radius:10px; font-weight:700; padding:12px 25px;">
+                        <i class="fas fa-user-plus mr-2"></i> Add Team Member
+                    </button>
+                </div>
+                <!-- Staff List -->
+                <div class="command-table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staff-grid-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Riders Section -->
+            <div id="section-riders" class="admin-section">
+                <div class="d-flex justify-content-between align-items-center mb-50">
+                    <div>
+                        <h2 style="font-weight:800">Dispatch Riders</h2>
+                        <p class="text-muted">Manage delivery and pickup personnel</p>
+                    </div>
+                    <button class="btn btn-danger" onclick="$('#regRiderModal').modal('show')" style="border-radius:10px; font-weight:700; padding:12px 25px;">
+                        <i class="fas fa-plus mr-2"></i> Register New Rider
+                    </button>
+                </div>
+                <div class="row" id="riders-card-grid">
+                    <!-- Cards Dynamic -->
+                </div>
+            </div>
+
+            <!-- Activity Logs Section -->
+            <div id="section-logs" class="admin-section">
+                <h2 style="font-weight:800" class="mb-4">System Activity Audit</h2>
+                <div class="command-table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr><th>Timestamp</th><th>Action</th><th>User</th><th>Details</th></tr>
+                            </thead>
+                            <tbody id="logs-grid-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="section-settings" class="admin-section">
+                <h2 class="mb-4" style="font-weight:800">System Configuration</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <h5 style="font-weight:700" class="mb-4">Global Contact Details</h5>
+                            <form id="global-settings-form">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Site Display Phone</label>
+                                    <input type="text" class="form-control" id="sys-phone" style="height:50px; border-radius:10px;">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Support Email</label>
+                                    <input type="email" class="form-control" id="sys-email" style="height:50px; border-radius:10px;">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">WhatsApp Number</label>
+                                    <input type="text" class="form-control" id="sys-whatsapp" placeholder="e.g. 254700..." style="height:50px; border-radius:10px;">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Business Hours</label>
+                                    <input type="text" class="form-control" id="sys-hours" placeholder="8:00 AM - 8:00 PM" style="height:50px; border-radius:10px;">
+                                </div>
+                                <div class="form-group mt-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="sys-isopen">
+                                        <label class="custom-control-label font-weight-bold" for="sys-isopen">Shop Online / Open for Orders</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-danger btn-block mt-4" style="height:50px; font-weight:700; border-radius:10px;">Apply Changes Globally</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-card bg-light">
+                            <h5 style="font-weight:700" class="mb-4">Emergency Controls</h5>
+                            <p class="small text-muted">Toggling the shop "OFF" will prevent new customers from placing orders. Use only in emergencies or during maintenance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Edit Order Modal -->
+    <div class="modal fade" id="editOpsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius:20px; border:none; padding:15px;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" style="font-weight:800">Manage Order <span id="m-order-ref" class="text-primary"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Update Operational Status</label>
+                        <select id="m-status-select" class="form-control" style="height:50px; border-radius:10px;">
+                            <option value="Pending">Pending</option>
+                            <option value="Payment Confirmed">Payment Confirmed</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Washing">Washing</option>
+                            <option value="Ironing">Ironing</option>
+                            <option value="Ready">Ready</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Assign Dispatch Rider</label>
+                        <select id="m-rider-select" class="form-control" style="height:50px; border-radius:10px;"></select>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="saveOperationalUpdate()" style="border-radius:10px; font-weight:700; padding:10px 25px;">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Register Employee Modal -->
-    <div class="modal fade" id="registerEmployeeModal" tabindex="-1">
+    <!-- Add staff modal -->
+    <div class="modal fade" id="regStaffModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="border-radius:20px; border:none;">
                 <div class="modal-header">
-                    <h5 class="modal-title">Register New Employee</h5>
+                    <h5 style="font-weight:800">New Staff Member</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form id="reg-emp-form">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" id="reg-name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="reg-email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Initial Password</label>
-                            <input type="text" id="reg-pass" class="form-control" value="Laundry123" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    <form id="add-staff-form">
+                        <div class="form-group"><label>Full Name</label><input type="text" id="ns-name" class="form-control" required></div>
+                        <div class="form-group"><label>Username</label><input type="text" id="ns-user" class="form-control" placeholder="e.g. Harry_" required></div>
+                        <div class="form-group"><label>Password</label><input type="text" id="ns-pass" class="form-control" value="Laundry123" required></div>
+                        <button type="submit" class="btn btn-danger btn-block">Create Account</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editOrderModal" tabindex="-1">
+
+    <!-- Reg rider modal -->
+    <div class="modal fade" id="regRiderModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="border-radius:20px; border:none;">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Order <span id="modal-order-id"></span></h5>
+                    <h5 style="font-weight:800">Register Rider</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select id="modal-status" class="form-control">
-                            <option value="Pending">Pending</option>
-                            <option value="Washing">Washing</option>
-                            <option value="Ironing">Ironing</option>
-                            <option value="Ready">Ready</option>
-                            <option value="Delivered">Delivered</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Assign Rider</label>
-                        <input type="text" id="modal-rider" class="form-control" placeholder="Rider Name/Phone">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="saveOrderEdits()">Update Order</button>
+                    <form id="add-rider-form">
+                        <div class="form-group"><label>Rider Name</label><input type="text" id="nr-name" class="form-control" required></div>
+                        <div class="form-group"><label>Phone Number</label><input type="text" id="nr-phone" class="form-control" required></div>
+                        <div class="form-group"><label>Plate/Vehicle ID</label><input type="text" id="nr-plate" class="form-control" required></div>
+                        <button type="submit" class="btn btn-danger btn-block">Save Rider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -186,130 +555,333 @@
     <script src="./assets/js/bootstrap.min.js"></script>
     <script>
         const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:3000/api' : '/api';
-        let currentOrderId = null;
+        let currentUser = null;
+        let globalOrders = [];
+        let curEditOrderId = null;
 
-        function showTab(tabName) {
-            $('.admin-tab').hide();
-            $('#tab-' + tabName).show();
-            $('.sidebar-link').removeClass('active');
-            $(`[onclick="showTab('${tabName}')"]`).addClass('active');
+        // AUTH CHECK
+        function checkAuth() {
+            currentUser = JSON.parse(localStorage.getItem('laundryStaffUser'));
+            if (!currentUser) {
+                window.location.href = 'staff.html';
+                return;
+            }
+            $('#u-name').text(currentUser.name);
+            $('#u-role').text(currentUser.role);
+
+            if (currentUser.role !== 'admin') {
+                $('.sidebar-only').remove();
+            }
         }
 
+        // Navigation
+        function navigate(tab) {
+            $('.admin-section').removeClass('active');
+            $('#section-' + tab).addClass('active');
+            $('.menu-item').removeClass('active');
+            $(`[onclick="navigate('${tab}')"]`).addClass('active');
+
+            if (tab === 'staff') fetchStaffList();
+            if (tab === 'riders') fetchRiders();
+            if (tab === 'settings') fetchSettings();
+            if (tab === 'orders') renderHistory(globalOrders);
+            if (tab === 'logs') fetchLogs();
+            if (tab === 'analytics') updateAnalytics(globalOrders);
+        }
+
+        function updateAnalytics(orders) {
+            const counts = {};
+            let totalRev = 0;
+            orders.forEach(o => {
+                const services = Array.isArray(o.services) ? o.services : [o.service || 'Laundry'];
+                services.forEach(s => counts[s] = (counts[s] || 0) + 1);
+                if (!['Pending', 'Payment Pending'].includes(o.status)) {
+                    totalRev += 500; // Simplified flat rate for analytics
+                }
+            });
+
+            $('#ana-total-rev').text(`KES ${totalRev.toLocaleString()}`);
+            const bars = $('#service-analytics-bars');
+            bars.empty();
+            
+            const max = Math.max(...Object.values(counts), 1);
+            Object.entries(counts).sort((a,b) => b[1] - a[1]).forEach(([name, count]) => {
+                const pct = (count / max) * 100;
+                bars.append(`
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="font-weight-600 small">${name}</span>
+                            <span class="text-muted small">${count} Orders</span>
+                        </div>
+                        <div class="progress" style="height:8px; border-radius:10px;">
+                            <div class="progress-bar" style="width: ${pct}%; background:var(--primary);"></div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+
+        // FETCH LOGS
+        async function fetchLogs() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/logs`);
+                const logs = await res.json();
+                const tbody = $('#logs-grid-tbody');
+                tbody.empty();
+                logs.reverse().forEach(l => {
+                    tbody.append(`
+                        <tr>
+                            <td><small>${new Date(l.timestamp).toLocaleString()}</small></td>
+                            <td><span class="badge-refined" style="background:#f1f5f9; color:#475569;">${l.action}</span></td>
+                            <td><strong>${l.user}</strong></td>
+                            <td><small>${l.details}</small></td>
+                        </tr>
+                    `);
+                });
+            } catch (e) { console.error('Log fetch failed', e); }
+        }
+
+        // CLOCK
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+            
+            $('#real-time-clock').text(timeStr);
+            $('#real-time-date').text(dateStr);
+        }
+
+        // FETCH ORDERS & STATS
         async function fetchOrders() {
             try {
+                $('#sync-indicator').fadeIn();
                 const res = await fetch(`${API_BASE}/admin/orders`);
-                const orders = await res.json();
-                renderOrders(orders);
-                $('#order-count').text(orders.length + ' Orders');
-            } catch (e) { console.error(e); }
+                globalOrders = await res.json();
+                renderOpsGrid(globalOrders);
+                updateStats(globalOrders);
+                setTimeout(() => $('#sync-indicator').fadeOut(), 1500);
+            } catch (e) { console.error('Order fetch failed', e); }
         }
 
-        function renderOrders(orders) {
-            const tbody = $('#orders-tbody');
+        function updateStats(orders) {
+            const today = new Date().toLocaleDateString();
+            const todayOrders = orders.filter(o => new Date(o.timestamp).toLocaleDateString() === today);
+            
+            $('#stat-total-orders').text(orders.length);
+            $('#stat-today-sales').text(`KES ${todayOrders.length * 500}`); // Simulated sales
+            $('#stat-unpaid').text(orders.filter(o => ['Pending', 'Payment Pending'].includes(o.status)).length);
+            $('#stat-processing').text(orders.filter(o => ['Washing', 'Ironing', 'In Progress'].includes(o.status)).length);
+        }
+
+        function renderOpsGrid(orders) {
+            const searchTerm = $('#grid-search').val().toLowerCase();
+            const filterStatus = $('#grid-filter-status').val();
+            const tbody = $('#ops-grid-tbody');
             tbody.empty();
-            orders.forEach(o => {
-                const badgeClass = 'badge-' + o.status.toLowerCase();
+
+            const filtered = orders.filter(o => {
+                const matchesSearch = o.orderId.toLowerCase().includes(searchTerm) || o.name.toLowerCase().includes(searchTerm);
+                const matchesStatus = filterStatus === 'all' || 
+                                     (filterStatus === 'unpaid' && ['Pending', 'Payment Pending'].includes(o.status)) ||
+                                     (o.status === filterStatus) ||
+                                     (filterStatus === 'Processing' && ['Washing', 'Ironing', 'In Progress'].includes(o.status));
+                return matchesSearch && matchesStatus;
+            });
+
+            filtered.forEach(o => {
+                const paymentBadge = ['Pending', 'Payment Pending'].includes(o.status) ? 'badge-unpaid' : 'badge-paid';
+                const paymentLabel = ['Pending', 'Payment Pending'].includes(o.status) ? 'UNPAID' : 'PAID';
+                
+                const servicesStr = Array.isArray(o.services) ? o.services.join(', ') : (o.service || 'Laundry');
+                
+                // Calculate Age
+                const created = new Date(o.timestamp);
+                const hrsOld = Math.floor((new Date() - created) / (1000 * 60 * 60));
+                let ageTag = `<span class="badge-refined" style="background:#f1f5f9; color:#475569;">${hrsOld}h ago</span>`;
+                if (hrsOld > 24) ageTag = `<span class="badge-refined" style="background:#fee2e2; color:#b91c1c;"><i class="fas fa-clock mr-1"></i> OVERDUE</span>`;
+                else if (hrsOld < 1) ageTag = `<span class="badge-refined" style="background:#dcfce7; color:#15803d;">NEW</span>`;
+
+                let dotColor = '#e2e8f0';
+                if (['In Progress', 'Washing', 'Ironing', 'Payment Confirmed'].includes(o.status)) dotColor = '#3b82f6';
+                if (o.status === 'Ready') dotColor = '#10b981';
+                if (o.status === 'Delivered' || o.status === 'Completed') dotColor = '#64748b';
+                if (o.status === 'Payment Pending') dotColor = '#f59e0b';
+
                 tbody.append(`
                     <tr>
-                        <td><strong>${o.orderId}</strong></td>
-                        <td>${o.name}<br><small>${o.phone}</small></td>
-                        <td>${o.service}</td>
-                        <td>${o.rider || '<span class="text-muted">Unassigned</span>'}</td>
-                        <td><span class="status-badge ${badgeClass}">${o.status}</span></td>
+                        <td><span style="font-weight:800; color:var(--primary)">#${o.orderId.split('-')[1] || o.orderId}</span></td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" onclick="openEditModal('${o.orderId}', '${o.status}', '${o.rider || ''}')"><i class="fas fa-edit"></i></button>
-                            <a href="https://wa.me/${o.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-sm btn-success"><i class="fab fa-whatsapp"></i></a>
+                            <div style="font-weight:700">${o.name}</div>
+                            <div style="font-size:12px; color:var(--text-muted)">${o.location || 'N/A'}<br>${o.phone}</div>
+                        </td>
+                        <td style="max-width:200px"><small class="text-muted text-truncate d-block">${servicesStr}</small></td>
+                        <td>${ageTag}</td>
+                        <td><span class="badge-refined ${paymentBadge}">${paymentLabel}</span></td>
+                        <td>
+                            <div class="op-status">
+                                <span class="dot" style="background:${dotColor}"></span>
+                                ${o.status}
+                            </div>
+                        </td>
+                        <td><small>${o.rider || 'Unassigned'}</small></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <button class="action-btn" onclick="openOpsEdit('${o.orderId}', '${o.status}', '${o.rider || ''}')"><i class="fas fa-edit"></i></button>
+                                ${o.phone ? `<a href="https://wa.me/${o.phone.replace(/\D/g,'')}" target="_blank" class="action-btn action-whatsapp"><i class="fab fa-whatsapp"></i></a>` : ''}
+                            </div>
                         </td>
                     </tr>
                 `);
             });
         }
 
-        window.openEditModal = (id, status, rider) => {
-            currentOrderId = id;
-            $('#modal-order-id').text(id);
-            $('#modal-status').val(status);
-            $('#modal-rider').val(rider);
-            $('#editOrderModal').modal('show');
+        // Search & Filter Listeners
+        $('#grid-search, #grid-filter-status').on('input change', () => renderOpsGrid(globalOrders));
+
+        window.openOpsEdit = (id, status, rider) => {
+            curEditOrderId = id;
+            $('#m-order-ref').text(id);
+            $('#m-status-select').val(status);
+            $('#editOpsModal').modal('show');
+            loadRiderOptions(rider);
         };
 
-        window.saveOrderEdits = async () => {
-            const status = $('#modal-status').val();
-            const rider = $('#modal-rider').val();
-            try {
-                await fetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status, rider })
-                });
-                $('#editOrderModal').modal('hide');
-                fetchOrders();
-            } catch (e) { alert('Error updating order'); }
+        async function loadRiderOptions(current) {
+            const res = await fetch(`${API_BASE}/admin/riders`);
+            const riders = await res.json();
+            const sel = $('#m-rider-select');
+            sel.empty().append('<option value="">Assign Rider...</option>');
+            riders.forEach(r => {
+                sel.append(`<option value="${r.name}" ${r.name === current ? 'selected' : ''}>${r.name}</option>`);
+            });
+        }
+
+        window.saveOperationalUpdate = async () => {
+            const status = $('#m-status-select').val();
+            const rider = $('#m-rider-select').val();
+            await fetch(`${API_BASE}/admin/orders/${curEditOrderId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    status, 
+                    rider, 
+                    updatedBy: currentUser.username || currentUser.name 
+                })
+            });
+            $('#editOpsModal').modal('hide');
+            fetchOrders();
         };
 
-        // RBAC CHECK
-        const currentUser = JSON.parse(localStorage.getItem('laundryStaffUser'));
-        if (!currentUser) window.location.href = 'staff.html';
-        
-        if (currentUser.role === 'employee') {
-            $('.staff-only').hide();
+        // STAFF
+        async function fetchStaffList() {
+            const res = await fetch(`${API_BASE}/admin/employees`);
+            const staff = await res.json();
+            const tbody = $('#staff-grid-tbody');
+            tbody.empty();
+            staff.forEach(s => {
+                tbody.append(`
+                    <tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td>${s.username}</td>
+                        <td><span class="badge-refined ${s.role==='admin'?'badge-paid':'badge-unpaid'}">${s.role}</span></td>
+                        <td><span class="text-success small"><i class="fas fa-circle mr-1"></i> Active</span></td>
+                        <td>
+                            <button class="btn btn-sm text-danger" onclick="deleteStaff('${s.username}')" ${s.username==='Harry_'?'disabled':''}><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `);
+            });
         }
 
-        // Employee Management
-        async function fetchEmployees() {
-            try {
-                const res = await fetch(`${API_BASE}/admin/employees`);
-                const employees = await res.json();
-                // Note: Modified endpoint for user management should be here, 
-                // but for this prototype we'll reuse the employee apply list
-                const tbody = $('#employees-tbody');
-                tbody.empty();
-                employees.forEach(e => {
-                    tbody.append(`
-                        <tr>
-                            <td>${e.name}</td>
-                            <td>${e.role || e.position}</td>
-                            <td>${e.email || e.phone}</td>
-                            <td><span class="badge badge-success">Active</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `);
-                });
-            } catch (e) { console.error(e); }
+        async function deleteStaff(user) {
+            if (!confirm('Permanent delete?')) return;
+            await fetch(`${API_BASE}/admin/employees/${user}`, { method: 'DELETE' });
+            fetchStaffList();
         }
 
-        $('#reg-emp-form').on('submit', async function(e) {
+        $('#add-staff-form').submit(async (e) => {
             e.preventDefault();
-            const data = {
-                name: $('#reg-name').val(),
-                email: $('#reg-email').val(),
-                password: $('#reg-pass').val()
-            };
-            try {
-                await fetch(`${API_BASE}/admin/employees/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                alert('Employee Registered!');
-                $('#registerEmployeeModal').modal('hide');
-                fetchEmployees();
-            } catch (e) { alert('Error registering'); }
+            const data = { name: $('#ns-name').val(), username: $('#ns-user').val(), password: $('#ns-pass').val() };
+            await fetch(`${API_BASE}/admin/employees/register`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)});
+            $('#regStaffModal').modal('hide');
+            fetchStaffList();
         });
 
-        window.logout = () => {
-            localStorage.removeItem('laundryStaffUser');
-            window.location.href = 'staff.html';
-        };
-
-        // Initial Load
-        fetchOrders();
-        if (currentUser.role === 'admin') {
-            fetchEmployees();
-            fetchSettings();
+        // RIDERS
+        async function fetchRiders() {
+            const res = await fetch(`${API_BASE}/admin/riders`);
+            const riders = await res.json();
+            const grid = $('#riders-card-grid');
+            grid.empty();
+            riders.forEach(r => {
+                grid.append(`
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between">
+                                <h5 style="font-weight:800">${r.name}</h5>
+                                <button class="btn btn-sm text-danger" onclick="deleteRider(${r.id})"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="text-muted small mt-2">
+                                <div><i class="fas fa-phone mr-2"></i> ${r.phone}</div>
+                                <div><i class="fas fa-id-card mr-2"></i> ${r.plate}</div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
         }
+
+        async function deleteRider(id) {
+            await fetch(`${API_BASE}/admin/riders/${id}`, { method: 'DELETE' });
+            fetchRiders();
+        }
+
+        $('#add-rider-form').submit(async (e) => {
+            e.preventDefault();
+            const data = { name: $('#nr-name').val(), phone: $('#nr-phone').val(), plate: $('#nr-plate').val() };
+            await fetch(`${API_BASE}/admin/riders`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)});
+            $('#regRiderModal').modal('hide');
+            fetchRiders();
+        });
+
+        // SETTINGS
+        async function fetchSettings() {
+            const res = await fetch(`${API_BASE}/settings`);
+            const s = await res.json();
+            $('#sys-phone').val(s.phone);
+            $('#sys-email').val(s.email);
+            $('#sys-whatsapp').val(s.whatsapp || '');
+            $('#sys-hours').val(s.hours || '');
+            $('#sys-isopen').prop('checked', s.isOpen !== false);
+        }
+
+        $('#global-settings-form').submit(async (e) => {
+            e.preventDefault();
+            const data = { 
+                phone: $('#sys-phone').val(), 
+                email: $('#sys-email').val(),
+                whatsapp: $('#sys-whatsapp').val(),
+                hours: $('#sys-hours').val(),
+                isOpen: $('#sys-isopen').is(':checked'),
+                updatedBy: currentUser.username || currentUser.name
+            };
+            await fetch(`${API_BASE}/settings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            alert('Settings Applied Globally');
+        });
+
+        window.logout = () => { localStorage.removeItem('laundryStaffUser'); window.location.href='staff.html'; };
+
+        // INIT
+        checkAuth();
+        setInterval(updateClock, 1000);
+        updateClock();
+        fetchOrders();
         setInterval(fetchOrders, 10000);
     </script>
 </body>

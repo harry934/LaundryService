@@ -8,6 +8,7 @@
     "address": "MUKUHI APARTMENTS",
     "orderId": "T-10113",
     "timestamp": "2026-01-22T18:54:17.360Z",
-    "status": "Washing"
+    "status": "Delivered",
+    "rider": "Dennis mwangi"
   }
 ]
