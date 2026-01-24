@@ -124,21 +124,31 @@
         /* Stat Cards Grid */
         .stat-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             margin-bottom: 40px;
         }
 
         .stat-card {
             background: #fff;
-            padding: 24px;
-            border-radius: 16px;
+            padding: 30px;
+            border-radius: 20px;
             border: 1px solid var(--border);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .stat-label { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
-        .stat-value { font-size: 28px; font-weight: 800; color: var(--text-main); }
+        .stat-label { 
+            color: var(--text-muted); 
+            font-size: 13px; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-value { font-size: 32px; font-weight: 800; color: var(--text-main); line-height: 1; }
 
         /* Command Table Styling */
         .command-table-container {
@@ -161,16 +171,16 @@
         .table thead th {
             background: #f8fafc;
             border: none;
-            padding: 15px 30px;
-            font-size: 12px;
-            font-weight: 700;
+            padding: 20px 30px;
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             color: var(--text-muted);
         }
 
         .table tbody td {
-            padding: 20px 30px;
+            padding: 24px 30px;
             vertical-align: middle;
             border-top: 1px solid #f1f5f9;
         }
@@ -681,8 +691,15 @@
             const tbody = $('#ops-grid-tbody');
             tbody.empty();
 
+            if (orders.length === 0) {
+                tbody.append('<tr><td colspan="8" class="text-center py-5 text-muted">No orders found in the system.</td></tr>');
+                return;
+            }
+
             const filtered = orders.filter(o => {
-                const matchesSearch = o.orderId.toLowerCase().includes(searchTerm) || o.name.toLowerCase().includes(searchTerm);
+                const oId = (o.orderId || '').toLowerCase();
+                const oName = (o.name || '').toLowerCase();
+                const matchesSearch = oId.includes(searchTerm) || oName.includes(searchTerm);
                 const matchesStatus = filterStatus === 'all' || 
                                      (filterStatus === 'unpaid' && ['Pending', 'Payment Pending'].includes(o.status)) ||
                                      (o.status === filterStatus) ||
@@ -711,27 +728,46 @@
 
                 tbody.append(`
                     <tr>
-                        <td><span style="font-weight:800; color:var(--primary)">#${o.orderId.split('-')[1] || o.orderId}</span></td>
+                        <td style="padding-left:40px"><span style="font-weight:800; color:var(--primary); font-size:15px">#${o.orderId.split('-')[1] || o.orderId}</span></td>
                         <td>
-                            <div style="font-weight:700">${o.name}</div>
-                            <div style="font-size:12px; color:var(--text-muted)">${o.location || 'N/A'}<br>${o.phone}</div>
+                            <div style="font-weight:700; font-size:15px; margin-bottom:2px">${o.name}</div>
+                            <div style="font-size:12px; color:var(--text-muted); font-weight:500">${o.location || 'N/A'} • ${o.phone}</div>
                         </td>
-                        <td style="max-width:200px"><small class="text-muted text-truncate d-block">${servicesStr}</small></td>
+                        <td style="max-width:200px"><small class="text-muted text-truncate d-block" style="font-weight:500">${servicesStr}</small></td>
                         <td>${ageTag}</td>
                         <td><span class="badge-refined ${paymentBadge}">${paymentLabel}</span></td>
                         <td>
                             <div class="op-status">
                                 <span class="dot" style="background:${dotColor}"></span>
-                                ${o.status}
+                                <span>${o.status}</span>
                             </div>
                         </td>
-                        <td><small>${o.rider || 'Unassigned'}</small></td>
-                        <td>
+                        <td><small style="font-weight:600">${o.rider || 'Unassigned'}</small></td>
+                        <td style="padding-right:40px">
                             <div class="d-flex gap-2">
                                 <button class="action-btn" onclick="openOpsEdit('${o.orderId}', '${o.status}', '${o.rider || ''}')"><i class="fas fa-edit"></i></button>
                                 ${o.phone ? `<a href="https://wa.me/${o.phone.replace(/\D/g,'')}" target="_blank" class="action-btn action-whatsapp"><i class="fab fa-whatsapp"></i></a>` : ''}
                             </div>
                         </td>
+                    </tr>
+                `);
+            });
+        }
+
+        function renderHistory(orders) {
+            const tbody = $('#history-grid-tbody');
+            tbody.empty();
+            if (orders.length === 0) {
+                tbody.append('<tr><td colspan="4" class="text-center py-4">No order history available.</td></tr>');
+                return;
+            }
+            orders.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(o => {
+                tbody.append(`
+                    <tr>
+                        <td class="font-weight-bold">#${o.orderId}</td>
+                        <td>${o.name}</td>
+                        <td><span class="badge-refined badge-paid">${o.status}</span></td>
+                        <td>${new Date(o.timestamp).toLocaleDateString()}</td>
                     </tr>
                 `);
             });

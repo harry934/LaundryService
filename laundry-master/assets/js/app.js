@@ -122,17 +122,17 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((res) => res.json())
         .then((response) => {
           console.log("Backend Success:", response);
-          // Redirect to payment page after 2s
           setTimeout(() => {
             window.location.href = "payment.html";
           }, 2000);
         })
         .catch((err) => {
           console.error("Backend Error:", err);
-          // Still redirect for design demo purposes if backend fails
+          alert("Connection Error: Your order was saved locally but could not be sent to the server. Please check if the server is running.");
+          // Still allow local flow for now
           setTimeout(() => {
             window.location.href = "payment.html";
-          }, 2000);
+          }, 3000);
         });
 
       console.log("Order Saved:", data);
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const localOrder = orders.find((o) => o.orderId === orderId);
 
     // Fetch from backend for latest status
-    fetch(`http://localhost:3000/api/orders/${orderId}`)
+    fetch(`${API_BASE}/orders/${orderId}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error("Not found");
