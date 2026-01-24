@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=2">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -95,7 +95,9 @@
         }
 
         .payment-radio {
-            display: none;
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
         }
 
         .payment-option-card {
@@ -228,7 +230,7 @@
                 <!-- Method Selector -->
                 <div class="payment-selector">
                     <label>
-                        <input type="radio" name="pay_method" value="till" class="payment-radio" onchange="toggleMethod('till')">
+                        <input type="radio" name="pay_method" value="till" class="payment-radio">
                         <div class="payment-option-card">
                             <div class="radio-circle"></div>
                             <div class="option-info">
@@ -240,7 +242,7 @@
                     </label>
 
                     <label>
-                        <input type="radio" name="pay_method" value="stk" class="payment-radio" onchange="toggleMethod('stk')">
+                        <input type="radio" name="pay_method" value="stk" class="payment-radio">
                         <div class="payment-option-card">
                             <div class="radio-circle"></div>
                             <div class="option-info">
@@ -301,7 +303,7 @@
                     <i class="fas fa-check" style="font-size:32px; color:#166534;"></i>
                 </div>
                 <h2 style="font-size:20px; font-weight:700; color:var(--text-heading); margin-bottom:8px;">Payment Received</h2>
-                <p style="color:var(--text-body); font-size:14px; margin-bottom:32px;">We are verifying with the network. You can track your order status live.</p>
+                <p style="color:var(--text-body); font-size:14px; margin-bottom:32px;">Thank you for ordering with us. Please wait for payment confirmation.</p>
                 
                 <a href="track.html" class="btn-action">Track Order</a>
                 <p style="font-size:12px; color:#94a3b8; margin-top:24px;">Support: (01) 126 013 34</p>
@@ -310,7 +312,7 @@
     </div>
 
     <script src="assets/js/jquery-1.12.4.min.js"></script>
-    <script src="assets/js/session.js"></script>
+    <script src="assets/js/session.js?v=2"></script>
     <script>
         $(document).ready(function() {
             const orderId = localStorage.getItem('lastLaundryOrderId');
@@ -335,11 +337,15 @@
                 $('#' + stateId).fadeIn();
             }
 
-            // METHOD SWITCHING
-            window.toggleMethod = function(method) {
-                $('.method-view').hide().removeClass('active'); // Hide all first
-                $('#view-' + method).fadeIn().addClass('active'); // Reveal specific
-            };
+            // METHOD SWITCHING (Vanilla JS for Robustness)
+            const radios = document.querySelectorAll('input[name="pay_method"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    console.log('Method changed to:', this.value);
+                    $('.method-view').hide().removeClass('active');
+                    $('#view-' + this.value).fadeIn().addClass('active');
+                });
+            });
 
             // POLLING FOR CONFIRMATION
             function startPolling(id) {

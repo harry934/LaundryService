@@ -30,6 +30,26 @@
     "date": "28 January 2026",
     "orderId": "T-96514",
     "timestamp": "2026-01-24T10:56:24.316Z",
+    "status": "Payment Confirmed",
+    "phone": "",
+    "rider": "Dennis mwangi",
+    "updatedAt": "2026-01-24T11:00:48.044Z",
+    "updatedBy": "Harry_"
+  },
+  {
+    "name": "Harry Otieno",
+    "email": "otienoharry876@gmail.com",
+    "apartment": "mUKI",
+    "house": "B4",
+    "location": "Allsops",
+    "services": [
+      "Wash & Fold",
+      "Ironing",
+      "Curtains & Duvets"
+    ],
+    "date": "26 January 2026",
+    "orderId": "T-52098",
+    "timestamp": "2026-01-24T11:02:48.887Z",
     "status": "Pending",
     "phone": ""
   }
