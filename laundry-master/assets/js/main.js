@@ -135,7 +135,7 @@
 
   
 /* 6. Nice Selectorp  */
-  var nice_Select = $('select');
+  var nice_Select = $('select:not(.searchable-location)');
     if(nice_Select.length){
       nice_Select.niceSelect();
     }

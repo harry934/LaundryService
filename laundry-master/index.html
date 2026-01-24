@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="assets/css/slicknav.css">
     <link rel="stylesheet" href="assets/css/flaticon.css">
     <link rel="stylesheet" href="assets/css/progressbar_barfiller.css">
-    <link rel="stylesheet" href="assets/css/gijgo.css">
+    <!-- Replacing Gijgo with Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/animated-headline.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
@@ -24,93 +25,197 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Searchable Dropdown & Datepicker Assets -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        /* White to Glassmorphism Header */
-        .header-area { 
-            position: fixed; 
-            width: 100%; 
-            top: 0; 
-            z-index: 999; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #ffffff !important;
-            border-bottom: 1px solid #eee;
-        }
-        .header-area .main-menu ul li a { color: #1D3557; }
-        .header-area .logo h2 { color: #E63946; }
-
-        .header-area.sticky-bar { 
-            background: rgba(255, 255, 255, 0.7) !important; 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .header-area.sticky-bar .main-menu ul li a { color: #1D3557 !important; }
-        .header-area.sticky-bar .logo h2 { color: #E63946 !important; }
-
-        /* Floating Booking Form */
+        /* Combined Professional Form Styles */
         .floating-booking-container {
             position: relative;
-            margin-top: -120px;
+            margin-top: -100px;
             z-index: 99;
+            padding: 0 15px;
         }
         .clean-box {
             background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            padding: 40px;
-            border: 1px solid rgba(230, 57, 70, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            padding: 45px;
+            border: 1px solid #edf2f7;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        .hero__caption h1, .hero__caption p { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .hero-overly::before { background: rgba(29, 53, 87, 0.5) !important; }
-        
-        /* Better Input Visibility */
-        .clean-box .form-control {
-            background: #ffffff !important;
-            border: 2px solid #e1e1e1 !important;
-            color: #1D3557 !important;
-            transition: all 0.3s ease;
+
+        /* Typography & Hierarchy */
+        .clean-box h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 8px;
         }
-        .clean-box .form-control:focus {
-            border-color: #E63946 !important;
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.1) !important;
+        .clean-box .section-desc {
+            font-size: 16px;
+            color: #718096;
+            margin-bottom: 40px;
         }
         .clean-box label {
-            color: #1D3557 !important;
-            font-size: 15px;
-            margin-bottom: 8px !important;
-        }
-        
-        /* Scrollable Nice Select */
-        .nice-select .list {
-            max-height: 300px;
-            overflow-y: auto !important;
-            width: 100%;
-        }
-        
-        /* Enhanced Button */
-        .btn-confirm {
-            background: linear-gradient(135deg, #E63946 0%, #d62828 100%) !important;
-            color: #fff !important;
-            border: none !important;
-            border-radius: 50px !important;
-            font-weight: 700 !important;
-            font-size: 18px !important;
-            padding: 18px 40px !important;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
-            transition: all 0.3s ease !important;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px !important;
+            display: block;
+        }
+
+        /* Unified Input Sizing & Style */
+        .form-control-refined, 
+        .select2-container--default .select2-selection--single,
+        .flatpickr-input-refined {
+            background: #fdfdfd !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #1a202c !important;
+            border-radius: 8px !important;
+            height: 52px !important;
+            padding: 0 16px !important;
+            font-size: 15px !important;
+            transition: all 0.2s ease;
+            width: 100% !important;
+        }
+        
+        .form-control-refined:focus,
+        .select2-container--default.select2-container--focus .select2-selection--single,
+        .flatpickr-input-refined:focus {
+            border-color: #E63946 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1) !important;
+            outline: none !important;
+        }
+
+        /* Input Group (Phone) */
+        .input-group-refined {
+            display: flex;
+            align-items: center;
+        }
+        .input-group-refined .prefix {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            height: 52px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            color: #718096;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .input-group-refined input {
+            border-radius: 0 8px 8px 0 !important;
+            margin-left: -1px;
+        }
+
+        /* Select2 Refinement - Single Searchable Field */
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 50px !important;
+            padding-left: 0 !important;
+            color: #1a202c !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 50px !important;
+            right: 12px !important;
+        }
+        .select2-dropdown {
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .select2-search__field {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 6px !important;
+            margin: 8px !important;
+            padding: 8px !important;
+            width: calc(100% - 16px) !important;
+        }
+
+        /* Service Cards - Typographic Only */
+        .service-grid-refined {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .service-card-refined {
+            cursor: pointer;
+            margin: 0;
+        }
+        .service-card-refined input { display: none; }
+        .service-card-refined .content {
+            background: #fdfdfd;
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .service-card-refined .label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a5568;
+            transition: all 0.2s ease;
+        }
+        .service-card-refined:hover .content {
+            border-color: #cbd5e0;
+            background: #f7fafc;
+        }
+        .service-card-refined input:checked + .content {
+            background: #ffffff;
+            border-color: #E63946;
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.05), 0 4px 12px rgba(230, 57, 70, 0.1);
+        }
+        .service-card-refined input:checked + .content .label {
+            color: #E63946;
+        }
+
+        /* Flatpickr Professional */
+        .flatpickr-calendar {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+        }
+        .flatpickr-day.selected { background: #E63946 !important; border-color: #E63946 !important; }
+
+        /* Primary Action Button */
+        .btn-confirm-refined {
+            background: #E63946 !important;
+            color: #ffffff !important;
+            border: none;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 16px !important;
+            padding: 16px 32px !important;
+            transition: all 0.2s ease;
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
+            cursor: pointer;
+            margin-top: 20px;
         }
-        .btn-confirm:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.3);
-            background: linear-gradient(135deg, #d62828 0%, #b91d1d 100%) !important;
-        }
-        .btn-confirm:active {
+        .btn-confirm-refined:hover {
+            background: #d62828 !important;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+        }
+        .btn-confirm-refined:active { transform: translateY(0); }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .clean-box { padding: 30px 20px; }
+            .service-grid-refined { grid-template-columns: 1fr 1fr; }
+            .floating-booking-container { margin-top: -60px; }
         }
     </style>
 </head>
@@ -191,57 +296,54 @@
                     <div class="col-lg-12">
                         <div class="clean-box">
                             <div class="row">
-                                <div class="col-xl-12 text-center mb-40">
+                                <div class="col-xl-12 text-center">
                                     <div class="section-tittle">
-                                        <span class="element" style="color: #E63946; font-weight: 600; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Premium Service</span>
-                                        <h2 style="font-size: 42px; margin-top: 10px;">Book Your Laundry Now</h2>
-                                        <p style="font-size: 18px; color: #666; max-width: 600px; margin: 10px auto;">Fast, reliable, and professional laundry services delivered right to your doorstep.</p>
+                                        <h2>Book Your Laundry Now</h2>
+                                        <p class="section-desc">Professional laundry services delivered right to your doorstep.</p>
                                     </div>
                                 </div>
                             </div>
                             <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Full Name</label>
-                                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter your name" required>
+                                        <div class="form-group mb-25">
+                                            <label>Full Name</label>
+                                            <input class="form-control-refined" name="name" id="name" type="text" placeholder="John Doe" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Phone Number</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="background: #f1f1f1; border-radius: 10px 0 0 10px; border: 1px solid #eee; font-weight: 600;">+254</span>
-                                                </div>
-                                                <input class="form-control" name="phone" id="phone" type="tel" placeholder="712345678" required>
+                                        <div class="form-group mb-25">
+                                            <label>Phone Number</label>
+                                            <div class="input-group-refined">
+                                                <div class="prefix">+254</div>
+                                                <input class="form-control-refined" name="phone" id="phone" type="tel" placeholder="712345678" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Email Address</label>
-                                            <input class="form-control" name="email" id="email" type="email" placeholder="example@mail.com" required>
+                                        <div class="form-group mb-25">
+                                            <label>Email Address</label>
+                                            <input class="form-control-refined" name="email" id="email" type="email" placeholder="john@example.com" required>
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Apartment / Estate</label>
-                                            <input class="form-control" name="apartment" id="apartment" type="text" placeholder="e.g. Mukuhi Apartments" required>
+                                        <div class="form-group mb-25">
+                                            <label>Apartment / Estate</label>
+                                            <input class="form-control-refined" name="apartment" id="apartment" type="text" placeholder="Mukuhi Apartments" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Block / House Number</label>
-                                            <input class="form-control" name="house" id="house" type="text" placeholder="e.g. B4" required>
+                                        <div class="form-group mb-25">
+                                            <label>Block / House No.</label>
+                                            <input class="form-control-refined" name="house" id="house" type="text" placeholder="B4" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Select Location</label>
-                                            <select class="form-control w-100" name="location" id="location" required>
-                                                <option value="" selected disabled>Select your area</option>
+                                        <div class="form-group mb-25">
+                                            <label>Select Location</label>
+                                            <select class="searchable-location" name="location" id="location" required>
+                                                <option value="" selected disabled>Find your area...</option>
                                                 <option value="Adams Arcade">Adams Arcade</option>
                                                 <option value="Allsops">Allsops</option>
                                                 <option value="Athi River">Athi River</option>
@@ -316,40 +418,48 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Select Service(s)</label>
-                                            <div class="d-flex flex-wrap" style="gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service1" name="services[]" value="Dry Cleaning">
-                                                    <label class="custom-control-label" for="service1">Dry Cleaning</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service2" name="services[]" value="Wash & Fold">
-                                                    <label class="custom-control-label" for="service2">Wash & Fold</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service3" name="services[]" value="Ironing">
-                                                    <label class="custom-control-label" for="service3">Ironing Only</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="service4" name="services[]" value="Curtains & Duvets">
-                                                    <label class="custom-control-label" for="service4">Curtains & Duvets</label>
-                                                </div>
+                                            <label>Select Your Service(s)</label>
+                                            <div class="service-grid-refined">
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Dry Cleaning">
+                                                    <div class="content">
+                                                        <span class="label">Dry Cleaning</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Wash & Fold">
+                                                    <div class="content">
+                                                        <span class="label">Wash & Fold</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Ironing">
+                                                    <div class="content">
+                                                        <span class="label">Ironing Only</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Curtains & Duvets">
+                                                    <div class="content">
+                                                        <span class="label">Curtains & Duvets</span>
+                                                    </div>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-30">
-                                            <label style="font-weight: 600; color: #1D3557; margin-bottom: 10px; display: block;">Pickup Date</label>
-                                            <input class="form-control" name="date" id="date" type="date" required>
+                                    <div class="col-lg-12">
+                                        <div class="form-group mb-0">
+                                            <label>Preferred Pickup Date</label>
+                                            <input class="flatpickr-input-refined" name="date" id="flatpickr-laundry" type="text" placeholder="Select a date" required readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mt-3 text-center">
-                                    <button type="submit" class="button btn-confirm">Confirm Booking & Pay</button>
+                                <div class="text-center">
+                                    <button type="submit" class="btn-confirm-refined">Confirm Booking & Pay</button>
                                 </div>
-                                <div id="order-success" class="alert alert-success mt-3" style="display:none; border-radius: 10px; background: #d4edda; color: #155724; border: none; padding: 15px;">
+                                <div id="order-success" class="alert alert-success mt-20" style="display:none; border-radius: 8px; background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; padding: 15px;">
                                     Booking successful! ID: <strong id="display-order-id"></strong>. Redirecting to payment...
                                 </div>
                             </form>
@@ -748,6 +858,34 @@
 <script src="./assets/js/plugins.js"></script>
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/app.js"></script>
+<!-- Third Party Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    $(document).ready(function() {
+        // Professional Searchable Location
+        $('.searchable-location').select2({
+            placeholder: "Search your area...",
+            allowClear: true,
+            width: '100%',
+            minimumResultsForSearch: 0 // Always show search box within dropdown
+        });
+
+        // Sleek Flatpickr Registration
+        flatpickr("#flatpickr-laundry", {
+            dateFormat: "d F Y", 
+            minDate: "today",
+            animate: true,
+            disableMobile: false // Enable professional mobile UI
+        });
+
+        // Toggle card visual active state
+        $('.service-card input').on('change', function() {
+            // Visual logic handled by CSS :checked
+            console.log('Service selected:', $(this).val());
+        });
+    });
+</script>
 
 </body>
 </html>
