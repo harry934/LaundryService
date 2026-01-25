@@ -15,9 +15,9 @@
     background: var(--white) !important;
     border-radius: 60px !important;
     box-shadow: var(--shadow-strong) !important;
-    padding: 15px 45px !important;
+    padding: 12px 35px !important;
     border: 1px solid rgba(0,0,0,0.05) !important;
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); /* Ultra smooth transition */
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     margin: 25px auto !important;
     max-width: 1200px !important;
     display: flex !important;
@@ -26,7 +26,25 @@
     width: 94% !important; 
     position: relative;
     z-index: 9999;
-    transform: translateZ(0); /* Hardware acceleration */
+}
+
+/* Mobile Header Adjustments */
+@media (max-width: 991px) {
+    .main-header {
+        padding: 10px 20px !important;
+        margin: 15px auto !important;
+        width: 92% !important;
+        border-radius: 40px !important;
+    }
+    
+    .logo img {
+        height: 45px !important; /* Smaller logo on mobile */
+    }
+    
+    /* Avoid button/menu overlapping */
+    .header-btn {
+        display: none !important; /* Hide secondary buttons on tiny screens if needed */
+    }
 }
 
 /* Logo Sizing - Sizeable */
@@ -169,31 +187,91 @@
     color: var(--primary-color) !important;
 }
 
-/* --- Mobile Menu Styles --- */
+/* --- Mobile Menu (SlickNav) Cleanup & Centering --- */
 .slicknav_menu {
     background: transparent !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 .slicknav_btn {
+    background: transparent !important;
+    padding: 5px !important;
+    margin: 0 !important;
+}
+
+/* Custom Hamburger Icon appearance */
+.slicknav_icon-bar {
     background-color: var(--primary-color) !important;
+    width: 25px !important;
+    height: 3px !important;
+    border-radius: 5px;
+    margin-bottom: 5px !important;
 }
 
 .slicknav_nav {
+    position: absolute;
+    top: 60px !important; /* Calculated based on bar height */
+    right: 0;
+    width: 240px;
     background: var(--white) !important;
-    border-radius: 20px;
-    margin-top: 10px;
-    box-shadow: var(--shadow-strong);
-    padding: 20px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+    padding: 10px !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+/* Perfect Right-Centering on Mobile */
+@media (max-width: 991px) {
+    .main-header {
+        height: 70px !important; /* Precise height for alignment */
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 25px !important; /* Consistent horizontal padding inside pill */
+    }
+
+    .header-area .row {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important; /* Pushes Logo left, Hamburger right */
+        margin: 0 !important;
+    }
+
+    /* Force the mobile menu container to stick to the right */
+    .header-area .row .col-12 {
+        width: auto !important;
+        flex: 0 0 auto !important;
+        padding: 0 !important;
+        margin-left: auto !important;
+    }
+    
+    .logo img {
+        height: 40px !important;
+    }
 }
 
 .slicknav_nav a {
     color: var(--black) !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    padding: 12px 15px !important;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
 .slicknav_nav a:hover {
-    background: #f8fafc !important;
+    background: rgba(37, 99, 235, 0.05) !important;
     color: var(--primary-color) !important;
+    padding-left: 20px !important;
+}
+
+.slicknav_nav .active a {
+    color: var(--primary-color) !important;
+    background: rgba(37, 99, 235, 0.05) !important;
 }
 
 /* Sticky Header adjustment - UNIFIED SIZING AND CENTERING */
