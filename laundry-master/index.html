@@ -35,34 +35,38 @@
             background: var(--bg-light);
         }
 
-        /* Typography Override */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            color: var(--text-dark);
-        }
-
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-gray);
-        }
-
-        /* Header Redesign */
-        .header-area { 
-            background: white; 
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            position: relative; 
-            z-index: 1000;
+        /* Claymorphism Navbar */
+        header {
+            position: absolute; /* Allows hero to go under */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding-top: 20px;
         }
         
-        .main-header { padding: 15px 0; }
+        .header-area {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
         
+        .main-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 10px 30px;
+        }
+
         .main-menu ul li a {
-            color: var(--text-dark) !important;
-            font-weight: 500;
+            color: #1e293b !important;
+            font-weight: 600;
             font-size: 15px;
-            padding: 20px 15px;
+            padding: 10px 15px;
         }
         
         .main-menu ul li.active a {
@@ -71,74 +75,102 @@
 
         /* Hero Section Refined */
         .slider-area {
-            background-color: #EEF2FF; /* Fallback */
             position: relative;
-            padding-top: 80px;
-            padding-bottom: 120px; /* Extra space for overlap safety */
+            padding-top: 180px; /* Space for nav */
+            padding-bottom: 120px;
+            background-image: url('assets/img/hero/hero_new.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 800px; /* Ensure tall hero */
+        }
+        
+        /* Dark Overlay for Text Visibility */
+        .slider-area::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+        
+        .hero__caption {
+            position: relative;
+            z-index: 2;
         }
         
         .hero__caption h1 {
-            font-size: 52px;
-            line-height: 1.2;
+            font-size: 56px;
+            line-height: 1.1;
             margin-bottom: 24px;
-            color: #1e293b;
-            text-shadow: none; /* Removed heavy text shadow */
+            color: #ffffff; /* White text for contrast */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-weight: 800;
         }
         
         .hero__caption p {
             font-size: 20px;
             margin-bottom: 40px;
-            color: #475569;
+            color: #e2e8f0;
             max-width: 600px;
-            background: none;
-            padding: 0;
-            text-shadow: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
 
+        /* Professional Buttons */
         .btn-hero-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 700;
             display: inline-block;
-            transition: all 0.2s;
-            border: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
         }
         
         .btn-hero-primary:hover {
-            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         }
         
         .btn-hero-secondary {
-            background: white;
-            color: var(--text-dark);
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 700;
             display: inline-block;
-            border: 1px solid #cbd5e1;
+            border: 2px solid rgba(255,255,255,0.8);
             margin-left: 16px;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
         }
         
         .btn-hero-secondary:hover {
-            background: #f1f5f9;
-            color: var(--text-dark);
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        /* Booking Form Container - The "Floating" Box */
+        /* Booking Form Container - Claymorphism */
         .clean-box {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Softer shadow */
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             padding: 40px;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
             max-width: 1000px;
-            margin: -80px auto 0; /* Reduced negative margin to fix overlap */
+            margin: -80px auto 0;
             position: relative;
             z-index: 100;
         }
@@ -146,25 +178,25 @@
         /* Form Styling */
         .form-control-refined, .select2-selection--single {
             background: #f8fafc !important;
-            border: 1px solid #e2e8f0 !important;
+            border: 1px solid #cbd5e1 !important;
             color: var(--text-dark) !important;
-            border-radius: 8px !important;
-            height: 52px !important;
-            padding: 0 16px !important;
+            border-radius: 12px !important;
+            height: 56px !important;
+            padding: 0 20px !important;
             font-size: 15px !important;
             width: 100%;
+            transition: all 0.2s;
         }
         
         .form-control-refined:focus {
             border-color: var(--primary) !important;
             background: #fff !important;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
         }
 
         label {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-gray);
             margin-bottom: 8px;
             display: block;
@@ -176,21 +208,14 @@
         .service-grid-refined {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
+            gap: 16px;
         }
-        
-        .service-card-refined {
-            cursor: pointer;
-            margin: 0;
-        }
-        
-        .service-card-refined input { display: none; }
         
         .service-card-refined .content {
-            background: #f8fafc;
+            background: white;
             border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 16px;
             text-align: center;
             transition: all 0.2s;
             height: 100%;
@@ -198,48 +223,48 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         
         .service-card-refined:hover .content {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+            border-color: var(--primary);
         }
         
         .service-card-refined input:checked + .content {
             background: #eff6ff;
             border-color: var(--primary);
             color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary);
         }
-        
-        .service-card-refined .label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-        .service-card-refined .price { font-size: 12px; opacity: 0.8; }
 
         .btn-confirm-refined {
-            background: var(--primary);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 16px;
             margin-top: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-            transition: all 0.2s;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            transition: all 0.3s;
         }
         
         .btn-confirm-refined:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
         }
 
         /* Responsive */
         @media (max-width: 991px) {
             .hero__caption h1 { font-size: 36px; }
-            .hero__caption p { font-size: 16px; }
-            .clean-box { margin-top: 0; padding: 24px; } /* Disable overlap on mobile */
-            .slider-area { padding-bottom: 40px; }
+            .main-header { padding: 10px; width: 95%; border-radius: 20px; }
+            .clean-box { margin-top: 20px; padding: 24px; }
+            .slider-area { padding-top: 140px; padding-bottom: 40px; }
         }
     </style>
 </head>
@@ -258,15 +283,17 @@
 
     <header>
         <div class="header-area">
-            <div class="main-header header-sticky">
-                <div class="container">
+            <div class="main-header">
+                <div class="container-fluid">
                     <div class="row align-items-center justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 50px;"></a>
+                        <div class="col-auto">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 50px;"></a>
+                            </div>
                         </div>
-                        <div class="main-menu d-none d-lg-block">
+                        <div class="col-auto d-none d-lg-block">
                             <nav>
-                                <ul id="navigation" class="d-flex" style="list-style:none; margin:0;">
+                                <ul id="navigation" class="d-flex" style="list-style:none; margin:0; gap:15px;">
                                     <li class="active"><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About</a></li>
                                     <li><a href="services.html">Services</a></li>
@@ -276,8 +303,8 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="header-right d-none d-lg-block">
-                            <a href="#order-form" class="btn-hero-primary" style="padding: 10px 20px; font-size: 14px;">Book Now</a>
+                        <div class="col-auto d-none d-lg-block">
+                            <a href="#order-form" class="btn-hero-primary" style="padding: 12px 24px; font-size: 13px;">Book Now</a>
                         </div>
                         <!-- Mobile Menu -->
                         <div class="col-12">
@@ -296,11 +323,11 @@
                 <div class="row">
                     <div class="col-xl-8 col-lg-9">
                         <div class="hero__caption">
-                            <h1>Quality Laundry Service<br>Right at Your Doorstep</h1>
-                            <p>Experience the ultimate convenience with our premium laundry solutions. We pick up, clean, and deliver so you can focus on what matters most.</p>
+                            <h1>Quality Service With<br>A Personal Touch</h1>
+                            <p>Professional, reliable, and convenient. Our dedicated team ensures your garments receive the best care possible.</p>
                             <div>
                                 <a href="#order-form" class="btn-hero-primary">Schedule Pickup</a>
-                                <a href="pricing.html" class="btn-hero-secondary">View Prices</a>
+                                <a href="pricing.html" class="btn-hero-secondary">Check Prices</a>
                             </div>
                         </div>
                     </div>
@@ -312,8 +339,8 @@
         <div class="container" id="order-form">
             <div class="clean-box">
                 <div class="text-center mb-4">
-                    <h2 style="font-size:24px; margin-bottom:8px;">Schedule Your Pickup</h2>
-                    <p>Fill out the details below to complete your booking.</p>
+                    <h2 style="font-size:28px; margin-bottom:8px;">Schedule Your Pickup</h2>
+                    <p>Simple, fast, and secure booking.</p>
                 </div>
                 
                 <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
@@ -473,27 +500,75 @@
         </section>
     </main>
 
-    <footer style="background: #1e293b; color: #94a3b8; padding: 60px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 40px; opacity: 0.8; margin-bottom: 20px; filter: brightness(0) invert(1);">
-                    <p>Professional laundry services delivered with care and precision.</p>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h4 style="color: white; margin-bottom: 20px;">Contact</h4>
-                    <p>0113510036</p>
-                    <p>support@laundryservice.com</p>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h4 style="color: white; margin-bottom: 20px;">Service Area</h4>
-                    <p>Serving Nairobi and surrounding environments including Kiambu and Kajiado counties.</p>
+    <footer>
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                     <div class="single-footer-caption mb-50">
+                       <div class="single-footer-caption mb-30">
+                        <!-- logo -->
+                        <div class="footer-logo mb-35">
+                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px;"></a>
+                        </div>
+                        <div class="footer-tittle">
+                            <div class="footer-pera">
+                                <p>Professional laundry services delivered with care and precision.</p>
+                            </div>
+                        </div>
+                        <!-- social -->
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="text-center mt-5 pt-4 border-top border-secondary">
-                <p>&copy; <script>document.write(new Date().getFullYear());</script> Red Rose Laundry. All rights reserved.</p>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                <div class="single-footer-caption mb-50">
+                    <div class="footer-tittle">
+                        <h4>Services </h4>
+                        <ul>
+                            <li><a href="pricing.html">Dry Cleaning</a></li>
+                            <li><a href="pricing.html">Wash & Fold</a></li>
+                            <li><a href="pricing.html">Ironing Services</a></li>
+                            <li><a href="pricing.html">Home & Bedding</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                <div class="single-footer-caption mb-50">
+                    <div class="footer-tittle">
+                        <h4>Get in touch</h4>
+                        <ul>
+                            <li class="number"><a href="#">0113510036</a></li>
+                            <li><a href="#">support@laundryservice.com</a></li>
+                            <li><a href="#">Nairobi, Kenya</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    </div>
+    <!-- footer-bottom area -->
+    <div class="footer-bottom-area section-bg2" data-background="assets/img/gallery/footer-bg.png">
+        <div class="container">
+            <div class="footer-border">
+               <div class="row d-flex align-items-center">
+                   <div class="col-xl-12 ">
+                       <div class="footer-copy-right text-center">
+                           <p>
+                              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                            </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </footer>
 
     <!-- JS -->

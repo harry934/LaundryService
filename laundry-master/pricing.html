@@ -28,14 +28,48 @@
             min-height: 100vh;
         }
         
-        /* Simpler Header */
-        header { background: white; border-bottom: 1px solid #e2e8f0; }
-        .header-area { padding: 0; }
-        .main-header { padding: 15px 0; }
+        /* Claymorphism Navbar */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding-top: 20px;
+        }
         
+        .header-area {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        
+        .main-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 10px 30px;
+        }
+
+        .main-menu ul li a {
+            color: #1e293b !important;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 10px 15px;
+        }
+        
+        .main-menu ul li.active a {
+            color: var(--primary) !important;
+        }
+        
+        /* Hero Section Spacing Fix */
         .hero-section {
             text-align: center;
-            padding: 80px 20px 50px;
+            padding: 180px 20px 50px; /* Increased top padding for floating nav */
             max-width: 800px;
             margin: 0 auto;
         }
@@ -140,6 +174,23 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
+        
+        /* Nav Button */
+        .btn-nav-primary {
+             background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+             transition: all 0.2s;
+        }
+        .btn-nav-primary:hover {
+            background: var(--primary-dark);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
 
     </style>
 </head>
@@ -157,16 +208,21 @@
                         <div class="main-menu d-none d-lg-block">
                             <nav> 
                                 <ul id="navigation" class="d-flex" style="list-style:none; margin:0; gap: 30px;">                                                                                          
-                                    <li><a href="index.html" style="color:#1e293b; font-weight:500;">Home</a></li>
-                                    <li><a href="about.html" style="color:#1e293b; font-weight:500;">About</a></li>
-                                    <li><a href="services.html" style="color:#1e293b; font-weight:500;">Services</a></li>
-                                    <li><a href="pricing.html" style="color:#2563eb; font-weight:700;">Pricing</a></li>
-                                    <li><a href="contact.html" style="color:#1e293b; font-weight:500;">Contact</a></li>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="services.html">Services</a></li>
+                                    <li><a href="pricing.html" style="color:#2563eb;">Pricing</a></li>
+                                    <li><a href="track.html">Track Order</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
                         </div>
                         <div class="header-right d-none d-lg-block">
-                             <a href="index.html#order-form" class="btn-primary-pro" style="padding: 10px 24px; font-size: 14px;">Book Now</a>
+                             <a href="index.html#order-form" class="btn-nav-primary">Book Now</a>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
                     </div>
                 </div> 
@@ -334,5 +390,14 @@
 
     <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#navigation').slicknav({
+                prependTo: '.mobile_menu',
+                allowParentLinks: true
+            });
+        });
+    </script>
 </body>
 </html>
