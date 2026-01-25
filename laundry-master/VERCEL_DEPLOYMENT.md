@@ -1,82 +1,74 @@
-# Vercel Deployment Guide for Red Rose Laundry
+# Vercel Deployment Guide (Frontend-Only)
 
-## Quick Fix for 404 Errors
+## Overview
 
-The 404 error on Vercel is likely because:
+This website is now configured for **frontend-only** static deployment on Vercel. All backend code has been removed.
 
-1. Vercel doesn't know how to handle your Node.js backend
-2. Static files aren't being served correctly
+## What Was Removed
 
-### Solution Applied
+- `server.js` - Express backend
+- All JSON data files (orders, logs, riders, settings, users)
+- `package.json` and Node.js dependencies
+- Backend API calls (commented out in HTML files)
 
-I've created `vercel.json` with the correct configuration.
+## Deployment Steps
 
-### Deployment Steps
-
-1. **Make sure you have a Vercel account** and the Vercel CLI installed:
-
-   ```bash
-   npm install -g vercel
-   ```
-
-2. **Deploy from your project directory**:
-
-   ```bash
-   cd "c:\Users\kibag\Desktop\Github Projects\Laundry Service Website\laundry-master"
-   vercel
-   ```
-
-3. **Follow the prompts**:
-   - Link to existing project or create new one
-   - Confirm the settings
-   - Wait for deployment
-
-### Alternative: Deploy via Vercel Dashboard
-
-1. Go to https://vercel.com/new
-2. Import your Git repository (GitHub/GitLab/Bitbucket)
-3. Vercel will auto-detect the configuration from `vercel.json`
-4. Click "Deploy"
-
-### Important Notes
-
-- **Root Directory**: Make sure Vercel is deploying from the `laundry-master` folder
-- **Environment Variables**: If your server.js uses any environment variables, add them in Vercel dashboard under Settings → Environment Variables
-- **MongoDB Connection**: If using MongoDB, make sure your connection string allows connections from Vercel's IP addresses
-
-### Testing Locally Before Deploy
+### 1. Install Vercel CLI (if not already installed)
 
 ```bash
-# Install Vercel CLI
 npm install -g vercel
-
-# Run local development server
-vercel dev
 ```
 
-This will simulate the Vercel environment locally so you can test before deploying.
-
-### Common Issues
-
-**404 on all pages:**
-
-- Check that `vercel.json` is in the root directory
-- Verify the build completed successfully
-
-**API routes not working:**
-
-- Ensure server.js exports a proper handler
-- Check that routes match the `/api/*` pattern
-
-**Static files not loading:**
-
-- Verify file paths are relative (not absolute)
-- Check that assets folder is included in deployment
-
-### Need Help?
-
-Check Vercel deployment logs:
+### 2. Deploy to Vercel
 
 ```bash
-vercel logs [deployment-url]
+cd "c:\Users\kibag\Desktop\Github Projects\Laundry Service Website\laundry-master"
+vercel --prod
 ```
+
+### 3. Follow Prompts
+
+- Set up and deploy: Yes
+- Which scope: Your account
+- Link to existing project: No (first time)
+- Project name: laundry-service (or your choice)
+- Directory: ./ (current directory)
+- Override settings: No
+
+## What Works
+
+- All static pages (index, about, contact, services, pricing)
+- Design and animations
+- Glassmorphism and claymorphism styling
+- Quantity selectors on pricing page
+
+## What Doesn't Work (Backend Required)
+
+- Admin dashboard
+- Staff login
+- Order creation/tracking
+- Payment processing
+- Data persistence
+
+## Reconnecting Backend Later
+
+All backend API calls are commented out with `/* BACKEND DISABLED */` markers.
+To reconnect:
+
+1. Deploy your backend separately
+2. Uncomment API_BASE in each HTML file
+3. Uncomment fetch() calls
+4. Update API_BASE URL to your backend endpoint
+
+## Files Modified
+
+- `pricing.html` - Redesigned with claymorphism
+- `session.js` - Backend calls removed
+- `vercel.json` - Simplified for static deployment
+- `staff.html` - Auth disabled
+- `payment.html` - API calls disabled
+- `dashboard.html` - API calls disabled
+
+## Support
+
+For issues, check console for "Backend not connected" messages.

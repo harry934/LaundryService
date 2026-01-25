@@ -3,249 +3,270 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Laundry | Teamplate</title>
-    <meta name="description" content="">
+    <title>Laundry Service | Professional Care</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <link rel="stylesheet" href="assets/css/progressbar_barfiller.css">
-    <!-- Replacing Gijgo with Flatpickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="assets/css/animate.min.css">
-    <link rel="stylesheet" href="assets/css/animated-headline.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/slick.css">
-    <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- Searchable Dropdown & Datepicker Assets -->
+    
+    <!-- Professional Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <style>
-        /* Combined Professional Form Styles */
-        .floating-booking-container {
-            position: relative;
-            margin-top: -100px;
-            z-index: 99;
-            padding: 0 15px;
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg-light: #f8fafc;
+            --surface: #ffffff;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Typography Override */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
+
+        /* Header Redesign */
+        .header-area { 
+            background: white; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative; 
+            z-index: 1000;
+        }
+        
+        .main-header { padding: 15px 0; }
+        
+        .main-menu ul li a {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 20px 15px;
+        }
+        
+        .main-menu ul li.active a {
+            color: var(--primary) !important;
+        }
+
+        /* Hero Section Refined */
+        .slider-area {
+            background-color: #EEF2FF; /* Fallback */
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 120px; /* Extra space for overlap safety */
+        }
+        
+        .hero__caption h1 {
+            font-size: 52px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: #1e293b;
+            text-shadow: none; /* Removed heavy text shadow */
+        }
+        
+        .hero__caption p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #475569;
+            max-width: 600px;
+            background: none;
+            padding: 0;
+            text-shadow: none;
+        }
+
+        .btn-hero-primary {
+            background: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-hero-primary:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-hero-secondary {
+            background: white;
+            color: var(--text-dark);
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            border: 1px solid #cbd5e1;
+            margin-left: 16px;
+            transition: all 0.2s;
+        }
+        
+        .btn-hero-secondary:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        /* Booking Form Container - The "Floating" Box */
         .clean-box {
             background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-            padding: 45px;
-            border: 1px solid #edf2f7;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Softer shadow */
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.5);
             max-width: 1000px;
-            margin: 0 auto;
+            margin: -80px auto 0; /* Reduced negative margin to fix overlap */
+            position: relative;
+            z-index: 100;
         }
 
-        /* Typography & Hierarchy */
-        .clean-box h2 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 8px;
-        }
-        .clean-box .section-desc {
-            font-size: 16px;
-            color: #718096;
-            margin-bottom: 40px;
-        }
-        .clean-box label {
-            color: #4a5568;
-            font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px !important;
-            display: block;
-        }
-
-        /* Unified Input Sizing & Style */
-        .form-control-refined, 
-        .select2-container--default .select2-selection--single,
-        .flatpickr-input-refined {
-            background: #fdfdfd !important;
+        /* Form Styling */
+        .form-control-refined, .select2-selection--single {
+            background: #f8fafc !important;
             border: 1px solid #e2e8f0 !important;
-            color: #1a202c !important;
+            color: var(--text-dark) !important;
             border-radius: 8px !important;
             height: 52px !important;
             padding: 0 16px !important;
             font-size: 15px !important;
-            transition: all 0.2s ease;
-            width: 100% !important;
+            width: 100%;
         }
         
-        .form-control-refined:focus,
-        .select2-container--default.select2-container--focus .select2-selection--single,
-        .flatpickr-input-refined:focus {
-            border-color: #E63946 !important;
-            background: #ffffff !important;
-            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1) !important;
-            outline: none !important;
+        .form-control-refined:focus {
+            border-color: var(--primary) !important;
+            background: #fff !important;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
         }
 
-        /* Input Group (Phone) */
-        .input-group-refined {
-            display: flex;
-            align-items: center;
-        }
-        .input-group-refined .prefix {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-right: none;
-            border-radius: 8px 0 0 8px;
-            height: 52px;
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            color: #718096;
+        label {
+            font-size: 13px;
             font-weight: 600;
-            font-size: 14px;
-        }
-        .input-group-refined input {
-            border-radius: 0 8px 8px 0 !important;
-            margin-left: -1px;
-        }
-
-        /* Select2 Refinement - Single Searchable Field */
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 50px !important;
-            padding-left: 0 !important;
-            color: #1a202c !important;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 50px !important;
-            right: 12px !important;
-        }
-        .select2-dropdown {
-            border: 1px solid #e2e8f0 !important;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 4px;
-        }
-        .select2-search__field {
-            border: 1px solid #e2e8f0 !important;
-            border-radius: 6px !important;
-            margin: 8px !important;
-            padding: 8px !important;
-            width: calc(100% - 16px) !important;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Service Cards - Typographic Only */
+        /* Service Selection Grid */
         .service-grid-refined {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 12px;
         }
+        
         .service-card-refined {
             cursor: pointer;
             margin: 0;
         }
+        
         .service-card-refined input { display: none; }
+        
         .service-card-refined .content {
-            background: #fdfdfd;
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             text-align: center;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             height: 100%;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
-        .service-card-refined .label {
-            font-size: 14px;
-            font-weight: 700;
-            color: #4a5568;
-            transition: all 0.2s ease;
-        }
+        
         .service-card-refined:hover .content {
-            border-color: #cbd5e0;
-            background: #f7fafc;
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
+        
         .service-card-refined input:checked + .content {
-            background: #ffffff;
-            border-color: #E63946;
-            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.05), 0 4px 12px rgba(230, 57, 70, 0.1);
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: var(--primary);
         }
-        .service-card-refined input:checked + .content .label {
-            color: #E63946;
-        }
+        
+        .service-card-refined .label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .service-card-refined .price { font-size: 12px; opacity: 0.8; }
 
-        /* Flatpickr Professional */
-        .flatpickr-calendar {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-            border-radius: 12px !important;
-        }
-        .flatpickr-day.selected { background: #E63946 !important; border-color: #E63946 !important; }
-
-        /* Primary Action Button */
         .btn-confirm-refined {
-            background: #E63946 !important;
-            color: #ffffff !important;
-            border: none;
-            border-radius: 8px !important;
-            font-weight: 700 !important;
-            font-size: 16px !important;
-            padding: 16px 32px !important;
-            transition: all 0.2s ease;
+            background: var(--primary);
+            color: white;
             width: 100%;
-            max-width: 400px;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 24px;
             cursor: pointer;
-            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s;
         }
+        
         .btn-confirm-refined:hover {
-            background: #d62828 !important;
+            background: var(--primary-dark);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
         }
-        .btn-confirm-refined:active { transform: translateY(0); }
 
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            .clean-box { padding: 30px 20px; }
-            .service-grid-refined { grid-template-columns: 1fr 1fr; }
-            .floating-booking-container { margin-top: -60px; }
+        /* Responsive */
+        @media (max-width: 991px) {
+            .hero__caption h1 { font-size: 36px; }
+            .hero__caption p { font-size: 16px; }
+            .clean-box { margin-top: 0; padding: 24px; } /* Disable overlap on mobile */
+            .slider-area { padding-bottom: 40px; }
         }
     </style>
 </head>
 <body>
-    <!-- ? Preloader Start -->
+    <!-- Preloader -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="max-width: 80px;">
+                    <img src="assets/img/logo/red-rose-logo.png" alt="Laundry">
                 </div>
             </div>
         </div>
     </div>
-    <!-- Preloader Start -->
+
     <header>
-        <!-- Header Start -->
         <div class="header-area">
             <div class="main-header header-sticky">
-                <!-- Logo -->
-                <div class="header-left">
-                    <div class="logo">
-                        <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
-                    </div>
-                    <div class="menu-wrapper  d-flex align-items-center">
-                        <!-- Main-menu -->
+                <div class="container">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="logo">
+                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 50px;"></a>
+                        </div>
                         <div class="main-menu d-none d-lg-block">
-                            <nav> 
-                                <ul id="navigation">                                                                                          
+                            <nav>
+                                <ul id="navigation" class="d-flex" style="list-style:none; margin:0;">
                                     <li class="active"><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About</a></li>
                                     <li><a href="services.html">Services</a></li>
@@ -255,702 +276,301 @@
                                 </ul>
                             </nav>
                         </div>
+                        <div class="header-right d-none d-lg-block">
+                            <a href="#order-form" class="btn-hero-primary" style="padding: 10px 20px; font-size: 14px;">Book Now</a>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
                     </div>
-                </div> 
-                <div class="header-right d-none d-lg-block">
-                    <a href="#" class="header-btn1"><img src="assets/img/icon/call.png" alt=""> (01) 126 013 34</a>
-                    <a href="#order-form" class="header-btn2">Book Service</a>
-                </div>
-                <!-- Mobile Menu -->
-                <div class="col-12">
-                    <div class="mobile_menu d-block d-lg-none"></div>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
     </header>
+
     <main>
-        <!--? slider Area Start-->
-        <section class="slider-area hero-overly">
-            <div class="slider-active">
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-7 col-lg-9 col-md-10 col-sm-9">
-                                <div class="hero__caption">
-                            <h1 data-animation="fadeInLeft" data-delay=".4s" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7), 0 0 20px rgba(0,0,0,0.5); background: linear-gradient(90deg, rgba(27,154,170,0.85) 0%, rgba(78,205,196,0.75) 100%); padding: 20px 30px; border-radius: 10px; display: inline-block;">QUALITY LAUNDRY SERVICE IN YOUR CITY</h1>
-                            <p data-animation="fadeInLeft" data-delay=".6s" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.8); background: rgba(0,0,0,0.4); padding: 15px 25px; border-radius: 8px; display: inline-block;">Professional care for your clothes with free pickup and delivery</p>
-                            <!-- Hero-btn -->
-                            <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s">
-                                <a href="#order-form" class="btn hero-btn">Book Now</a>
-                                <a href="pricing.html" class="btn btn-secondary" style="margin-left: 15px; background: linear-gradient(135deg, #2A9D8F 0%, #26897D 100%) !important; border-color: #2A9D8F !important;">View Pricing</a>
-                            </div>
-                        </div>
-                    </div>          
-                </div>
-            </div>
-        </section>
-        <!-- slider Area End-->
-        <!--? Order Form Area Start (Floating) -->
-        <div class="floating-booking-container" id="order-form">
+        <!-- Hero Section -->
+        <section class="slider-area">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="clean-box">
-                            <div class="row">
-                                <div class="col-xl-12 text-center">
-                                    <div class="section-tittle">
-                                        <h2>Book Your Laundry Now</h2>
-                                        <p class="section-desc">Professional laundry services delivered right to your doorstep.</p>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-xl-8 col-lg-9">
+                        <div class="hero__caption">
+                            <h1>Quality Laundry Service<br>Right at Your Doorstep</h1>
+                            <p>Experience the ultimate convenience with our premium laundry solutions. We pick up, clean, and deliver so you can focus on what matters most.</p>
+                            <div>
+                                <a href="#order-form" class="btn-hero-primary">Schedule Pickup</a>
+                                <a href="pricing.html" class="btn-hero-secondary">View Prices</a>
                             </div>
-                            <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-25">
-                                            <label>Full Name</label>
-                                            <input class="form-control-refined" name="name" id="name" type="text" placeholder="John Doe" required>
-                                        </div>
-                                    </div>
-                                    <!-- Phone Number Removed as per request -->
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-25">
-                                            <label>Email Address</label>
-                                            <input class="form-control-refined" name="email" id="email" type="email" placeholder="john@example.com" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-25">
-                                            <label>Apartment / Estate</label>
-                                            <input class="form-control-refined" name="apartment" id="apartment" type="text" placeholder="Mukuhi Apartments" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-25">
-                                            <label>Block / House No.</label>
-                                            <input class="form-control-refined" name="house" id="house" type="text" placeholder="B4" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group mb-25">
-                                            <label>Select Location</label>
-                                            <select class="searchable-location" name="location" id="location" required>
-                                                <option value="" selected disabled>Find your area...</option>
-                                                <option value="Adams Arcade">Adams Arcade</option>
-                                                <option value="Allsops">Allsops</option>
-                                                <option value="Athi River">Athi River</option>
-                                                <option value="Buruburu">Buruburu</option>
-                                                <option value="Chokaa">Chokaa</option>
-                                                <option value="Dagoretti">Dagoretti</option>
-                                                <option value="Donholm">Donholm</option>
-                                                <option value="Eastleigh">Eastleigh</option>
-                                                <option value="Embakasi">Embakasi</option>
-                                                <option value="Fedha">Fedha</option>
-                                                <option value="Gachie">Gachie</option>
-                                                <option value="Garden Estate">Garden Estate</option>
-                                                <option value="Gitaru">Gitaru</option>
-                                                <option value="Githurai">Githurai</option>
-                                                <option value="Huruma">Huruma</option>
-                                                <option value="Imara Daima">Imara Daima</option>
-                                                <option value="Joska">Joska</option>
-                                                <option value="Juja">Juja</option>
-                                                <option value="Kahawa Sukari">Kahawa Sukari</option>
-                                                <option value="Kahawa Wendani">Kahawa Wendani</option>
-                                                <option value="Kahawa West">Kahawa West</option>
-                                                <option value="Kamulu">Kamulu</option>
-                                                <option value="Karen">Karen</option>
-                                                <option value="Kariobangi">Kariobangi</option>
-                                                <option value="Kayole">Kayole</option>
-                                                <option value="Kiambu">Kiambu</option>
-                                                <option value="Kibera">Kibera</option>
-                                                <option value="Kikuyu">Kikuyu</option>
-                                                <option value="Kileleshwa">Kileleshwa</option>
-                                                <option value="Kilimani">Kilimani</option>
-                                                <option value="Kinoo">Kinoo</option>
-                                                <option value="Kirigiti">Kirigiti</option>
-                                                <option value="Kitengela">Kitengela</option>
-                                                <option value="Kitisuru">Kitisuru</option>
-                                                <option value="Komarock">Komarock</option>
-                                                <option value="Kyuna">Kyuna</option>
-                                                <option value="Langata">Langata</option>
-                                                <option value="Lavington">Lavington</option>
-                                                <option value="Loresho">Loresho</option>
-                                                <option value="Marurui">Marurui</option>
-                                                <option value="Mathare">Mathare</option>
-                                                <option value="Membly">Membly</option>
-                                                <option value="Mlolongo">Mlolongo</option>
-                                                <option value="Mountain View">Mountain View</option>
-                                                <option value="Muchatha">Muchatha</option>
-                                                <option value="Muthaiga">Muthaiga</option>
-                                                <option value="Nairobi West">Nairobi West</option>
-                                                <option value="Ngara">Ngara</option>
-                                                <option value="Ngong">Ngong</option>
-                                                <option value="Ngumba">Ngumba</option>
-                                                <option value="Ngumo">Ngumo</option>
-                                                <option value="Pangani">Pangani</option>
-                                                <option value="Pipeline">Pipeline</option>
-                                                <option value="Racecourse">Racecourse</option>
-                                                <option value="Redhill">Redhill</option>
-                                                <option value="Rongai">Rongai</option>
-                                                <option value="Roysambu">Roysambu</option>
-                                                <option value="Ruai">Ruai</option>
-                                                <option value="Ruaka">Ruaka</option>
-                                                <option value="Ruiru">Ruiru</option>
-                                                <option value="Runda">Runda</option>
-                                                <option value="Sabaki">Sabaki</option>
-                                                <option value="Saika">Saika</option>
-                                                <option value="South B">South B</option>
-                                                <option value="South C">South C</option>
-                                                <option value="Syokimau">Syokimau</option>
-                                                <option value="Thika">Thika</option>
-                                                <option value="Thindigua">Thindigua</option>
-                                                <option value="Thome">Thome</option>
-                                                <option value="Umoja">Umoja</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group mb-30">
-                                            <label>Select Your Service(s)</label>
-                                            <div class="service-grid-refined">
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Clothes Wash & Fold" data-price="80">
-                                                    <div class="content">
-                                                        <span class="label">Clothes (Wash & Fold)</span>
-                                                        <span class="price">KSh 80/kg</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Clothes Wash & Iron" data-price="130">
-                                                    <div class="content">
-                                                        <span class="label">Clothes (Wash & Iron)</span>
-                                                        <span class="price">KSh 130/kg</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Duvet Deep Cleaning" data-price="500">
-                                                    <div class="content">
-                                                        <span class="label">Duvet Deep Cleaning</span>
-                                                        <span class="price">KSh 500</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Blanket Deep Cleaning" data-price="300">
-                                                    <div class="content">
-                                                        <span class="label">Blanket Deep Cleaning</span>
-                                                        <span class="price">KSh 300</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Curtains" data-price="600">
-                                                    <div class="content">
-                                                        <span class="label">Curtains (per pair)</span>
-                                                        <span class="price">KSh 600</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Shoe Cleaning" data-price="95">
-                                                    <div class="content">
-                                                        <span class="label">Shoe Cleaning (per pair)</span>
-                                                        <span class="price">KSh 95</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Ironing Only" data-price="50">
-                                                    <div class="content">
-                                                        <span class="label">Ironing (per piece)</span>
-                                                        <span class="price">KSh 50</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Carpet Deep Clean" data-price="600">
-                                                    <div class="content">
-                                                        <span class="label">Carpet Deep Clean</span>
-                                                        <span class="price">KSh 600</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Mats Cleaning" data-price="200">
-                                                    <div class="content">
-                                                        <span class="label">Mats Cleaning</span>
-                                                        <span class="price">KES 200</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Sofa Care" data-price="600">
-                                                    <div class="content">
-                                                        <span class="label">Sofa Care (per seat)</span>
-                                                        <span class="price">KSh 600</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Suit Deep Clean & Iron" data-price="500">
-                                                    <div class="content">
-                                                        <span class="label">Suit (Deep Clean & Iron)</span>
-                                                        <span class="price">KSh 500</span>
-                                                    </div>
-                                                </label>
-                                                <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Blazer Deep Clean & Iron" data-price="300">
-                                                    <div class="content">
-                                                        <span class="label">Blazer (Deep Clean & Iron)</span>
-                                                        <span class="price">KSh 300</span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            
-                                            <!-- Estimated Total -->
-                                            <div id="price-summary" style="margin-top: 20px; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 2px solid #1B9AAA; display: none;">
-                                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                    <span style="font-weight: 600; color: #0f172a;">Estimated Total:</span>
-                                                    <span id="total-price" style="font-size: 24px; font-weight: 700; color: #1B9AAA;">KSh 0</span>
-                                                </div>
-                                                <p style="font-size: 12px; color: #64748b; margin: 8px 0 0 0;">*Final price may vary based on quantity and weight</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group mb-0">
-                                            <label>Preferred Pickup Date</label>
-                                            <input class="flatpickr-input-refined" name="date" id="flatpickr-laundry" type="text" placeholder="Select a date" required readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn-confirm-refined" style="background: linear-gradient(135deg, #EE4266 0%, #D63456 100%) !important; border-color: #EE4266 !important; box-shadow: 0 4px 15px rgba(238, 66, 102, 0.3);">Confirm Booking & Pay</button>
-                                </div>
-                                <div id="order-success" class="alert alert-success mt-20" style="display:none; border-radius: 8px; background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; padding: 15px;">
-                                    Booking successful! ID: <strong id="display-order-id"></strong>. Redirecting to payment...
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Booking Form Section -->
+        <div class="container" id="order-form">
+            <div class="clean-box">
+                <div class="text-center mb-4">
+                    <h2 style="font-size:24px; margin-bottom:8px;">Schedule Your Pickup</h2>
+                    <p>Fill out the details below to complete your booking.</p>
+                </div>
+                
+                <form class="form-contact contact_form" action="#" method="post" id="laundryOrderForm" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Full Name</label>
+                            <input class="form-control-refined" name="name" type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Email Address</label>
+                            <input class="form-control-refined" name="email" type="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Apartment / Estate</label>
+                            <input class="form-control-refined" name="apartment" type="text" placeholder="Residence Name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>House No. / Block</label>
+                            <input class="form-control-refined" name="house" type="text" placeholder="e.g. B4" required>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <label>Location</label>
+                            <select class="searchable-location" name="location" id="location" style="width: 100%;" required>
+                                <option value="" selected disabled>Select your area...</option>
+                                <option value="Kileleshwa">Kileleshwa</option>
+                                <option value="Kilimani">Kilimani</option>
+                                <option value="Lavington">Lavington</option>
+                                <option value="Westlands">Westlands</option>
+                                <option value="Langata">Langata</option>
+                                <option value="Karen">Karen</option>
+                                <option value="South B">South B</option>
+                                <option value="South C">South C</option>
+                                <option value="Roysambu">Roysambu</option>
+                                <option value="Kahawa Sukari">Kahawa Sukari</option>
+                                <option value="Zimmerman">Zimmerman</option>
+                                <option value="Kasarani">Kasarani</option>
+                                <option value="Thika Road">Thika Road</option>
+                                <option value="Kiambu Road">Kiambu Road</option>
+                                <option value="Ruaka">Ruaka</option>
+                                <option value="Syokimau">Syokimau</option>
+                                <option value="Kitengela">Kitengela</option>
+                                <option value="Rongai">Rongai</option>
+                                <option value="Ngong Road">Ngong Road</option>
+                                <option value="CBD">Nairobi CBD</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <label>Select Services</label>
+                            <div class="service-grid-refined">
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Wash & Fold" data-price="80">
+                                    <div class="content">
+                                        <div class="label">Wash & Fold</div>
+                                        <div class="price">KSh 80/kg</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Wash & Iron" data-price="130">
+                                    <div class="content">
+                                        <div class="label">Wash & Iron</div>
+                                        <div class="price">KSh 130/kg</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Duvet" data-price="500">
+                                    <div class="content">
+                                        <div class="label">Duvet</div>
+                                        <div class="price">KSh 500</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Blanket" data-price="300">
+                                    <div class="content">
+                                        <div class="label">Blanket</div>
+                                        <div class="price">KSh 300</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Curtains" data-price="600">
+                                    <div class="content">
+                                        <div class="label">Curtains</div>
+                                        <div class="price">KSh 600</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Sneakers" data-price="95">
+                                    <div class="content">
+                                        <div class="label">Sneakers</div>
+                                        <div class="price">KSh 95</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Ironing" data-price="50">
+                                    <div class="content">
+                                        <div class="label">Ironing</div>
+                                        <div class="price">KSh 50</div>
+                                    </div>
+                                </label>
+                                <label class="service-card-refined">
+                                    <input type="checkbox" name="services[]" value="Suit" data-price="500">
+                                    <div class="content">
+                                        <div class="label">Suit</div>
+                                        <div class="price">KSh 500</div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div id="price-summary" style="margin-top: 16px; padding: 12px; background: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0; display: flex; justify-content: space-between; align-items: center; display: none;">
+                                <span style="font-weight: 600; color: #166534;">Estimated Total</span>
+                                <span id="total-price" style="font-weight: 800; font-size: 18px; color: #166534;">KSh 0</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label>Pickup Date</label>
+                            <input class="form-control-refined" name="date" id="flatpickr-laundry" type="text" placeholder="Select date" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-confirm-refined">Confirm Booking</button>
+                    
+                    <div id="order-success" class="alert alert-success mt-4 mb-0" style="display:none;">
+                        Booking received! Order ID: <strong id="display-order-id"></strong>. Redirecting...
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- Order Form Area End -->
-        <!--? Services Area Start -->
-        <section class="services-area pt-top border-bottom pb-20 mb-60" style="padding-top: 100px;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-8">
-                        <div class="section-tittle text-center mb-55">
-                            <span class="element">Our Process</span>
-                            <h2>This is how we work</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-icon">
-                                <img src="assets/img/icon/services-icon1.svg" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">We collect your clothes</a></h5>
-                                <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-icon">
-                                <img src="assets/img/icon/services-icon2.svg" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Wash your clothes</a></h5>
-                                <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-icon">
-                                <img src="assets/img/icon/services-icon3.svg" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Get delivery</a></h5>
-                                <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Services End -->
-        <!--? Offer-services Start  -->
-        <section class="offer-services pb-bottom2">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-8">
-                        <div class="section-tittle text-center mb-55">
-                            <span class="element">Services</span>
-                            <h2>Services we offer</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-gutters">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="single-offers">
-                            <img src="assets/img/gallery/offers1.png" alt="" class=" w-100">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="single-offers">
-                            <img src="assets/img/gallery/offers2.png" alt="" class=" w-100">
-                            <div class="offers-caption text-center">
-                                <div class="cat-icon">
-                                    <img src="assets/img/icon/offers-icon1.png" alt="">
-                                </div>
-                                <div class="cat-cap">
-                                    <h5><a href="services.html">Cloth laundry</a></h5>
-                                    <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="single-offers">
-                            <img src="assets/img/gallery/offers2.png" alt="" class=" w-100">
-                            <div class="offers-caption text-center">
-                                <div class="cat-icon">
-                                    <img src="assets/img/icon/offers-icon1.png" alt="">
-                                </div>
-                                <div class="cat-cap">
-                                    <h5><a href="services.html">Cloth ironing</a></h5>
-                                    <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="single-offers">
-                            <img src="assets/img/gallery/offers4.png" alt="" class=" w-100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Offer-services End  -->
-        <!--? Want To work -->
-        <section class="container">
-            <section class="wantToWork-area" data-background="assets/img/gallery/section_bg01.png">
-                <div class="wants-wrapper w-padding2">
-                    <div class="row align-items-center justify-content-between">
-                        <div class="col-xl-8 col-lg-9 col-md-7">
-                            <div class="wantToWork-caption wantToWork-caption2">
-                                <h2>Call us for a service</h2>
-                                <p>We deliver the goods to the most complicated places on earth</p>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-5">
-                            <a href="#" class="btn wantToWork-btn"><img src="assets/img/icon/call2.png" alt=""> Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
-        <!-- Want To work End -->
-        <!-- Testimonials_start -->
-        <section class="testimonials-area testimonials-overly  position-relative">
-            <div class="container">
-                <div class="border-bottom section-padding40 ">
-                    <div class="row">
-                        <div class="col-xl-12 ">
-                            <!-- testmonial-image -->
-                            <div class="testmonial-nav text-center">
-                                <div class="testmonial-thumb">
-                                    <img src="assets/img/gallery/testimonila1.png" alt="">
-                                </div>
-                                <div class="testmonial-thumb">
-                                    <img src="assets/img/gallery/testimonila2.png" alt="">
-                                </div>
-                                <div class="testmonial-thumb">
-                                    <img src="assets/img/gallery/testimonila3.png" alt="">
-                                </div>
-                                <div class="testmonial-thumb">
-                                    <img src="assets/img/gallery/testimonila2.png" alt="">
-                                </div>
-                            </div>
-                            <div class="testmonial-item-active text-center">
-                                <!-- testimonial-single-items -->
-                                <div class="testmonial-item ">
-                                    <p class="pera">The automated process starts as soon as your clothes go into the<br> machine. The outcome is gleaming clothes!</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p> - Rupaya</p>
-                                </div>
-                                <!-- testimonial-single-items -->
-                                <div class="testmonial-item ">
-                                    <p class="pera">The automated process starts as soon as your clothes go into the<br> machine. The outcome is gleaming clothes!</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p> - Rupaya</p>
-                                </div>
-                                <!-- testimonial-single-items -->
-                                <div class="testmonial-item ">
-                                    <p class="pera">The automated process starts as soon as your clothes go into the<br> machine. The outcome is gleaming clothes!</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p> - Rupaya</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Testimonials_end -->
-        <!--? Company achievement Start -->
-        <section class="services-area section-padding40 fix">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-8">
-                        <div class="section-tittle text-center mb-55">
-                            <span class="element">Fun Fact</span>
-                            <h2>Company achievement</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-cap">
-                                <span>4000</span>
-                                <p>The automated process starts as soon as your clothes go into the machine.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-cap">
-                                <span>300+</span>
-                                <p>The automated process starts as soon as your clothes go into the machine.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat text-center">
-                            <div class="cat-cap">
-                                <span>95%</span>
-                                <p>The automated process starts as soon as your clothes go into the machine.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="bottom-bt">
-                                <img src="assets/img/gallery/company-bg.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Company achievement End -->
-        <!--? About Area  -->
-        <section class="about-area2 pb-bottom mt-30">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 col-md-12">
-                        <!-- about-img -->
-                        <div class="about-img ">
-                            <img src="assets/img/gallery/about1.png" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="about-caption mb-50">
-                            <!-- Section Tittle -->
-                            <div class="section-tittle mb-25">
-                                <h2>About company</h2>
-                            </div>
-                            <p class="mb-20">
-                                The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!
-                            </p>
-                            <p class="mb-30">The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes!</p>
 
-                            <a href="about.html" class="btn">About Us</a>
+        <!-- Info Section -->
+        <section style="padding: 100px 0; background: white;">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <div style="padding: 20px;">
+                            <i class="fas fa-truck" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3>Free Pickup & Delivery</h3>
+                            <p>We collect and deliver to your doorstep at no extra cost for orders above minimal value.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div style="padding: 20px;">
+                            <i class="fas fa-soap" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3>Premium Detergents</h3>
+                            <p>We use high-quality, fabric-safe detergents to ensure your clothes are clean and fresh.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div style="padding: 20px;">
+                            <i class="fas fa-clock" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3>Fast Turnover</h3>
+                            <p>Standard delivery within 24 hours. Express service available for urgent needs.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- About Area End -->
-        <!--?  Map Area start  -->
-        <div class="Map-area">
-            <img src="assets/img/gallery/Map.png" alt="" class="w-100">
-        </div>
-        <!-- Map Area End -->
     </main>
-    <footer>
-        <!-- Footer Start-->
-        <div class="footer-area footer-padding">
-            <div class="container">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                     <div class="single-footer-caption mb-50">
-                       <div class="single-footer-caption mb-30">
-                        <!-- logo -->
-                        <div class="footer-logo mb-35">
-                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
-                        </div>
-                        <div class="footer-tittle">
-                            <div class="footer-pera">
-                                <p>Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.</p>
-                            </div>
-                        </div>
-                        <!-- social -->
-                        <div class="footer-social">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                        </div>
-                    </div>
+
+    <footer style="background: #1e293b; color: #94a3b8; padding: 60px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 40px; opacity: 0.8; margin-bottom: 20px; filter: brightness(0) invert(1);">
+                    <p>Professional laundry services delivered with care and precision.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 20px;">Contact</h4>
+                    <p>0113510036</p>
+                    <p>support@laundryservice.com</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 20px;">Service Area</h4>
+                    <p>Serving Nairobi and surrounding environments including Kiambu and Kajiado counties.</p>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                <div class="single-footer-caption mb-50">
-                    <div class="footer-tittle">
-                        <h4>Services </h4>
-                        <ul>
-                            <li><a href="#">- Dry Cleaning</a></li>
-                            <li><a href="#">- Dry Clean</a></li>
-                            <li><a href="#">- Ironing Services</a></li>
-                            <li><a href="#">- Laundry Service London</a></li>
-                            <li><a href="#">- Laundry App</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                <div class="single-footer-caption mb-50">
-                    <div class="footer-tittle">
-                        <h4>Get in touch</h4>
-                        <ul>
-                            <li class="number"><a href="#">(01) 126 013 34</a></li>
-                            <li><a href="#">support@laundryservice.com</a></li>
-                            <li><a href="#">Mukuhi Apartments, Your City</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="text-center mt-5 pt-4 border-top border-secondary">
+                <p>&copy; <script>document.write(new Date().getFullYear());</script> Red Rose Laundry. All rights reserved.</p>
             </div>
         </div>
-    </div>
-</div>
-<!-- footer-bottom area -->
-<div class="footer-bottom-area section-bg2" data-background="assets/img/gallery/footer-bg.png">
-    <div class="container">
-        <div class="footer-border">
-           <div class="row d-flex align-items-center">
-               <div class="col-xl-12 ">
-                   <div class="footer-copy-right text-center">
-                       <p>
-                          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="staff.html">Staff Portal</a>
-                        </p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!-- Footer End-->
-</footer>
-<!-- Scroll Up -->
-<div id="back-top" >
-    <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-</div>
+    </footer>
 
-<!-- JS here -->
+    <!-- JS -->
+    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script src="./assets/js/owl.carousel.min.js"></script>
+    <script src="./assets/js/slick.min.js"></script>
+    <script src="./assets/js/jquery.nice-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Enhanced Select
+            $('.searchable-location').select2({
+                placeholder: "Select your location",
+                allowClear: true,
+                width: '100%'
+            });
 
-<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-<!-- Jquery, Popper, Bootstrap -->
-<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-<script src="./assets/js/popper.min.js"></script>
-<script src="./assets/js/bootstrap.min.js"></script>
-<!-- Jquery Mobile Menu -->
-<script src="./assets/js/jquery.slicknav.min.js"></script>
+            // Date Picker
+            $("#flatpickr-laundry").flatpickr({
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                disable: [
+                    function(date) {
+                        return (date.getDay() === 0); // Disable Sundays if needed
+                    }
+                ]
+            });
 
-<!-- Jquery Slick , Owl-Carousel Plugins -->
-<script src="./assets/js/owl.carousel.min.js"></script>
-<script src="./assets/js/slick.min.js"></script>
-<!-- One Page, Animated-HeadLin -->
-<script src="./assets/js/wow.min.js"></script>
-<script src="./assets/js/animated.headline.js"></script>
-<script src="./assets/js/jquery.magnific-popup.js"></script>
+            // Price Calc (Frontend Only Demo)
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const totalDisplay = document.getElementById('total-price');
+            const summaryBox = document.getElementById('price-summary');
 
-<!-- Date Picker -->
-<script src="./assets/js/gijgo.min.js"></script>
-<!-- Nice-select, sticky -->
-<script src="./assets/js/jquery.nice-select.min.js"></script>
-<script src="./assets/js/jquery.sticky.js"></script>
-<!-- Progress -->
-<script src="./assets/js/jquery.barfiller.js"></script>
+            checkboxes.forEach(box => {
+                box.addEventListener('change', () => {
+                    let total = 0;
+                    let count = 0;
+                    checkboxes.forEach(cb => {
+                        if(cb.checked) {
+                            total += parseInt(cb.getAttribute('data-price'));
+                            count++;
+                        }
+                    });
+                    
+                    if(count > 0) {
+                        summaryBox.style.display = 'flex';
+                        totalDisplay.innerText = 'KSh ' + total;
+                    } else {
+                        summaryBox.style.display = 'none';
+                    }
+                });
+            });
 
-<!-- counter , waypoint,Hover Direction -->
-<script src="./assets/js/jquery.counterup.min.js"></script>
-<script src="./assets/js/waypoints.min.js"></script>
-<script src="./assets/js/jquery.countdown.min.js"></script>
-<script src="./assets/js/hover-direction-snake.min.js"></script>
-
-<!-- contact js -->
-<script src="./assets/js/contact.js"></script>
-<script src="./assets/js/jquery.form.js"></script>
-<script src="./assets/js/jquery.validate.min.js"></script>
-<script src="./assets/js/mail-script.js"></script>
-<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-
-<!-- Jquery Plugins, main Jquery -->	
-<script src="./assets/js/plugins.js"></script>
-<script src="./assets/js/main.js"></script>
-<script src="./assets/js/app.js"></script>
-<script src="./assets/js/price-calculator.js"></script>
-<!-- Third Party Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    $(document).ready(function() {
-        // Professional Searchable Location
-        $('.searchable-location').select2({
-            placeholder: "Search your area...",
-            allowClear: true,
-            width: '100%',
-            minimumResultsForSearch: 0 // Always show search box within dropdown
+            // Backend Disabled Form Handler
+            $('#laundryOrderForm').on('submit', function(e) {
+                e.preventDefault();
+                /* BACKEND DISABLED
+                // Normal backend submission logic would go here
+                */
+                
+                // Demo Success
+                const fakeId = 'ORD-' + Math.floor(Math.random() * 10000);
+                $('#display-order-id').text(fakeId);
+                $('#order-success').slideDown();
+                
+                setTimeout(() => {
+                    // Redirect to payment (demo)
+                    localStorage.setItem('lastLaundryOrderId', fakeId);
+                    window.location.href = 'payment.html';
+                }, 1500);
+            });
         });
-
-        // Sleek Flatpickr Registration
-        flatpickr("#flatpickr-laundry", {
-            dateFormat: "d F Y", 
-            minDate: "today",
-            animate: true,
-            disableMobile: false // Enable professional mobile UI
-        });
-
-        // Toggle card visual active state
-        $('.service-card input').on('change', function() {
-            // Visual logic handled by CSS :checked
-            console.log('Service selected:', $(this).val());
-        });
-    });
-</script>
-
+    </script>
 </body>
 </html>
