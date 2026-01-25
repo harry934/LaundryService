@@ -6,6 +6,7 @@
     <title>Pricing | Laundry Service</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
     <style>
@@ -26,42 +27,6 @@
             background: linear-gradient(180deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
             color: var(--text-dark);
             min-height: 100vh;
-        }
-        
-        /* Claymorphism Navbar */
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding-top: 20px;
-        }
-        
-        .header-area {
-            background: transparent !important;
-            box-shadow: none !important;
-        }
-        
-        .main-header {
-            background: #ffffff !important; /* Solid white */
-            border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* Stronger shadow */
-            margin: 0 auto;
-            max-width: 1200px;
-            padding: 12px 30px;
-            border: 2px solid #f1f5f9;
-        }
-
-        .main-menu ul li a {
-            color: #000000 !important; /* Pure black text */
-            font-weight: 700 !important; /* Bolder */
-            font-size: 16px;
-            padding: 10px 20px;
-        }
-        
-        .main-menu ul li.active a {
-            color: var(--primary) !important;
         }
         
         /* Hero Section Spacing Fix */
@@ -197,33 +162,34 @@
     <header>
         <div class="header-area">
             <div class="main-header header-sticky">
-                <!-- Logo -->
-                <div class="header-left">
-                    <div class="container d-flex align-items-center justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Laundry Service" style="height: 50px;"></a>
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Logo" style="height: 50px;"></a>
+                            </div>
                         </div>
-                        <div class="main-menu d-none d-lg-block">
-                            <nav> 
-                                <ul id="navigation" class="d-flex" style="list-style:none; margin:0; gap: 30px;">                                                                                          
+                        <div class="col-auto d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About</a></li>
                                     <li><a href="services.html">Services</a></li>
-                                    <li><a href="pricing.html" style="color:#2563eb;">Pricing</a></li>
+                                    <li class="active"><a href="pricing.html">Pricing</a></li>
                                     <li><a href="track.html">Track Order</a></li>
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
                         </div>
-                        <div class="header-right d-none d-lg-block">
-                             <a href="index.html#order-form" class="btn-nav-primary">Book Now</a>
+                        <div class="col-auto d-none d-lg-block">
+                            <a href="index.html#order-form" class="btn-hero-primary">Book Now</a>
                         </div>
                         <!-- Mobile Menu -->
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </header>
