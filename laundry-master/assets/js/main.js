@@ -10,10 +10,10 @@
       });
     });
 
-/* 2. sticky And Scroll UP */
+// 2. sticky And Scroll UP
     $(window).on('scroll', function () {
       var scroll = $(window).scrollTop();
-      if (scroll < 50) {
+      if (scroll < 450) { // Increased threshold to wait until hero is scrolled
         $(".header-sticky").removeClass("sticky-bar");
         $('#back-top').fadeOut(500);
       } else {
