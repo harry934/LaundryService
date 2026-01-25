@@ -316,6 +316,11 @@
     border-radius: 60px !important;
 }
 
+/* Force dark text on Sticky Header (Homepage Fix) */
+.main-header.sticky-bar .main-menu ul li a {
+    color: var(--black) !important;
+}
+
 /* Mobile Sticky Style - MATCH INITIAL MOBILE EXACTLY */
 @media (max-width: 991px) {
     .main-header.sticky-bar {
