@@ -226,7 +226,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
+                    <img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="max-width: 80px;">
                 </div>
             </div>
         </div>
@@ -239,7 +239,7 @@
                 <!-- Logo -->
                 <div class="header-left">
                     <div class="logo">
-                        <a href="index.html"><h2>Laundry Service</h2></a>
+                        <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
                     </div>
                     <div class="menu-wrapper  d-flex align-items-center">
                         <!-- Main-menu -->
@@ -249,6 +249,7 @@
                                     <li class="active"><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About</a></li>
                                     <li><a href="services.html">Services</a></li>
+                                    <li><a href="pricing.html">Pricing</a></li>
                                     <li><a href="track.html">Track Order</a></li>
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
@@ -415,29 +416,98 @@
                                             <label>Select Your Service(s)</label>
                                             <div class="service-grid-refined">
                                                 <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Dry Cleaning">
+                                                    <input type="checkbox" name="services[]" value="Clothes Wash & Fold" data-price="80">
                                                     <div class="content">
-                                                        <span class="label">Dry Cleaning</span>
+                                                        <span class="label">Clothes (Wash & Fold)</span>
+                                                        <span class="price">KSh 80/kg</span>
                                                     </div>
                                                 </label>
                                                 <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Wash & Fold">
+                                                    <input type="checkbox" name="services[]" value="Clothes Wash & Iron" data-price="130">
                                                     <div class="content">
-                                                        <span class="label">Wash & Fold</span>
+                                                        <span class="label">Clothes (Wash & Iron)</span>
+                                                        <span class="price">KSh 130/kg</span>
                                                     </div>
                                                 </label>
                                                 <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Ironing">
+                                                    <input type="checkbox" name="services[]" value="Duvet Deep Cleaning" data-price="500">
                                                     <div class="content">
-                                                        <span class="label">Ironing Only</span>
+                                                        <span class="label">Duvet Deep Cleaning</span>
+                                                        <span class="price">KSh 500</span>
                                                     </div>
                                                 </label>
                                                 <label class="service-card-refined">
-                                                    <input type="checkbox" name="services[]" value="Curtains & Duvets">
+                                                    <input type="checkbox" name="services[]" value="Blanket Deep Cleaning" data-price="300">
                                                     <div class="content">
-                                                        <span class="label">Curtains & Duvets</span>
+                                                        <span class="label">Blanket Deep Cleaning</span>
+                                                        <span class="price">KSh 300</span>
                                                     </div>
                                                 </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Curtains" data-price="600">
+                                                    <div class="content">
+                                                        <span class="label">Curtains (per pair)</span>
+                                                        <span class="price">KSh 600</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Shoe Cleaning" data-price="95">
+                                                    <div class="content">
+                                                        <span class="label">Shoe Cleaning (per pair)</span>
+                                                        <span class="price">KSh 95</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Ironing Only" data-price="50">
+                                                    <div class="content">
+                                                        <span class="label">Ironing (per piece)</span>
+                                                        <span class="price">KSh 50</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Carpet Deep Clean" data-price="600">
+                                                    <div class="content">
+                                                        <span class="label">Carpet Deep Clean</span>
+                                                        <span class="price">KSh 600</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Mats Cleaning" data-price="200">
+                                                    <div class="content">
+                                                        <span class="label">Mats Cleaning</span>
+                                                        <span class="price">KES 200</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Sofa Care" data-price="600">
+                                                    <div class="content">
+                                                        <span class="label">Sofa Care (per seat)</span>
+                                                        <span class="price">KSh 600</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Suit Deep Clean & Iron" data-price="500">
+                                                    <div class="content">
+                                                        <span class="label">Suit (Deep Clean & Iron)</span>
+                                                        <span class="price">KSh 500</span>
+                                                    </div>
+                                                </label>
+                                                <label class="service-card-refined">
+                                                    <input type="checkbox" name="services[]" value="Blazer Deep Clean & Iron" data-price="300">
+                                                    <div class="content">
+                                                        <span class="label">Blazer (Deep Clean & Iron)</span>
+                                                        <span class="price">KSh 300</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            
+                                            <!-- Estimated Total -->
+                                            <div id="price-summary" style="margin-top: 20px; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 2px solid #1B9AAA; display: none;">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <span style="font-weight: 600; color: #0f172a;">Estimated Total:</span>
+                                                    <span id="total-price" style="font-size: 24px; font-weight: 700; color: #1B9AAA;">KSh 0</span>
+                                                </div>
+                                                <p style="font-size: 12px; color: #64748b; margin: 8px 0 0 0;">*Final price may vary based on quantity and weight</p>
                                             </div>
                                         </div>
                                     </div>
@@ -739,7 +809,7 @@
                        <div class="single-footer-caption mb-30">
                         <!-- logo -->
                         <div class="footer-logo mb-35">
-                            <a href="index.html"><h2>Laundry Service</h2></a>
+                            <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
                         </div>
                         <div class="footer-tittle">
                             <div class="footer-pera">
@@ -850,6 +920,7 @@
 <script src="./assets/js/plugins.js"></script>
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/app.js"></script>
+<script src="./assets/js/price-calculator.js"></script>
 <!-- Third Party Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

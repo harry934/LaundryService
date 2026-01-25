@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing | Red Rose Laundry</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .pricing-hero {
+            background: linear-gradient(135deg, #1B9AAA 0%, #4ECDC4 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .pricing-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .pricing-hero p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .price-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .price-card:hover {
+            transform: translateY(-4px);
+            border-color: #1B9AAA;
+            box-shadow: 0 8px 30px rgba(27, 154, 170, 0.15);
+        }
+        
+        .price-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1B9AAA, #4ECDC4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .price-card-icon i {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .price-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .price-card .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1B9AAA;
+            margin-bottom: 8px;
+        }
+        
+        .price-card .unit {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        
+        .price-card .description {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .special-offers {
+            background: linear-gradient(135deg, #EE4266 0%, #7B68EE 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .special-offers h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+        
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .offer-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .offer-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .offer-card .discount {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 16px 0;
+        }
+        
+        .offer-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #1B9AAA;
+            color: white;
+            padding: 16px 48px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: #4ECDC4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(27, 154, 170, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-area">
+            <div class="main-header header-sticky">
+                <div class="header-left">
+                    <div class="logo">
+                        <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
+                    </div>
+                    <div class="menu-wrapper d-flex align-items-center">
+                        <div class="main-menu d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="services.html">Services</a></li>
+                                    <li class="active"><a href="pricing.html">Pricing</a></li>
+                                    <li><a href="track.html">Track Order</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right d-none d-lg-block">
+                    <a href="#" class="header-btn1"><img src="assets/img/icon/call.png" alt=""> (01) 126 013 34</a>
+                    <a href="index.html#order-form" class="header-btn2">Book Service</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="pricing-hero">
+        <h1>Our Pricing</h1>
+        <p>Transparent, affordable, and quality service guaranteed</p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="pricing-grid">
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-tshirt"></i></div>
+            <h3>Clothes (Wash & Fold)</h3>
+            <div class="price">KSh 80</div>
+            <div class="unit">per kilogram</div>
+            <p class="description">Professional washing and folding service for your everyday clothes.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-iron"></i></div>
+            <h3>Clothes (Wash & Iron)</h3>
+            <div class="price">KSh 130</div>
+            <div class="unit">per kilogram</div>
+            <p class="description">Complete service including washing, drying, and professional ironing.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-bed"></i></div>
+            <h3>Duvet Deep Cleaning</h3>
+            <div class="price">KSh 500</div>
+            <div class="unit">all sizes</div>
+            <p class="description">Deep cleaning for duvets of all sizes, ensuring freshness and hygiene.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-blanket"></i></div>
+            <h3>Blanket Deep Cleaning</h3>
+            <div class="price">KSh 300</div>
+            <div class="unit">per blanket</div>
+            <p class="description">Thorough cleaning for fleece and regular blankets.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-window-maximize"></i></div>
+            <h3>Curtains</h3>
+            <div class="price">KSh 600</div>
+            <div class="unit">per pair</div>
+            <p class="description">Professional curtain cleaning to restore freshness and color.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-shoe-prints"></i></div>
+            <h3>Shoe Cleaning</h3>
+            <div class="price">KSh 95</div>
+            <div class="unit">per pair</div>
+            <p class="description">Expert shoe cleaning for all types of footwear.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-iron"></i></div>
+            <h3>Ironing Only</h3>
+            <div class="price">KSh 50</div>
+            <div class="unit">per piece</div>
+            <p class="description">Professional ironing service for individual garments.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-rug"></i></div>
+            <h3>Carpet Deep Clean</h3>
+            <div class="price">KSh 600</div>
+            <div class="unit">starting from</div>
+            <p class="description">Deep cleaning service for carpets of various sizes.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-door-open"></i></div>
+            <h3>Mats Cleaning</h3>
+            <div class="price">KES 200</div>
+            <div class="unit">per mat</div>
+            <p class="description">Thorough cleaning for doormats and floor mats.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-couch"></i></div>
+            <h3>Sofa Care</h3>
+            <div class="price">KSh 600</div>
+            <div class="unit">per seat</div>
+            <p class="description">Professional sofa cleaning for all colors and materials.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-user-tie"></i></div>
+            <h3>Suit (Deep Clean & Iron)</h3>
+            <div class="price">KSh 500</div>
+            <div class="unit">per suit</div>
+            <p class="description">Complete suit care including deep cleaning and pressing.</p>
+        </div>
+
+        <div class="price-card">
+            <div class="price-card-icon"><i class="fas fa-vest"></i></div>
+            <h3>Blazer (Deep Clean & Iron)</h3>
+            <div class="price">KSh 300</div>
+            <div class="unit">per blazer</div>
+            <p class="description">Professional blazer cleaning and ironing service.</p>
+        </div>
+    </div>
+
+    <!-- Special Offers -->
+    <div class="special-offers">
+        <h2>🎉 Special Offers</h2>
+        <div class="offers-grid">
+            <div class="offer-card">
+                <h3>First Time Client</h3>
+                <div class="discount">10% OFF</div>
+                <p>Get 10% discount on your first order with us!</p>
+            </div>
+            <div class="offer-card">
+                <h3>Mad Monday Mayhem!</h3>
+                <div class="discount">10% OFF</div>
+                <p>Every Monday - 10% off all services. Just like Black Friday, but every week!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h2 style="margin-bottom: 24px; color: #0f172a;">Ready to Get Started?</h2>
+        <a href="index.html#order-form" class="cta-button">Book Now</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <div class="footer-logo mb-35">
+                                    <a href="index.html"><img src="assets/img/logo/red-rose-logo.png" alt="Red Rose Laundry" style="height: 60px; width: auto;"></a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p>Where quality meets convenience. Professional laundry services delivered to your doorstep.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-area section-bg2">
+            <div class="container">
+                <div class="footer-border">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-xl-12">
+                            <div class="footer-copy-right text-center">
+                                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="dashboard.html">Admin</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
